@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.example.myapplication.ui.components.ScreenPageHeader
+        <com.example.myapplication.ui.custom.ScreenPageHeader
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -116,12 +116,21 @@
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <ImageView
-                        android:id="@+id/qrPreview"
+                    <com.example.myapplication.ui.custom.QrRendererView
+                        android:id="@+id/qrRenderer"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="24dp"
+                        android:visibility="gone" />
+
+                    <!-- NEW: Style Panel -->
+                    <include
+                        android:id="@+id/stylePanel"
+                        layout="@layout/view_qr_style_panel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         android:visibility="gone" />
 
                     <com.google.android.material.button.MaterialButton

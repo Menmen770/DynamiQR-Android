@@ -1,17 +1,13 @@
-# משימות שחזור רכיבים מתקדמים (Java/XML)
+# משימות שדרוג High-Fidelity וארכיטקטורה - שלב א'
 
-- `[x]` רכיבי תשתית ועיצוב (Shared Components):
-    - `[x]` בניית רכיב כותרת עמוד (`ScreenPageHeader`)
-    - `[x]` בניית רכיב פריסה למסכי אימות (`AuthScreenLayout`)
-    - `[x]` יצירת כפתור Google Sign-In מעוצב
-- `[x]` שדרוג מערכת האימות (Authentication):
-    - `[x]` עדכון `activity_login.xml` למבנה החדש
-    - `[x]` הוספת `AuthLegalFooter` (תנאי שימוש ופרטיות)
-- `[x]` שדרוג הדאשבורד (Dashboard Enhancements):
-    - `[x]` מימוש `MyCodesFolderSheet` (תפריט תיקיות וסינונים)
-    - `[x]` הוספת `SimplePromptModal` לניהול תיקיות
-- `[x]` שדרוג מחולל הקודים (Advanced Generator):
-    - `[x]` בניית `QrTypeSelectorView` (בחירת סוג קוד מורחבת)
-    - `[x]` בניית `QrStylePanel` (התאמה אישית של צבעים וסטיקרים)
-    - `[x]` מימוש `QrPreviewComposite` (תצוגה מקדימה משולבת)
-- `[x]` בדיקה סופית על המכשיר
+- `[/]` ארגון מחדש של הפרויקט (Architecture Restructuring):
+    - `[ ]` יצירת מבנה תיקיות סופי (`core`, `data`, `features`, `ui`)
+    - `[ ]` העברת כל הקבצים הקיימים למיקום הנכון ועדכון ה-Imports
+- `[ ]` השלמת מערכת האימות (Complete Auth System):
+    - `[ ]` יצירת `RegisterActivity` ו-`activity_register.xml` (כולל ולידציה)
+    - `[ ]` יצירת `VerifyEmailActivity` ו-`activity_verify_email.xml` (כולל טיימר)
+    - `[ ]` עדכון ה-API (Retrofit) לתמיכה ברישום ואימות
+- `[ ]` שיפור תשתיות (Core Improvements):
+    - `[ ]` עדכון `strings.xml` עם כל הטקסטים מה-React Native
+    - `[ ]` שכלול ה-`BaseActivity` לניהול Progress Bar ודיאלוגים
+- `[ ]` בדיקת תקינות וסנכרון Gradle

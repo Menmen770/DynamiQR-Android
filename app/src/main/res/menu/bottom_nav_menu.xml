@@ -12,4 +12,8 @@
         android:id="@+id/nav_generator"
         android:icon="@android:drawable/ic_menu_add"
         android:title="יצירה" />
+    <item
+        android:id="@+id/nav_learn"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="למידה" />
 </menu>

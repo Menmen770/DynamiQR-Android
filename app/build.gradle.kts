@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.mlkit.barcode.scanning)
     implementation(libs.qrcode.kotlin)
+    implementation(libs.androidsvg)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

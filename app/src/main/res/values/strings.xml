@@ -1,3 +1,56 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">DynamiQR</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">ברוך שובך</string>
+    <string name="login_subtitle">התחבר כדי להמשיך</string>
+    <string name="login_email_hint">כתובת אימייל</string>
+    <string name="login_password_hint">סיסמה</string>
+    <string name="login_submit">התחברות</string>
+    <string name="login_or">או</string>
+    <string name="login_google">התחבר עם Google</string>
+    <string name="login_no_account">אין לך חשבון?</string>
+    <string name="login_to_register">הרשם עכשיו</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">יצירת חשבון</string>
+    <string name="register_subtitle">הצטרף לדינמיקר וצור קודי QR בעיצוב אישי</string>
+    <string name="register_name_hint">שם מלא</string>
+    <string name="register_submit">יצירת חשבון</string>
+    <string name="register_has_account">כבר יש לך חשבון?</string>
+    <string name="register_to_login">התחברות</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">הקודים שלי</string>
+    <string name="dashboard_search_hint">חיפוש לפי שם הקוד…</string>
+    <string name="dashboard_empty_title">עדיין אין קודים שמורים</string>
+    <string name="dashboard_promo_premium">שדרג ל-Premium</string>
+    <string name="dashboard_promo_desc">נהל את כל הקודים שלך במקום אחד עם סטטיסטיקות מתקדמות.</string>
+
+    <!-- Generator -->
+    <string name="generator_title">צור קוד חדש</string>
+    <string name="generator_subtitle">בחר סוג, הזן תוכן ועצב את ה-QR שלך</string>
+    <string name="generator_step_content">תוכן</string>
+    <string name="generator_step_style">עיצוב</string>
+    <string name="generator_step_export">הורדה</string>
+    <string name="generator_next">המשך</string>
+    <string name="generator_save">שמור באוסף שלי</string>
+    <string name="generator_type_label">בחר סוג קוד</string>
+    <string name="generator_content_hint">הזן תוכן (למשל כתובת אתר)</string>
+
+    <!-- Learn Screen -->
+    <string name="learn_title">מה זה QR?</string>
+    <string name="learn_subtitle">מדריך קצר לעסקים ולמותגים — איך משתמשים נכון</string>
+    <string name="learn_hero_text">QR הוא קיצור דרך חכם מהעולם הפיזי לדיגיטלי: סורקים עם מצלמה, ומגיעים מיד לתוכן בלי להקליד.</string>
+    <string name="learn_why_title">למה עסקים משתמשים ב־QR?</string>
+
+    <!-- Scanner -->
+    <string name="scanner_title">סריקת קוד QR</string>
+    <string name="scanner_hint">מקם את הקוד בתוך המסגרת</string>
+
+    <!-- Common -->
+    <string name="action_cancel">ביטול</string>
+    <string name="action_ok">אישור</string>
+    <string name="error_fill_all">אנא מלא את כל השדות</string>
+    <string name="error_network">שגיאת תקשורת עם השרת</string>
 </resources>

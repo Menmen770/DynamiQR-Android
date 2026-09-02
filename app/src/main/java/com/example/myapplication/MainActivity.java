@@ -1,23 +1,25 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import com.example.myapplication.core.base.BaseActivity;
 import com.example.myapplication.databinding.ActivityMainBinding;
-import com.example.myapplication.ui.dashboard.DashboardFragment;
-import com.example.myapplication.ui.generator.GeneratorFragment;
-import com.example.myapplication.ui.scanner.ScannerFragment;
+import com.example.myapplication.features.dashboard.DashboardFragment;
+import com.example.myapplication.features.generator.GeneratorFragment;
+import com.example.myapplication.features.scanner.ScannerFragment;
+import com.example.myapplication.features.learn.LearnQrFragment;
 
-public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
+public class MainActivity extends BaseActivity<ActivityMainBinding> {
+
+    @Override
+    protected ActivityMainBinding inflateBinding() {
+        return ActivityMainBinding.inflate(getLayoutInflater());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
-        // Default fragment
         loadFragment(new DashboardFragment());
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (id == R.id.nav_generator) {
                 loadFragment(new GeneratorFragment());
+                return true;
+            } else if (id == R.id.nav_learn) {
+                loadFragment(new LearnQrFragment());
                 return true;
             }
             return false;

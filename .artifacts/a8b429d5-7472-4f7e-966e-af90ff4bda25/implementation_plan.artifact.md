@@ -1,53 +1,42 @@
-# תוכנית פיתוח רכיבים מתקדמת (Java/XML) - שחזור נאמן למקור
+# תוכנית פיתוח High-Fidelity וארכיטקטורה מקצועית (Java/XML) - שלב ה-Pixel Perfect
 
-המטרה היא להשלים את הפער בין האפליקציה הבסיסית הנוכחית לבין המורכבות המלאה של פרויקט ה-React Native, תוך שימוש ברכיבים מותאמים אישית (Custom Views) ו-XML Layouts מורכבים.
+המטרה היא להביא את האפליקציה לרמה המקצועית והעיצובית המדויקת של ה-React Native, תוך ארגון מחדש של הקוד לפי סטנדרטים גבוהים של פיתוח אנדרואיד (Feature-based Packaging).
 
 ## User Review Required
 
 > [!IMPORTANT]
-> - אני אבנה מחדש את מערכת ה-Auth כך שתכלול את ה-`AuthScreenLayout` המקורי (לוגו מותאם, כותרות דינמיות וניווט עליון).
-> - ה-Dashboard ישודרג לכלול את מערכת התיקיות (Folders) והסינונים המתקדמים באמצעות `BottomSheetDialogFragment`.
-> - תהליך יצירת ה-QR ישודרג לשימוש ב-`ViewPager2` או מערכת צעדים מבוססת Fragments כדי לתמוך ב-`QrTypeSelector` המורכב וב-`StylePanel`.
+> - **ארכיטקטורה:** כל הפרויקט יאורגן מחדש תחת חבילות ברורות (`core`, `data`, `features`, `ui`).
+> - **דיוק ב-Assets:** כל 18 הסטיקרים, 14 הלוגואים ו-6 צורות ה-QR יוצגו עם תמונות ה-Preview המקוריות שלהם.
+> - **דף Learn QR:** יתווסף דף "מה זה QR" המלא הכולל את ה-Workflow Timeline וטבלאות ההשוואה.
+> - **UX/UI:** נוסיף צללים, אנימציות לחיצה (Ripple) ומרווחים מדויקים כדי להבטיח תחושת Premium.
 
 ## Proposed Changes
 
-### [UI Components - Custom Views]
+### [Phase 1: Architecture & Complete Auth]
 
-#### [NEW] `ScreenPageHeader.java` & `layout_screen_page_header.xml`
-- רכיב כותרת ממורכזת עם כותרת וסב-כותרת, בשימוש בכל המסכים.
+ארגון מחדש של התיקיות ומימוש המסכים החסרים במערכת האימות:
+- **Architecture:** העברת כל הקבצים למבנה: `core/`, `data/`, `features/auth`, `features/dashboard` וכו'.
+- **RegisterScreen:** מסך הרשמה מלא עם ולידציה.
+- **VerifyEmailScreen:** ממשק קוד OTP מעוצב עם טיימר ובקשת קוד חוזר.
+- **Base Components:** שדרוג ה-`BaseActivity` וה-`BaseFragment` לניהול טעינה ושגיאות בצורה אחידה.
 
-#### [NEW] `AuthScreenLayout.java`
-- Layout בסיס למסכי התחברות הכולל טיפול במקלדת (KeyboardAvoidingView), לוגו המותג, וכפתורי הגדרות עליונים.
+### [Phase 2: Advanced Dashboard & Marketing]
 
-### [Authentication Overhaul]
+הוספת ה"בשר" לדף הראשי:
+- **Folders Logic:** מימוש מלא של סינון ותצוגת תיקיות.
+- **Promotional Cards:** שילוב באנרים שיווקיים ("Upgrade to Premium").
+- **Edit/Stats Modals:** בניית הדיאלוגים המתקדמים לעריכת יעד וצפייה בנתוני סריקה.
 
-#### [MODIFY] [activity_login.xml](file:///C:/Users/User/Desktop/DynamiQR%20mobile/app/src/main/res/layout/activity_login.xml)
-- שדרוג העיצוב כך שישתמש ב-`AuthScreenLayout`.
-- הוספת כפתור `GoogleSignInButton` המעוצב.
-- הוספת `AuthLegalFooter` עם קישורים לתנאי שימוש ופרטיות.
+### [Phase 3: The Ultimate QR Generator]
 
-### [Dashboard Enhancements]
-
-#### [NEW] `MyCodesFolderSheet.java` & `layout_folder_sheet.xml`
-- מימוש ה-Sheet שעולה מלמטה עם רשימת תיקיות, מונה קודים וסינון סטטוס (פעיל/לא פעיל).
-
-#### [NEW] `SimplePromptModal.java`
-- דיאלוג מעוצב ליצירת תיקייה חדשה או שינוי שם.
-
-### [Advanced QR Generator]
-
-#### [NEW] `QrTypeSelectorView.java`
-- רכיב בחירת סוג קוד המחולק ל"ראשי" ו"עוד" (More), עם אנימציית LinearGradient (באמצעות Drawable).
-
-#### [NEW] `QrStylePanel.java`
-- ממשק הטאבים (Color, Shape, Logo, Sticker) להתאמה אישית של ה-QR.
-
-#### [NEW] `QrPreviewComposite.java`
-- תצוגה מקדימה מורכבת המשלבת את ה-QR עם ה-Sticker הנבחר והרקע.
+שדרוג המנוע והממשק לרמה הגבוהה ביותר:
+- **Gradient Picker:** מימוש בחירת צבעים הדרגתית.
+- **Precise Sticker Placement:** חישוב מיקומים (Sticker Rects) לכל 18 הפריימים.
+- **Image Export:** מנוע שמירת תמונה לגלריה.
 
 ## Verification Plan
 
 ### Manual Verification
-1. **Auth:** וודא שהלוגו מופיע בגודל הנכון והמקלדת לא מסתירה את השדות.
-2. **Folders:** פתח את ה-Sheet בדאשבורד, וודא שהסינון עובד והתיקיות נטענות.
-3. **Generator:** מעבר בין סוגי קוד שונים ולוודא שהעיצוב משתנה בהתאם ב-Preview.
+1. **ויזואלי:** השוואה של 1:1 מול ה-React Native בכל מסך.
+2. **ארכיטקטורה:** וודא שכל הקוד יושב בתיקיות ה-Features הנכונות.
+3. **פונקציונליות:** הרשמה מלאה כולל אימות קוד מול השרת.

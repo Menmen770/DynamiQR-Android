@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Brand Colors -->
     <color name="primary">#0A9396</color>
     <color name="primary_variant">#005F73</color>
     <color name="on_primary">#FFFFFF</color>
@@ -11,4 +12,30 @@
     <color name="error">#B91C1C</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
+    <!-- QR Foreground Preset Colors -->
+    <color name="qr_fg_black">#111111</color>
+    <color name="qr_fg_graphite">#1F2937</color>
+    <color name="qr_fg_smoke_gray">#4B5563</color>
+    <color name="qr_fg_facebook">#1877F2</color>
+    <color name="qr_fg_deep_blue">#1D4ED8</color>
+    <color name="qr_fg_turquoise">#0A9396</color>
+    <color name="qr_fg_whatsapp">#25D366</color>
+    <color name="qr_fg_dark_green">#166534</color>
+    <color name="qr_fg_olive">#3F6212</color>
+    <color name="qr_fg_bordeaux">#7F1D1D</color>
+    <color name="qr_fg_purple">#5B21B6</color>
+
+    <!-- QR Background Preset Colors -->
+    <color name="qr_bg_soft_yellow">#FDE68A</color>
+    <color name="qr_bg_orange">#FDBA74</color>
+    <color name="qr_bg_coral">#FCA5A5</color>
+    <color name="qr_bg_pink">#F9A8D4</color>
+    <color name="qr_bg_lavender">#DDD6FE</color>
+    <color name="qr_bg_sky">#BFDBFE</color>
+    <color name="qr_bg_light_blue">#93C5FD</color>
+    <color name="qr_bg_mint">#A7F3D0</color>
+    <color name="qr_bg_light_green">#86EFAC</color>
+    <color name="qr_bg_lime">#D9F99D</color>
+    <color name="qr_bg_gray">#E5E7EB</color>
 </resources>
