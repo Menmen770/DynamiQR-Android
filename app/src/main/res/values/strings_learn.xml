@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="learn_page_title">מה זה QR?</string>
+    <string name="learn_page_subtitle">מדריך קצר לעסקים ולמותגים — איך משתמשים נכון</string>
+    <string name="learn_hero_lead">QR הוא קיצור דרך חכם מהעולם הפיזי לדיגיטלי: סורקים עם מצלמה, ומגיעים מיד לעמוד, קובץ, טופס, WhatsApp, איש קשר או Wi-Fi בלי להקליד ובלי לאבד את המשתמש בדרך.</string>
+    <string name="learn_cta_create">יצירת QR חדש</string>
+
+    <string name="learn_panel_kicker">בשורה התחתונה</string>
+    <string name="learn_panel_title">למה עסקים משתמשים ב־QR?</string>
+    <string name="learn_point_fast">מעבר מהיר יותר לפעולה בלי הקלדה ידנית</string>
+    <string name="learn_point_update">ב־QR דינמי אפשר לעדכן יעד גם אחרי הדפסה</string>
+    <string name="learn_point_stats">אפשר למדוד סריקות ולהבין מה באמת עובד</string>
+    <string name="learn_stat_friction_label">פחות חיכוך</string>
+    <string name="learn_stat_friction_strong">סריקה אחת</string>
+    <string name="learn_stat_friction_text">ומעבר מיידי לתוכן</string>
+    <string name="learn_stat_flex_label">יותר גמישות</string>
+    <string name="learn_stat_flex_strong">דינמי</string>
+    <string name="learn_stat_flex_text">כשרוצים לעדכן יעד</string>
+
+    <string name="learn_use_cases_kicker">שימושים נפוצים</string>
+    <string name="learn_use_cases_title">איפה QR באמת חוסך זמן</string>
+    <string name="learn_use_cases_subtitle">כשנותנים ללקוח מעבר ישיר לדבר הנכון, הסיכוי שהוא ימשיך לפעולה גדל משמעותית.</string>
+    <string name="learn_use_site_title">אתר או דף נחיתה</string>
+    <string name="learn_use_site_text">מעבירים לקוח מפלייר, אריזה או שלט ישירות לעמוד הנכון בלי להקליד כתובת.</string>
+    <string name="learn_use_wifi_title">Wi-Fi לאורחים</string>
+    <string name="learn_use_wifi_text">סריקה אחת והמשתמש מתחבר לרשת בלי להסתבך עם סיסמה ארוכה.</string>
+    <string name="learn_use_pdf_title">תפריט, קטלוג או PDF</string>
+    <string name="learn_use_pdf_text">מציגים מידע מעודכן ונקי בלי להדפיס כל גרסה מחדש.</string>
+    <string name="learn_use_leads_title">לידים, וואטסאפ ופניות</string>
+    <string name="learn_use_leads_text">מקצרים את הדרך לפעולה ומגדילים את הסיכוי שהלקוח באמת ימשיך לשלב הבא.</string>
+
+    <string name="learn_workflow_kicker">איך זה עובד</string>
+    <string name="learn_workflow_title">שלושה שלבים פשוטים</string>
+    <string name="learn_workflow_subtitle">לא צריך לסבך את זה: בוחרים מטרה, מעצבים נכון, ומפרסמים.</string>
+    <string name="learn_step_goal_title">בוחרים יעד אחד ברור</string>
+    <string name="learn_step_goal_text">אתר, PDF, איש קשר, WhatsApp או Wi-Fi. ככל שהמטרה ברורה יותר, גם הסריקה תעבוד טוב יותר.</string>
+    <string name="learn_step_design_title">מעצבים כך שיהיה קל לסרוק</string>
+    <string name="learn_step_design_text">שומרים על ניגודיות טובה, לוגו במידה נכונה ורמת תיקון שגיאות שמתאימה לשימוש בפועל.</string>
+    <string name="learn_step_publish_title">שולחים לדפוס או לדיגיטל</string>
+    <string name="learn_step_publish_text">מטמיעים על שלט, פלייר, אריזה, מסך או כרטיס ביקור ומוודאים שהמעבר מהיר ונוח בטלפון.</string>
+
+    <string name="learn_diff_kicker">ההבדל שלנו</string>
+    <string name="learn_diff_title">מה האתר שלנו מציע שאין בשום מקום אחר</string>
+    <string name="learn_diff_intro">רוב אתרי ה-QR נשענים על דינמי בלבד: אחרי מגבלת סריקות הקוד נחסם, ודורשים תשלום גבוה כדי להפעיל מחדש. אתרים שכן מציעים QR סטטי אמיתי לרוב נותנים עיצוב בסיסי והורדה באיכות נמוכה. כאן הגישה הפוכה.</string>
+
+    <string name="learn_compare_kicker">סטטי מול דינמי</string>
+    <string name="learn_compare_title">מה מתאים לך?</string>
+    <string name="learn_compare_subtitle">ההבדל פשוט: האם היעד נשאר קבוע, או שצריך גמישות ועדכון גם אחרי שהקוד כבר יצא החוצה?</string>
+    <string name="learn_static_badge">QR סטטי</string>
+    <string name="learn_static_title">מתאים לתוכן שלא משתנה</string>
+    <string name="learn_static_text">המידע מקודד בתוך הקוד עצמו, ולכן אחרי הדפסה אי אפשר להחליף יעד.</string>
+    <string name="learn_static_item1">Wi-Fi קבוע, טלפון, אימייל או עמוד שלא משתנה</string>
+    <string name="learn_static_item2">פשוט ומהיר כשאין צורך בניהול שוטף</string>
+    <string name="learn_dynamic_badge">QR דינמי</string>
+    <string name="learn_dynamic_title">מתאים לקמפיינים ותוכן חי</string>
+    <string name="learn_dynamic_text">הקוד מפנה לכתובת ביניים, ולכן אפשר לעדכן יעד ולעקוב אחרי סריקות גם אחרי שהקוד כבר הודפס.</string>
+    <string name="learn_dynamic_item1">מבצעים משתנים, דפי נחיתה וקמפיינים שיווקיים</string>
+    <string name="learn_dynamic_item2">עדכון יעד ומדידת ביצועים בלי להדפיס מחדש</string>
+
+    <string name="learn_benefits_kicker">למה זה עובד טוב</string>
+    <string name="learn_benefits_title">מה QR נותן לעסק?</string>
+    <string name="learn_tips_kicker">בחירה חכמה</string>
+    <string name="learn_tips_title">איך לבחור נכון?</string>
+
+    <string name="learn_summary_kicker">לסיכום</string>
+    <string name="learn_summary_title">QR טוב הוא לא רק יפה. הוא גם ברור, מהיר וקל לסריקה.</string>
+    <string name="learn_summary_text">כשמגדירים מטרה אחת ברורה, בוחרים בין סטטי לדינמי בצורה נכונה ומשאירים מעבר פשוט למשתמש, ה־QR הופך מכלי טכני לכלי שיווקי אמיתי.</string>
+    <string name="learn_summary_cta">להתחיל ליצור QR</string>
+
+    <string-array name="learn_benefits">
+        <item>פחות חיכוך בין חשיפה לפעולה</item>
+        <item>מעבר מיידי מהעולם הפיזי לדיגיטלי</item>
+        <item>מתאים גם לשילוט, דפוס, אריזות ומסכים</item>
+        <item>בדינמי אפשר לעדכן יעד בלי להדפיס מחדש</item>
+        <item>אפשר למדוד סריקות וביצועים בקמפיינים</item>
+    </string-array>
+
+    <string-array name="learn_tips">
+        <item>אם התוכן קבוע ולא צפוי להשתנות, בדרך כלל סטטי מספיק.</item>
+        <item>אם יש קמפיינים, מבצעים או צורך במדידה, עדיף דינמי.</item>
+        <item>עדיף QR אחד עם מטרה אחת ברורה מאשר יותר מדי מידע בפעם אחת.</item>
+    </string-array>
+
+    <string-array name="learn_diff_titles">
+        <item>QR סטטי — חינמי, מקצועי, שלכם</item>
+        <item>דינמי — רק כשאתם צריכים מדידה</item>
+        <item>בלי מעקב מיותר</item>
+        <item>איכות, אבטחה וחוויית משתמש — בחינם</item>
+    </string-array>
+
+    <string-array name="learn_diff_texts">
+        <item>עיצוב ברמה הגבוהה בשוק, הורדה באיכות מלאה ב-PNG או SVG, ובלי מכסות סריקה או תאריך תפוגה. הקוד נשאר שלכם — מדפיסים ומציגים איפה שרוצים.</item>
+        <item>רוצים לעדכן יעד אחרי הדפסה או לעקוב אחרי טרפיק? דינמי זמין לניהול שלכם. הוא לא ברירת המחדל ולא הכלי היחיד — הוא אופציה שאתם בוחרים.</item>
+        <item>בקוד סטטי אנחנו לא רואים מי סרק ולא אוספים רשימת סריקות. במדידה דינמית המידע משרת אתכם — לא נמכור נתונים על הקהל שלכם.</item>
+        <item>אבטחה איכותית, ממשק נוח ותוצאה מקצועית — בלי לשלם על החופש הבסיסי שלכם ליצור קוד שעובד.</item>
+    </string-array>
+</resources>

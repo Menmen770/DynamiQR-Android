@@ -2,6 +2,7 @@
 <resources>
     <!-- Brand Colors -->
     <color name="primary">#0A9396</color>
+    <color name="primary_light">#E0F2F1</color>
     <color name="primary_variant">#005F73</color>
     <color name="on_primary">#FFFFFF</color>
     <color name="background">#F5F7FB</color>

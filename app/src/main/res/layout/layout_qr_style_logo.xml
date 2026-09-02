@@ -38,11 +38,12 @@
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/logoNone"
+            android:id="@+id/logoOverlay"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ללא" />
+            android:checked="true"
+            android:text="ללא חור" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/logoSquare"

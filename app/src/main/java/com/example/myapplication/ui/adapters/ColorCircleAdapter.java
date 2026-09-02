@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemColorCircleBinding;
 import java.util.List;
 
@@ -38,7 +39,16 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
         GradientDrawable bg = (GradientDrawable) holder.binding.colorCircle.getBackground();
         bg.setColor(Color.parseColor(hex));
 
-        holder.binding.selectedIndicator.setVisibility(hex.equalsIgnoreCase(selectedColor) ? View.VISIBLE : View.GONE);
+        boolean isSelected = hex.equalsIgnoreCase(selectedColor);
+        if (isSelected) {
+            holder.binding.selectedIndicator.setVisibility(View.VISIBLE);
+            holder.binding.colorCircle.setScaleX(1.1f);
+            holder.binding.colorCircle.setScaleY(1.1f);
+        } else {
+            holder.binding.selectedIndicator.setVisibility(View.GONE);
+            holder.binding.colorCircle.setScaleX(1.0f);
+            holder.binding.colorCircle.setScaleY(1.0f);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             selectedColor = hex;
@@ -52,9 +62,9 @@ public class ColorCircleAdapter extends RecyclerView.Adapter<ColorCircleAdapter.
         return colors.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        ItemColorCircleBinding binding;
-        ViewHolder(ItemColorCircleBinding binding) {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ItemColorCircleBinding binding;
+        public ViewHolder(ItemColorCircleBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

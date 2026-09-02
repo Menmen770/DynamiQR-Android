@@ -3,12 +3,12 @@ package com.example.myapplication.features.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+import com.example.myapplication.DynamiQRApplication;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.core.base.BaseActivity;
 import com.example.myapplication.data.local.AuthManager;
 import com.example.myapplication.data.models.LoginResponse;
-import com.example.myapplication.data.api.ApiService;
-import com.example.myapplication.data.api.RetrofitClient;
+import com.example.myapplication.data.repository.AuthRepository;
 import com.example.myapplication.databinding.ActivityRegisterBinding;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +17,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
+
     private AuthManager authManager;
-    private ApiService apiService;
+    private AuthRepository authRepository;
 
     @Override
     protected ActivityRegisterBinding inflateBinding() {
@@ -28,8 +29,10 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        authManager = new AuthManager(this);
-        apiService = RetrofitClient.getService(authManager);
+
+        DynamiQRApplication app = DynamiQRApplication.getInstance();
+        authManager = app.getAuthManager();
+        authRepository = app.getAuthRepository();
 
         binding.registerButton.setOnClickListener(v -> handleRegister());
         binding.loginLink.setOnClickListener(v -> finish());
@@ -45,20 +48,21 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
             return;
         }
 
-        binding.registerButton.setEnabled(false);
+        setLoading(true);
+
         Map<String, String> body = new HashMap<>();
         body.put("fullName", name);
         body.put("email", email);
         body.put("password", password);
 
-        apiService.register(body).enqueue(new Callback<LoginResponse>() {
+        authRepository.register(body).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                binding.registerButton.setEnabled(true);
+                setLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
                     LoginResponse res = response.body();
                     if (res.getToken() != null) {
-                        authManager.saveToken(res.getToken());
+                        authManager.saveSession(res.getToken(), res.getUser());
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         finishAffinity();
                     } else {
@@ -74,9 +78,13 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                binding.registerButton.setEnabled(true);
+                setLoading(false);
                 Toast.makeText(RegisterActivity.this, "שגיאה: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setLoading(boolean loading) {
+        binding.registerButton.setEnabled(!loading);
     }
 }

@@ -3,6 +3,7 @@ package com.example.myapplication.ui.adapters;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.QrType;
@@ -10,9 +11,10 @@ import com.example.myapplication.databinding.ItemQrTypeBinding;
 import java.util.List;
 
 public class QrTypeSelectorAdapter extends RecyclerView.Adapter<QrTypeSelectorAdapter.ViewHolder> {
-    private List<QrType> items;
+
+    private final List<QrType> items;
     private String selectedId;
-    private OnTypeSelectedListener listener;
+    private final OnTypeSelectedListener listener;
 
     public interface OnTypeSelectedListener {
         void onTypeSelected(QrType type);
@@ -24,10 +26,16 @@ public class QrTypeSelectorAdapter extends RecyclerView.Adapter<QrTypeSelectorAd
         this.listener = listener;
     }
 
+    public void setSelectedId(String selectedId) {
+        this.selectedId = selectedId;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemQrTypeBinding binding = ItemQrTypeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemQrTypeBinding binding = ItemQrTypeBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
 
@@ -39,21 +47,21 @@ public class QrTypeSelectorAdapter extends RecyclerView.Adapter<QrTypeSelectorAd
 
         boolean isSelected = item.getId().equals(selectedId);
         if (isSelected) {
-            holder.binding.typeCard.setStrokeColor(holder.itemView.getContext().getColor(R.color.primary));
-            holder.binding.typeInner.setBackgroundColor(holder.itemView.getContext().getColor(R.color.primary));
-            holder.binding.typeLabel.setTextColor(holder.itemView.getContext().getColor(R.color.white));
-            holder.binding.typeIcon.setColorFilter(holder.itemView.getContext().getColor(R.color.white));
+            holder.binding.typeInner.setBackgroundResource(R.drawable.bg_type_selected);
+            holder.binding.typeLabel.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.white));
+            holder.binding.typeIcon.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.white));
         } else {
-            holder.binding.typeCard.setStrokeColor(holder.itemView.getContext().getColor(R.color.border));
-            holder.binding.typeInner.setBackgroundColor(holder.itemView.getContext().getColor(R.color.surface));
-            holder.binding.typeLabel.setTextColor(holder.itemView.getContext().getColor(R.color.text_main));
-            holder.binding.typeIcon.setColorFilter(holder.itemView.getContext().getColor(R.color.sub_text));
+            holder.binding.typeInner.setBackgroundResource(R.drawable.bg_type_idle);
+            holder.binding.typeLabel.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.text_main));
+            holder.binding.typeIcon.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.sub_text));
         }
 
         holder.itemView.setOnClickListener(v -> {
             selectedId = item.getId();
             notifyDataSetChanged();
-            listener.onTypeSelected(item);
+            if (listener != null) {
+                listener.onTypeSelected(item);
+            }
         });
     }
 
@@ -63,7 +71,8 @@ public class QrTypeSelectorAdapter extends RecyclerView.Adapter<QrTypeSelectorAd
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ItemQrTypeBinding binding;
+        final ItemQrTypeBinding binding;
+
         ViewHolder(ItemQrTypeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

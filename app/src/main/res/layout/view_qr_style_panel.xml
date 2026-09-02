@@ -5,65 +5,80 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <HorizontalScrollView
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/styleTabGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="6dp"
+        app:chipSpacingHorizontal="6dp"
+        app:singleSelection="true"
+        app:selectionRequired="true">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/styleTabGroup"
+        <com.google.android.material.chip.Chip
+            android:id="@+id/tabColor"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            app:singleSelection="true">
+            android:text="צבע"
+            android:textColor="@color/chip_style_tab_text"
+            app:checkedIconVisible="false"
+            app:chipBackgroundColor="@color/chip_style_tab_bg"
+            app:chipCornerRadius="12dp"
+            app:chipMinHeight="40dp"
+            app:chipStrokeColor="@color/primary"
+            app:chipStrokeWidth="1dp" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/tabColor"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="צבע"
-                app:chipBackgroundColor="@color/background" />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/tabShape"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="צורה"
+            android:textColor="@color/chip_style_tab_text"
+            app:checkedIconVisible="false"
+            app:chipBackgroundColor="@color/chip_style_tab_bg"
+            app:chipCornerRadius="12dp"
+            app:chipMinHeight="40dp"
+            app:chipStrokeColor="@color/primary"
+            app:chipStrokeWidth="1dp" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/tabShape"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="צורה"
-                app:chipBackgroundColor="@color/background" />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/tabLogo"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="לוגו"
+            android:textColor="@color/chip_style_tab_text"
+            app:checkedIconVisible="false"
+            app:chipBackgroundColor="@color/chip_style_tab_bg"
+            app:chipCornerRadius="12dp"
+            app:chipMinHeight="40dp"
+            app:chipStrokeColor="@color/primary"
+            app:chipStrokeWidth="1dp" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/tabLogo"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="לוגו"
-                app:chipBackgroundColor="@color/background" />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/tabSticker"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="מסגרת"
+            android:textColor="@color/chip_style_tab_text"
+            app:checkedIconVisible="false"
+            app:chipBackgroundColor="@color/chip_style_tab_bg"
+            app:chipCornerRadius="12dp"
+            app:chipMinHeight="40dp"
+            app:chipStrokeColor="@color/primary"
+            app:chipStrokeWidth="1dp" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/tabSticker"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="סטיקר"
-                app:chipBackgroundColor="@color/background" />
-
-        </com.google.android.material.chip.ChipGroup>
-    </HorizontalScrollView>
+    </com.google.android.material.chip.ChipGroup>
 
     <FrameLayout
         android:id="@+id/tabContentContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="@drawable/bg_sheet"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp">
-
-        <!-- Inner tab content will be injected here -->
-
-    </FrameLayout>
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_generator_content_box"
+        android:padding="14dp" />
 
 </LinearLayout>
