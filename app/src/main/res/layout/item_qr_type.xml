@@ -14,11 +14,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_type_idle"
-        android:gravity="center_vertical|end"
+        android:gravity="center_vertical|start"
         android:minHeight="44dp"
         android:orientation="horizontal"
         android:paddingHorizontal="10dp"
         android:paddingVertical="10dp">
+
+        <ImageView
+            android:id="@+id/typeIcon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="6dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_qr_type_url"
+            app:tint="@color/sub_text" />
 
         <TextView
             android:id="@+id/typeLabel"
@@ -26,20 +35,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="end"
-            android:gravity="end"
+            android:gravity="start"
             android:maxLines="1"
             android:text="סוג"
+            android:textAlignment="viewStart"
             android:textColor="@color/text_main"
             android:textSize="13sp"
             android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/typeIcon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="6dp"
-            android:src="@android:drawable/ic_menu_send"
-            app:tint="@color/sub_text" />
 
     </LinearLayout>
 

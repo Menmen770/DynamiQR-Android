@@ -79,10 +79,18 @@ public class LearnQrFragment extends BaseFragment<FragmentLearnQrBinding> {
                 {R.string.learn_use_leads_title, R.string.learn_use_leads_text}
         };
         LayoutInflater inflater = LayoutInflater.from(requireContext());
-        for (int[] pair : data) {
+        for (int i = 0; i < data.length; i++) {
+            if (i > 0) {
+                View divider = new View(requireContext());
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, 1);
+                divider.setLayoutParams(lp);
+                divider.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.border));
+                binding.useCasesContainer.addView(divider);
+            }
             ItemLearnUseCaseBinding item = ItemLearnUseCaseBinding.inflate(inflater, binding.useCasesContainer, false);
-            item.useCaseTitle.setText(pair[0]);
-            item.useCaseText.setText(pair[1]);
+            item.useCaseTitle.setText(data[i][0]);
+            item.useCaseText.setText(data[i][1]);
             binding.useCasesContainer.addView(item.getRoot());
         }
     }

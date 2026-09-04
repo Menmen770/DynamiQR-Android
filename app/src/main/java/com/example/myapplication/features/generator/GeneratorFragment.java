@@ -27,7 +27,6 @@ import com.example.myapplication.core.utils.ColorProvider;
 import com.example.myapplication.core.utils.PresetLogos;
 import com.example.myapplication.core.utils.QrLogoHelper;
 import com.example.myapplication.core.utils.QrPreviewCompositor;
-import com.example.myapplication.core.utils.SimpleTextWatcher;
 import com.example.myapplication.core.utils.PresetData;
 import com.example.myapplication.core.utils.QrTypeProvider;
 import com.example.myapplication.data.models.QrType;
@@ -38,9 +37,12 @@ import com.example.myapplication.databinding.LayoutQrStyleLogoBinding;
 import com.example.myapplication.databinding.LayoutQrStyleShapeBinding;
 import com.example.myapplication.databinding.LayoutQrStyleStickerBinding;
 import com.example.myapplication.ui.adapters.ColorCircleAdapter;
+import com.example.myapplication.ui.adapters.GradientSwatchAdapter;
 import com.example.myapplication.ui.adapters.QrTypeSelectorAdapter;
 import com.example.myapplication.ui.adapters.StyleThumbnailAdapter;
+import com.example.myapplication.ui.components.ColorPickerSheet;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.Chip;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -101,7 +103,7 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
             binding.moreTypesButton.setStrokeColorResource(R.color.primary);
             binding.moreTypesButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
         } else {
-            binding.moreTypesButton.setText("סוגים נוספים");
+            binding.moreTypesButton.setText("עוד אפשרויות");
             binding.moreTypesButton.setStrokeColorResource(R.color.border);
             binding.moreTypesButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_text));
         }
@@ -235,57 +237,141 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
         LayoutQrStyleColorBinding colorBinding = LayoutQrStyleColorBinding.inflate(getLayoutInflater());
         binding.stylePanel.tabContentContainer.addView(colorBinding.getRoot());
 
-        // Solid Color Adapters
+        String currentFg = viewModel.getFgColor() != null ? viewModel.getFgColor() : "#111111";
+        String currentBg = "#ffffff".equals(viewModel.getBgColor()) || viewModel.getBgColor() == null
+                ? "#ffffff" : viewModel.getBgColor();
+
+        final ColorCircleAdapter[] fgAdapterRef = new ColorCircleAdapter[1];
+        fgAdapterRef[0] = new ColorCircleAdapter(
+                ColorProvider.getFgColors(), currentFg,
+                new ColorCircleAdapter.Listener() {
+                    @Override
+                    public void onColorSelected(String hex) {
+                        viewModel.setFgColor(hex);
+                    }
+
+                    @Override
+                    public void onCustomClicked(String currentHex) {
+                        ColorPickerSheet.show(requireContext(), "צבע ה-QR",
+                                ColorProvider.getExtendedFgColors(), currentHex, hex -> {
+                                    viewModel.setFgColor(hex);
+                                    fgAdapterRef[0].setSelectedColor(hex);
+                                });
+                    }
+                });
         colorBinding.fgColorRecyclerView.setLayoutManager(
                 new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        colorBinding.fgColorRecyclerView.setAdapter(new ColorCircleAdapter(
-                ColorProvider.getFgColors(), "#111111", color -> {
-            viewModel.setFgColor(color);
-            colorBinding.fgHexInput.setText(color);
-        }));
+        colorBinding.fgColorRecyclerView.setAdapter(fgAdapterRef[0]);
 
+        final ColorCircleAdapter[] bgAdapterRef = new ColorCircleAdapter[1];
+        bgAdapterRef[0] = new ColorCircleAdapter(
+                ColorProvider.getBgColors(), currentBg,
+                new ColorCircleAdapter.Listener() {
+                    @Override
+                    public void onColorSelected(String hex) {
+                        viewModel.setBgColor(hex);
+                    }
+
+                    @Override
+                    public void onCustomClicked(String currentHex) {
+                        ColorPickerSheet.show(requireContext(), "צבע רקע",
+                                ColorProvider.getExtendedBgColors(), currentHex, hex -> {
+                                    viewModel.setBgColor(hex);
+                                    bgAdapterRef[0].setSelectedColor(hex);
+                                });
+                    }
+                });
         colorBinding.bgColorRecyclerView.setLayoutManager(
                 new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        colorBinding.bgColorRecyclerView.setAdapter(new ColorCircleAdapter(
-                ColorProvider.getBgColors(), "#ffffff", color -> {
-            viewModel.setBgColor(color);
-            colorBinding.bgHexInput.setText(color);
-        }));
+        colorBinding.bgColorRecyclerView.setAdapter(bgAdapterRef[0]);
 
-        // Mode Toggling
+        GradientSwatchAdapter fgGradAdapter = new GradientSwatchAdapter(
+                ColorProvider.getQrGradientPresets(), "brand-teal",
+                preset -> viewModel.setGradient(preset.start, preset.end, preset.angle));
+        colorBinding.fgGradientRecyclerView.setLayoutManager(
+                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        colorBinding.fgGradientRecyclerView.setAdapter(fgGradAdapter);
+
+        GradientSwatchAdapter bgGradAdapter = new GradientSwatchAdapter(
+                ColorProvider.getBgGradientPresets(), "peach-cream",
+                preset -> {
+                    viewModel.setBgGradient(preset.start, preset.end, preset.angle);
+                    viewModel.setBgColor(preset.start);
+                });
+        colorBinding.bgGradientRecyclerView.setLayoutManager(
+                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        colorBinding.bgGradientRecyclerView.setAdapter(bgGradAdapter);
+
+        // Angle chips
+        colorBinding.gradientAngleGroup.removeAllViews();
+        int currentAngle = viewModel.getGradientAngle();
+        for (Integer angle : ColorProvider.getGradientAngles()) {
+            Chip chip = new Chip(requireContext());
+            chip.setText(angle + "°");
+            chip.setCheckable(true);
+            chip.setChecked(angle == currentAngle || (currentAngle == 135 && angle == 135));
+            chip.setOnClickListener(v -> viewModel.setGradient(
+                    viewModel.getGradientStart(), viewModel.getGradientEnd(), angle));
+            colorBinding.gradientAngleGroup.addView(chip);
+        }
+
+        boolean isGradient = "gradient".equals(viewModel.getColorMode());
+        if (isGradient) {
+            colorBinding.colorModeGroup.check(R.id.modeGradient);
+        } else {
+            colorBinding.colorModeGroup.check(R.id.modeSolid);
+        }
+        applyFgModeUi(colorBinding, isGradient);
+
         colorBinding.colorModeGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
-            boolean isGradient = checkedIds.contains(R.id.modeGradient);
-            colorBinding.gradientPanel.setVisibility(isGradient ? View.VISIBLE : View.GONE);
-            colorBinding.fgColorRecyclerView.setVisibility(isGradient ? View.GONE : View.VISIBLE);
-            colorBinding.fgHexLayout.setVisibility(isGradient ? View.GONE : View.VISIBLE);
-            viewModel.setColorMode(isGradient ? "gradient" : "solid");
+            boolean grad = checkedIds.contains(R.id.modeGradient);
+            applyFgModeUi(colorBinding, grad);
+            viewModel.setColorMode(grad ? "gradient" : "solid");
+            if (grad) {
+                ColorProvider.GradientPreset first = ColorProvider.getQrGradientPresets().get(0);
+                viewModel.setGradient(first.start, first.end, first.angle);
+            }
         });
 
-        // HEX Inputs
-        colorBinding.fgHexInput.addTextChangedListener(new SimpleTextWatcher(s -> {
-            if (s.length() == 7 && s.startsWith("#")) {
-                viewModel.setFgColor(s);
-            }
-        }));
-        colorBinding.bgHexInput.addTextChangedListener(new SimpleTextWatcher(s -> {
-            if (s.length() == 7 && s.startsWith("#")) {
-                viewModel.setBgColor(s);
-            }
-        }));
+        String bgMode = viewModel.getBgColorMode();
+        if ("none".equals(bgMode)) {
+            colorBinding.bgModeGroup.check(R.id.bgModeNone);
+        } else if ("gradient".equals(bgMode)) {
+            colorBinding.bgModeGroup.check(R.id.bgModeGradient);
+        } else {
+            colorBinding.bgModeGroup.check(R.id.bgModeSolid);
+        }
+        applyBgModeUi(colorBinding, bgMode);
 
-        // Gradient Controls
-        Runnable updateGradient = () -> {
-            String start = colorBinding.gradientStartInput.getText().toString();
-            String end = colorBinding.gradientEndInput.getText().toString();
-            int angle = (int) colorBinding.gradientAngleSlider.getValue();
-            if (start.length() == 7 && end.length() == 7) {
-                viewModel.setGradient(start, end, angle);
+        colorBinding.bgModeGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            String mode = "solid";
+            if (checkedIds.contains(R.id.bgModeNone)) {
+                mode = "none";
+            } else if (checkedIds.contains(R.id.bgModeGradient)) {
+                mode = "gradient";
             }
-        };
+            applyBgModeUi(colorBinding, mode);
+            viewModel.setBgColorMode(mode);
+            if ("gradient".equals(mode)) {
+                ColorProvider.GradientPreset first = ColorProvider.getBgGradientPresets().get(0);
+                viewModel.setBgGradient(first.start, first.end, first.angle);
+                viewModel.setBgColor(first.start);
+            } else if ("none".equals(mode)) {
+                viewModel.setBgColor("#ffffff");
+            }
+        });
+    }
 
-        colorBinding.gradientStartInput.addTextChangedListener(new SimpleTextWatcher(s -> updateGradient.run()));
-        colorBinding.gradientEndInput.addTextChangedListener(new SimpleTextWatcher(s -> updateGradient.run()));
-        colorBinding.gradientAngleSlider.addOnChangeListener((slider, value, fromUser) -> updateGradient.run());
+    private void applyFgModeUi(LayoutQrStyleColorBinding b, boolean gradient) {
+        b.fgColorRecyclerView.setVisibility(gradient ? View.GONE : View.VISIBLE);
+        b.gradientPanel.setVisibility(gradient ? View.VISIBLE : View.GONE);
+    }
+
+    private void applyBgModeUi(LayoutQrStyleColorBinding b, String mode) {
+        boolean solid = "solid".equals(mode);
+        boolean gradient = "gradient".equals(mode);
+        b.bgColorRecyclerView.setVisibility(solid ? View.VISIBLE : View.GONE);
+        b.bgGradientRecyclerView.setVisibility(gradient ? View.VISIBLE : View.GONE);
     }
 
     private void showShapeTab() {
@@ -335,12 +421,15 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
                         float inset = PresetLogos.insetForId(item.getId());
                         int resId = PresetLogos.rawResForId(requireContext(), item.getId());
                         String dataUrl = QrLogoHelper.rawSvgToDataUrl(requireContext(), resId, 256, inset);
+                        // בחירת לוגו לא משנה את צורת החור — נשארת בחירת המשתמש (ברירת מחדל: ללא חור)
                         viewModel.setLogo(item.getId(), dataUrl, inset);
                     }
-                });
+                },
+                true);
         logoBinding.logoRecyclerView.setAdapter(logoAdapter);
         fixRecyclerHeight(logoBinding.logoRecyclerView, 4);
 
+        logoBinding.logoShapeGroup.setOnCheckedStateChangeListener(null);
         String shape = viewModel.getLogoShape();
         if ("circle".equals(shape)) {
             logoBinding.logoShapeGroup.check(R.id.logoCircle);
@@ -413,6 +502,7 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
                     qrBitmap,
                     sticker,
                     viewModel.getBgColor(),
+                    viewModel.getFgColor(),
                     QrPreviewCompositor.DEFAULT_STAGE_PX);
             binding.qrPreviewImage.setImageBitmap(previewBitmap);
             binding.qrExportPreviewImage.setImageBitmap(previewBitmap);
@@ -495,7 +585,7 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
 
     private List<PresetData.StyleItemImpl> getStickers() {
         List<PresetData.StyleItemImpl> items = new ArrayList<>();
-        items.add(new PresetData.StyleItemImpl("none", android.R.drawable.ic_menu_close_clear_cancel, false));
+        items.add(new PresetData.StyleItemImpl("none", R.drawable.ic_close, false));
         for (int i = 1; i <= 18; i++) {
             String id = String.format("frame-%02d", i);
             String name = String.format("sticker_thumb_%02d", i);
@@ -509,7 +599,7 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
 
     private List<PresetData.StyleItemImpl> getLogos() {
         List<PresetData.StyleItemImpl> items = new ArrayList<>();
-        items.add(new PresetData.StyleItemImpl("none", android.R.drawable.ic_menu_close_clear_cancel, false));
+        items.add(new PresetData.StyleItemImpl("none", R.drawable.ic_close, false));
         for (PresetLogos.Preset preset : PresetLogos.all()) {
             items.add(new PresetData.StyleItemImpl(preset.id, preset.rawResId, true));
         }

@@ -101,18 +101,32 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void setupBottomNav() {
-        configureTab(binding.tabCodes.getRoot(), R.drawable.ic_tab_codes, "הקודים שלי", TAB_CODES);
-        configureTab(binding.tabCreate.getRoot(), R.drawable.ic_tab_create, "יצירה", TAB_CREATE);
-        configureTab(binding.tabScan.getRoot(), R.drawable.ic_tab_scan, "סריקה", TAB_SCAN);
-        configureTab(binding.tabLearn.getRoot(), R.drawable.ic_tab_learn, "מדריך", TAB_LEARN);
+        configureTab(binding.tabCodes.getRoot(), getString(R.string.tab_codes), TAB_CODES);
+        configureTab(binding.tabCreate.getRoot(), getString(R.string.tab_create), TAB_CREATE);
+        configureTab(binding.tabScan.getRoot(), getString(R.string.tab_scan), TAB_SCAN);
+        configureTab(binding.tabLearn.getRoot(), getString(R.string.tab_guide), TAB_LEARN);
         highlightTab(selectedTab);
     }
 
-    private void configureTab(View tabRoot, int iconRes, String label, int tabIndex) {
+    private void configureTab(View tabRoot, String label, int tabIndex) {
         ItemBottomNavTabBinding tab = ItemBottomNavTabBinding.bind(tabRoot);
-        tab.tabIcon.setImageResource(iconRes);
+        tab.tabIcon.setImageResource(iconForTab(tabIndex, false));
         tab.tabLabel.setText(label);
         tabRoot.setOnClickListener(v -> selectTab(tabIndex));
+    }
+
+    private int iconForTab(int tabIndex, boolean selected) {
+        switch (tabIndex) {
+            case TAB_CREATE:
+                return R.drawable.ic_tab_create;
+            case TAB_SCAN:
+                return selected ? R.drawable.ic_tab_scan_filled : R.drawable.ic_tab_scan;
+            case TAB_LEARN:
+                return selected ? R.drawable.ic_tab_learn_filled : R.drawable.ic_tab_learn;
+            case TAB_CODES:
+            default:
+                return selected ? R.drawable.ic_tab_codes_filled : R.drawable.ic_tab_codes;
+        }
     }
 
     private void selectTab(int tabIndex) {
@@ -139,13 +153,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void highlightTab(int tabIndex) {
-        highlightSingleTab(binding.tabCodes.getRoot(), tabIndex == TAB_CODES);
-        highlightSingleTab(binding.tabCreate.getRoot(), tabIndex == TAB_CREATE);
-        highlightSingleTab(binding.tabScan.getRoot(), tabIndex == TAB_SCAN);
-        highlightSingleTab(binding.tabLearn.getRoot(), tabIndex == TAB_LEARN);
+        highlightSingleTab(binding.tabCodes.getRoot(), TAB_CODES, tabIndex == TAB_CODES);
+        highlightSingleTab(binding.tabCreate.getRoot(), TAB_CREATE, tabIndex == TAB_CREATE);
+        highlightSingleTab(binding.tabScan.getRoot(), TAB_SCAN, tabIndex == TAB_SCAN);
+        highlightSingleTab(binding.tabLearn.getRoot(), TAB_LEARN, tabIndex == TAB_LEARN);
     }
 
-    private void highlightSingleTab(View tabRoot, boolean selected) {
+    private void highlightSingleTab(View tabRoot, int tabIndex, boolean selected) {
         ItemBottomNavTabBinding tab = ItemBottomNavTabBinding.bind(tabRoot);
         tab.tabRoot.setBackground(selected
                 ? ContextCompat.getDrawable(this, R.drawable.bg_tab_item_selected)
@@ -156,6 +170,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         tab.activeDot.setVisibility(selected ? View.VISIBLE : View.GONE);
         int color = ContextCompat.getColor(this, selected ? R.color.primary : R.color.sub_text);
         tab.tabLabel.setTextColor(color);
+        tab.tabIcon.setImageResource(iconForTab(tabIndex, selected));
         tab.tabIcon.setColorFilter(color);
     }
 

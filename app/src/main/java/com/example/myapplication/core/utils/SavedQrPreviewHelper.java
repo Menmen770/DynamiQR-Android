@@ -79,6 +79,14 @@ public final class SavedQrPreviewHelper {
         return style.getStickerType();
     }
 
+    public static String fgColorForComposite(QrCode row) {
+        QrStyle style = row != null ? row.getStyle() : null;
+        if (style == null || style.getFgColor() == null || style.getFgColor().isEmpty()) {
+            return "#111111";
+        }
+        return style.getFgColor();
+    }
+
     private static String effectiveEncodedText(QrCode row) {
         if ("dynamic".equals(row.getLinkMode()) && row.getPublicSlug() != null
                 && !row.getPublicSlug().isEmpty()) {

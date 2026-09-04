@@ -2,35 +2,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
+    android:layout_height="wrap_content"
     android:background="@color/surface"
-    android:paddingHorizontal="20dp">
+    android:layoutDirection="ltr"
+    android:minHeight="64dp"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="10dp">
 
+    <!-- Matches RN AppHeader: forced LTR — user left, brand right -->
     <LinearLayout
         android:id="@+id/userSection"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/brandLogo"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/avatarButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_icon_circle"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_avatar_circle"
             android:gravity="center"
             android:text="?"
-            android:textColor="@color/primary"
-            android:textSize="16sp"
+            android:textColor="@color/on_primary"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="8dp"
             android:orientation="vertical">
 
             <TextView
@@ -39,25 +46,28 @@
                 android:layout_height="wrap_content"
                 android:text="בוקר טוב"
                 android:textColor="@color/sub_text"
-                android:textSize="12sp" />
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/userNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="משתמש"
                 android:textColor="@color/text_main"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
     <ImageView
         android:id="@+id/brandLogo"
-        android:layout_width="120dp"
-        android:layout_height="36dp"
+        android:layout_width="148dp"
+        android:layout_height="48dp"
         android:contentDescription="@string/app_name"
-        android:scaleType="fitEnd"
+        android:scaleType="fitCenter"
         android:src="@drawable/logo_full"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

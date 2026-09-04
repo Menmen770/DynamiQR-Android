@@ -48,6 +48,12 @@
     <string name="scanner_title">סריקת קוד QR</string>
     <string name="scanner_hint">מקם את הקוד בתוך המסגרת</string>
 
+    <!-- Bottom tabs (match RN) -->
+    <string name="tab_codes">קודים שמורים</string>
+    <string name="tab_create">יצירת QR</string>
+    <string name="tab_scan">סריקת QR</string>
+    <string name="tab_guide">מדריך</string>
+
     <!-- Common -->
     <string name="action_cancel">ביטול</string>
     <string name="action_ok">אישור</string>

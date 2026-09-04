@@ -38,7 +38,7 @@ public class QrPreviewLoader {
             return;
         }
 
-        String cacheKey = qr.getId() + "_" + qr.getUpdatedAt();
+        String cacheKey = qr.getId() + "_" + qr.getUpdatedAt() + "_v2";
         imageView.setTag(cacheKey);
 
         Bitmap cached = cache.get(cacheKey);
@@ -103,6 +103,7 @@ public class QrPreviewLoader {
                     qrBitmap,
                     SavedQrPreviewHelper.stickerType(qr),
                     SavedQrPreviewHelper.bgColorForComposite(qr),
+                    SavedQrPreviewHelper.fgColorForComposite(qr),
                     CARD_STAGE_PX);
         } catch (Exception e) {
             return null;

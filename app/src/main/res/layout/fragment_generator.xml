@@ -6,6 +6,7 @@
     android:background="@color/background"
     android:clipToPadding="false"
     android:fillViewport="true"
+    android:layoutDirection="rtl"
     android:paddingBottom="24dp">
 
     <LinearLayout
@@ -154,14 +155,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|end"
+                    android:gravity="center_vertical|start"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="end"
+                        android:gravity="start"
                         android:text="תוכן הקוד"
                         android:textColor="@color/text_main"
                         android:textSize="19sp"
@@ -190,8 +191,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="בחר סוג QR"
+                        android:gravity="start"
+                        android:text="בחרו סוג QR"
                         android:textColor="@color/text_main"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -209,11 +210,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
                         android:layout_marginTop="8dp"
-                        android:text="סוגים נוספים"
+                        android:text="עוד אפשרויות"
                         android:textColor="@color/sub_text"
                         app:cornerRadius="12dp"
-                        app:icon="@android:drawable/arrow_down_float"
+                        app:icon="@drawable/ic_chevron_down"
                         app:iconGravity="textStart"
+                        app:iconTint="@color/sub_text"
                         app:strokeColor="@color/border" />
 
                     <TextView
@@ -221,7 +223,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:gravity="end"
+                        android:gravity="start"
                         android:text="כתובת URL"
                         android:textColor="@color/text_main"
                         android:textSize="14sp"
@@ -245,7 +247,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textUri"
-                            android:textAlignment="viewEnd" />
+                            android:textAlignment="viewStart" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -253,7 +255,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:gravity="end"
+                        android:gravity="start"
                         android:text="הקישור ייפתח בסריקה"
                         android:textColor="@color/sub_text"
                         android:textSize="12sp" />
@@ -296,7 +298,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:cornerRadius="14dp"
-                    app:icon="@android:drawable/ic_media_previous"
+                    app:icon="@drawable/ic_arrow_forward"
                     app:iconGravity="textEnd"
                     app:iconTint="@color/white" />
 
@@ -325,14 +327,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|end"
+                    android:gravity="center_vertical|start"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="end"
+                        android:gravity="start"
                         android:text="עיצוב הקוד"
                         android:textColor="@color/text_main"
                         android:textSize="19sp"
@@ -355,14 +357,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:background="@drawable/bg_preview_frame"
-                    android:padding="16dp">
+                    android:clipToOutline="true"
+                    android:padding="0dp">
 
                     <ImageView
                         android:id="@+id/qrPreviewImage"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:adjustViewBounds="true"
                         android:contentDescription="תצוגה מקדימה"
+                        android:minHeight="220dp"
                         android:scaleType="fitCenter" />
 
                     <ProgressBar
@@ -398,7 +403,7 @@
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         app:cornerRadius="14dp"
-                        app:icon="@android:drawable/ic_media_previous"
+                        app:icon="@drawable/ic_arrow_forward"
                         app:iconGravity="textEnd"
                         app:iconTint="@color/white" />
 
@@ -410,7 +415,7 @@
                         android:layout_weight="1"
                         android:text="חזרה לתוכן"
                         android:textColor="@color/primary"
-                        app:icon="@android:drawable/ic_media_next"
+                        app:icon="@drawable/ic_arrow_back"
                         app:iconGravity="textStart"
                         app:iconTint="@color/primary" />
                 </LinearLayout>
@@ -440,14 +445,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|end"
+                    android:gravity="center_vertical|start"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="end"
+                        android:gravity="start"
                         android:text="ייצוא ושמירה"
                         android:textColor="@color/text_main"
                         android:textSize="19sp"
@@ -470,14 +475,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:background="@drawable/bg_preview_frame"
-                    android:padding="20dp">
+                    android:clipToOutline="true"
+                    android:padding="0dp">
 
                     <ImageView
                         android:id="@+id/qrExportPreviewImage"
-                        android:layout_width="260dp"
-                        android:layout_height="260dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:adjustViewBounds="true"
                         android:contentDescription="תצוגה מקדימה לייצוא"
+                        android:minHeight="260dp"
                         android:scaleType="fitCenter" />
                 </FrameLayout>
 
@@ -491,7 +499,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:cornerRadius="14dp"
-                    app:icon="@android:drawable/ic_menu_share"
+                    app:icon="@drawable/ic_share"
                     app:iconGravity="textStart"
                     app:iconTint="@color/white" />
 
@@ -499,7 +507,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:gravity="end"
+                    android:gravity="start"
                     android:text="שמירה לאוסף שלי"
                     android:textColor="@color/text_main"
                     android:textSize="15sp"
@@ -522,7 +530,7 @@
                         android:id="@+id/saveNameInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="viewEnd" />
+                        android:textAlignment="viewStart" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -535,7 +543,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:cornerRadius="14dp"
-                    app:icon="@android:drawable/ic_menu_save"
+                    app:icon="@drawable/ic_save"
                     app:iconGravity="textStart"
                     app:iconTint="@color/white" />
 
@@ -557,7 +565,7 @@
                     android:layout_marginTop="4dp"
                     android:text="חזרה לעיצוב"
                     android:textColor="@color/primary"
-                    app:icon="@android:drawable/ic_media_next"
+                    app:icon="@drawable/ic_arrow_back"
                     app:iconGravity="textStart"
                     app:iconTint="@color/primary" />
 
@@ -566,3 +574,5 @@
 
     </LinearLayout>
 </ScrollView>
+
+

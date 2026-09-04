@@ -5,8 +5,8 @@
     android:gravity="center"
     android:orientation="vertical"
     android:paddingHorizontal="20dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="18dp">
+    android:paddingTop="4dp"
+    android:paddingBottom="12dp">
 
     <TextView
         android:id="@+id/headerTitle"
@@ -15,18 +15,18 @@
         android:letterSpacing="-0.01"
         android:textAlignment="center"
         android:textColor="@color/text_main"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/headerSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:maxWidth="340dp"
         android:textAlignment="center"
         android:textColor="@color/sub_text"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:visibility="gone" />
 
 </LinearLayout>

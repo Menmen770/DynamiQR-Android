@@ -40,9 +40,13 @@ public class GeneratorViewModel extends ViewModel {
     private String fgColor = "#111111";
     private String bgColor = "#ffffff";
     private String colorMode = "solid";
-    private String gradientStart = "#111111";
-    private String gradientEnd = "#0A9396";
+    private String bgColorMode = "solid";
+    private String gradientStart = "#0a9396";
+    private String gradientEnd = "#005f73";
     private int gradientAngle = 135;
+    private String bgGradientStart = "#fff7ed";
+    private String bgGradientEnd = "#fdba74";
+    private int bgGradientAngle = 135;
     private String dotsType = "square";
     private String cornersType = "square";
     private String selectedBodyId = "body_1";
@@ -76,6 +80,11 @@ public class GeneratorViewModel extends ViewModel {
         schedulePreview();
     }
 
+    public void setBgColorMode(String mode) {
+        bgColorMode = mode != null ? mode : "solid";
+        schedulePreview();
+    }
+
     public void goToStep(int step) {
         currentStep.setValue(step);
         if (step >= STEP_STYLE) {
@@ -92,6 +101,13 @@ public class GeneratorViewModel extends ViewModel {
         gradientStart = start;
         gradientEnd = end;
         gradientAngle = angle;
+        schedulePreview();
+    }
+
+    public void setBgGradient(String start, String end, int angle) {
+        bgGradientStart = start;
+        bgGradientEnd = end;
+        bgGradientAngle = angle;
         schedulePreview();
     }
 
@@ -122,7 +138,8 @@ public class GeneratorViewModel extends ViewModel {
     }
 
     public void setLogoShape(String shape) {
-        logoShape = shape != null ? shape : "square";
+        // ברירת מחדל כמו ב-RN: ללא חור (overlay) — לא עיגול אוטומטי
+        logoShape = shape != null && !shape.isEmpty() ? shape : "overlay";
         schedulePreview();
     }
 
@@ -149,7 +166,12 @@ public class GeneratorViewModel extends ViewModel {
         isLoading.setValue(true);
 
         boolean hasSticker = stickerId != null && !"none".equals(stickerId);
-        String bgForApi = hasSticker ? "transparent" : bgColor;
+        String bgForApi;
+        if (hasSticker || "none".equals(bgColorMode) || "gradient".equals(bgColorMode)) {
+            bgForApi = "transparent";
+        } else {
+            bgForApi = bgColor;
+        }
         String colorForApi = "gradient".equals(colorMode)
                 ? gradientStart
                 : fgColor;
@@ -238,12 +260,21 @@ public class GeneratorViewModel extends ViewModel {
             style.put("gradientAngle", gradientAngle);
             style.put("gradientType", "linear");
         }
-        style.put("bgColorMode", "solid");
+        style.put("bgColorMode", bgColorMode);
+        if ("gradient".equals(bgColorMode)) {
+            style.put("bgGradientStart", bgGradientStart);
+            style.put("bgGradientEnd", bgGradientEnd);
+            style.put("bgGradientAngle", bgGradientAngle);
+        }
         style.put("dotsType", dotsType);
         style.put("cornersType", cornersType);
         style.put("logoShape", logoShape);
         style.put("stickerType", stickerId);
         style.put("errorCorrectionLevel", errorCorrectionLevel);
+        style.put("logoInsetScale", logoInsetScale);
+        if (logoDataUrl != null && !logoDataUrl.isEmpty()) {
+            style.put("logoUrl", logoDataUrl);
+        }
         if (logoId != null && !logoId.isEmpty()) {
             style.put("logoId", logoId);
         }
@@ -286,7 +317,37 @@ public class GeneratorViewModel extends ViewModel {
     }
 
     public String getBgColor() {
+        if ("none".equals(bgColorMode)) {
+            return "#ffffff";
+        }
+        if ("gradient".equals(bgColorMode)) {
+            return bgGradientStart;
+        }
         return bgColor;
+    }
+
+    public String getBgColorMode() {
+        return bgColorMode;
+    }
+
+    public String getFgColor() {
+        return fgColor;
+    }
+
+    public String getColorMode() {
+        return colorMode;
+    }
+
+    public int getGradientAngle() {
+        return gradientAngle;
+    }
+
+    public String getGradientStart() {
+        return gradientStart;
+    }
+
+    public String getGradientEnd() {
+        return gradientEnd;
     }
 
     public String getLogoShape() {

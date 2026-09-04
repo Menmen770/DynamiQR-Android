@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import com.example.myapplication.DynamiQRApplication;
 import com.example.myapplication.R;
 import com.example.myapplication.data.local.AuthManager;
@@ -40,6 +42,7 @@ public class AppHeaderView extends FrameLayout {
         binding = ViewAppHeaderBinding.inflate(LayoutInflater.from(context), this, true);
         authManager = DynamiQRApplication.getInstance().getAuthManager();
         authRepository = DynamiQRApplication.getInstance().getAuthRepository();
+        applyStatusBarInset();
         refreshUser();
         binding.userSection.setOnClickListener(v -> showAccountMenu());
         binding.brandLogo.setOnClickListener(v -> {
@@ -47,6 +50,15 @@ public class AppHeaderView extends FrameLayout {
                 logoClickListener.onLogoClick();
             }
         });
+    }
+
+    private void applyStatusBarInset() {
+        ViewCompat.setOnApplyWindowInsetsListener(this, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(v.getPaddingLeft(), bars.top, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(this);
     }
 
     public void setOnLogoClickListener(OnLogoClickListener listener) {

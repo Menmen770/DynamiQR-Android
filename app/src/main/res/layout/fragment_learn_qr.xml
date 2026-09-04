@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:clipToPadding="false"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="48dp">
+        android:paddingBottom="32dp">
 
         <com.example.myapplication.ui.custom.ScreenPageHeader
             android:id="@+id/header"
@@ -24,356 +25,284 @@
             android:paddingHorizontal="16dp">
 
             <!-- Hero -->
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="4dp"
-                app:strokeWidth="0dp">
+                android:background="@drawable/bg_learn_hero"
+                android:orientation="vertical"
+                android:padding="18dp">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_hero_gradient"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:gravity="start"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/learn_hero_lead"
+                    android:textColor="@color/text_main"
+                    android:textSize="15sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:lineSpacingExtra="4dp"
-                        android:text="@string/learn_hero_lead"
-                        android:textColor="@color/text_main"
-                        android:textSize="16sp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCreateHero"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="14dp"
+                    android:backgroundTint="@color/primary"
+                    android:text="@string/learn_cta_create"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
+            </LinearLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnCreateHero"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:backgroundTint="@color/primary"
-                        android:paddingHorizontal="24dp"
-                        android:text="@string/learn_cta_create"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:cornerRadius="14dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Hero panel -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Key points -->
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/border"
-                app:strokeWidth="1dp">
+                android:layout_marginTop="22dp"
+                android:gravity="start"
+                android:text="@string/learn_panel_title"
+                android:textColor="@color/text_main"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_learn_block"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="18dp">
+                    android:gravity="start"
+                    android:text="@string/learn_point_fast"
+                    android:textColor="@color/sub_text"
+                    android:textSize="14sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/learn_panel_kicker"
-                        android:textColor="@color/primary"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/border" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="end"
-                        android:text="@string/learn_panel_title"
-                        android:textColor="@color/text_main"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="@string/learn_point_update"
+                    android:textColor="@color/sub_text"
+                    android:textSize="14sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:gravity="end"
-                        android:text="@string/learn_point_fast"
-                        android:textColor="@color/sub_text"
-                        android:textSize="14sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/border" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="end"
-                        android:text="@string/learn_point_update"
-                        android:textColor="@color/sub_text"
-                        android:textSize="14sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="@string/learn_point_stats"
+                    android:textColor="@color/sub_text"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="end"
-                        android:text="@string/learn_point_stats"
-                        android:textColor="@color/sub_text"
-                        android:textSize="14sp" />
+            <!-- Stats -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                <include
+                    android:id="@+id/statFriction"
+                    layout="@layout/partial_learn_stat_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1" />
 
-                        <include layout="@layout/partial_learn_stat_card"
-                            android:id="@+id/statFriction"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="6dp"
-                            android:layout_weight="1" />
-
-                        <include layout="@layout/partial_learn_stat_card"
-                            android:id="@+id/statFlex"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                <include
+                    android:id="@+id/statFlex"
+                    layout="@layout/partial_learn_stat_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <!-- Use cases -->
-            <include layout="@layout/partial_learn_section_head"
-                android:id="@+id/useCasesHead" />
+            <include
+                android:id="@+id/useCasesHead"
+                layout="@layout/partial_learn_section_head" />
 
             <LinearLayout
                 android:id="@+id/useCasesContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical" />
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_learn_block"
+                android:orientation="vertical"
+                android:paddingVertical="4dp" />
 
             <!-- Workflow -->
-            <include layout="@layout/partial_learn_section_head"
-                android:id="@+id/workflowHead" />
+            <include
+                android:id="@+id/workflowHead"
+                layout="@layout/partial_learn_section_head" />
 
             <LinearLayout
                 android:id="@+id/workflowContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical" />
 
             <!-- Differentiator -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:gravity="end"
-                android:text="@string/learn_diff_kicker"
-                android:textColor="@color/primary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="end"
+                android:layout_marginTop="22dp"
+                android:gravity="start"
                 android:text="@string/learn_diff_title"
                 android:textColor="@color/text_main"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="end"
-                android:lineSpacingExtra="3dp"
-                android:text="@string/learn_diff_intro"
-                android:textColor="@color/sub_text"
-                android:textSize="14sp" />
-
-            <View
-                android:layout_width="48dp"
-                android:layout_height="3dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp"
-                android:background="@color/primary" />
-
-            <LinearLayout
-                android:id="@+id/diffContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical" />
-
-            <!-- Compare -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:gravity="end"
-                android:text="@string/learn_compare_kicker"
-                android:textColor="@color/primary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="end"
-                android:text="@string/learn_compare_title"
-                android:textColor="@color/text_main"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:gravity="end"
-                android:lineSpacingExtra="3dp"
-                android:text="@string/learn_compare_subtitle"
+                android:gravity="start"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/learn_diff_intro"
                 android:textColor="@color/sub_text"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
-            <include layout="@layout/partial_learn_compare_card"
-                android:id="@+id/staticCompareCard"
+            <LinearLayout
+                android:id="@+id/diffContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" />
 
-            <include layout="@layout/partial_learn_compare_card"
-                android:id="@+id/dynamicCompareCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
-
-            <!-- Benefits -->
+            <!-- Compare -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:gravity="end"
-                android:text="@string/learn_benefits_kicker"
-                android:textColor="@color/primary"
-                android:textSize="12sp"
+                android:layout_marginTop="22dp"
+                android:gravity="start"
+                android:text="@string/learn_compare_title"
+                android:textColor="@color/text_main"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:gravity="end"
+                android:gravity="start"
+                android:text="@string/learn_compare_subtitle"
+                android:textColor="@color/sub_text"
+                android:textSize="13sp" />
+
+            <include
+                android:id="@+id/staticCompareCard"
+                layout="@layout/partial_learn_compare_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp" />
+
+            <include
+                android:id="@+id/dynamicCompareCard"
+                layout="@layout/partial_learn_compare_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <!-- Benefits -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:gravity="start"
                 android:text="@string/learn_benefits_title"
                 android:textColor="@color/text_main"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/benefitsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical" />
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_learn_block"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp" />
 
             <!-- Tips -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:gravity="end"
-                android:text="@string/learn_tips_kicker"
-                android:textColor="@color/primary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="end"
+                android:layout_marginTop="22dp"
+                android:gravity="start"
                 android:text="@string/learn_tips_title"
                 android:textColor="@color/text_main"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/tipsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical" />
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_learn_block"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp" />
 
-            <!-- Summary -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Summary CTA -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/primary"
-                app:strokeWidth="1dp">
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_learn_hero"
+                android:orientation="vertical"
+                android:padding="18dp">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_hero_gradient"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:gravity="start"
+                    android:text="@string/learn_summary_title"
+                    android:textColor="@color/text_main"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/learn_summary_kicker"
-                        android:textColor="@color/primary"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="start"
+                    android:lineSpacingExtra="2dp"
+                    android:text="@string/learn_summary_text"
+                    android:textColor="@color/sub_text"
+                    android:textSize="13sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:gravity="end"
-                        android:text="@string/learn_summary_title"
-                        android:textColor="@color/text_main"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="end"
-                        android:lineSpacingExtra="3dp"
-                        android:text="@string/learn_summary_text"
-                        android:textColor="@color/sub_text"
-                        android:textSize="14sp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnCreateSummary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:backgroundTint="@color/primary"
-                        android:paddingHorizontal="24dp"
-                        android:text="@string/learn_summary_cta"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:cornerRadius="14dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCreateSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="14dp"
+                    android:backgroundTint="@color/primary"
+                    android:text="@string/learn_summary_cta"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

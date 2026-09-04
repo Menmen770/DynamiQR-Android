@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
         android:text="סינון ותיקיות"
         android:textColor="@color/text_main"
         android:textSize="18sp"
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
         android:layout_marginTop="16dp"
         android:text="סטטוס קודים"
         android:textColor="@color/sub_text"
@@ -70,7 +70,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
         android:layout_marginTop="16dp"
         android:text="תיקיות"
         android:textColor="@color/sub_text"
@@ -93,8 +93,9 @@
         android:text="צור תיקייה חדשה"
         android:textColor="@color/text_main"
         app:cornerRadius="12dp"
-        app:icon="@android:drawable/ic_input_add"
+        app:icon="@drawable/ic_add"
         app:iconGravity="textStart"
         app:strokeColor="@color/border" />
 
 </LinearLayout>
+

@@ -12,7 +12,7 @@ public final class QrTypeProvider {
 
     public static List<QrType> getMainTypes() {
         List<QrType> types = new ArrayList<>();
-        types.add(new QrType("url", "קישור", R.drawable.ic_qr_type_url));
+        types.add(new QrType("url", "אתר", R.drawable.ic_qr_type_url));
         types.add(new QrType("pdf", "קובץ PDF", R.drawable.ic_qr_type_pdf));
         types.add(new QrType("email", "אימייל", R.drawable.ic_qr_type_email));
         types.add(new QrType("contact", "איש קשר", R.drawable.ic_qr_type_contact));

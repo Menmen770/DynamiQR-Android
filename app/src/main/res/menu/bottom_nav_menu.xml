@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_dashboard"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:title="דאשבורד" />
-    <item
-        android:id="@+id/nav_scanner"
-        android:icon="@android:drawable/ic_menu_camera"
-        android:title="סריקה" />
+        android:icon="@drawable/ic_tab_codes"
+        android:title="@string/tab_codes" />
     <item
         android:id="@+id/nav_generator"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="יצירה" />
+        android:icon="@drawable/ic_tab_create"
+        android:title="@string/tab_create" />
+    <item
+        android:id="@+id/nav_scanner"
+        android:icon="@drawable/ic_tab_scan"
+        android:title="@string/tab_scan" />
     <item
         android:id="@+id/nav_learn"
-        android:icon="@android:drawable/ic_menu_help"
-        android:title="למידה" />
+        android:icon="@drawable/ic_tab_learn"
+        android:title="@string/tab_guide" />
 </menu>

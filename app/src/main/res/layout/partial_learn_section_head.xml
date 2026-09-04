@@ -2,43 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="28dp"
-    android:gravity="center_horizontal"
+    android:layout_marginTop="22dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/sectionKicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
+        android:gravity="start"
         android:textColor="@color/primary"
         android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/sectionTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:gravity="end"
+        android:gravity="start"
         android:textColor="@color/text_main"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/sectionSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:gravity="end"
-        android:lineSpacingExtra="3dp"
+        android:layout_marginTop="4dp"
+        android:gravity="start"
+        android:lineSpacingExtra="2dp"
         android:textColor="@color/sub_text"
-        android:textSize="14sp" />
-
-    <View
-        android:layout_width="48dp"
-        android:layout_height="3dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/primary" />
+        android:textSize="13sp" />
 
 </LinearLayout>
