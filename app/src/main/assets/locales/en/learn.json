@@ -1,0 +1,138 @@
+{
+  "hero": {
+    "eyebrow": "A short guide for businesses and brands",
+    "title": "What is a QR code and how do you use it well?",
+    "pageTitle": "What is QR?",
+    "pageSubtitle": "A short guide for businesses and brands — how to use it right",
+    "lead": "A QR code is a smart shortcut from the physical world to digital: scan with a camera and go straight to a page, file, form, WhatsApp, contact, or Wi-Fi — no typing and no dropped users.",
+    "ctaCreate": "Create a new QR",
+    "panelAria": "Key points",
+    "panelKicker": "Bottom line",
+    "panelTitle": "Why businesses use QR codes"
+  },
+  "heroPoints": {
+    "fast": "Faster path to action without manual typing",
+    "update": "With a dynamic QR you can update the destination after printing",
+    "stats": "Measure scans and see what actually works"
+  },
+  "heroStats": {
+    "friction": {
+      "label": "Less friction",
+      "strong": "One scan",
+      "text": "and instant access to content"
+    },
+    "flex": {
+      "label": "More flexibility",
+      "strong": "Dynamic",
+      "text": "when you need to change the target"
+    }
+  },
+  "useCases": {
+    "kicker": "Common uses",
+    "title": "Where QR codes really save time",
+    "subtitle": "When you give customers a direct path to the right place, they are far more likely to take the next step.",
+    "site": {
+      "title": "Website or landing page",
+      "text": "Send someone from a flyer, package, or sign straight to the right page — no URL typing."
+    },
+    "wifi": {
+      "title": "Guest Wi-Fi",
+      "text": "One scan and they join the network without wrestling a long password."
+    },
+    "pdf": {
+      "title": "Menu, catalog, or PDF",
+      "text": "Show up-to-date content cleanly without reprinting every version."
+    },
+    "leads": {
+      "title": "Leads, WhatsApp, and inquiries",
+      "text": "Shorten the path to action and raise the chance they continue to the next step."
+    }
+  },
+  "workflow": {
+    "kicker": "How it works",
+    "title": "Three simple steps",
+    "subtitle": "Keep it simple: pick a goal, design for scanning, then publish.",
+    "stepPill": "Step {{n}}",
+    "goal": {
+      "title": "Choose one clear destination",
+      "text": "Website, PDF, contact, WhatsApp, or Wi-Fi. The clearer the goal, the better the scan experience."
+    },
+    "design": {
+      "title": "Design for easy scanning",
+      "text": "Keep strong contrast, a sensible logo size, and an error-correction level that matches real use."
+    },
+    "publish": {
+      "title": "Send to print or digital",
+      "text": "Place it on a sign, flyer, package, screen, or business card — and make sure the phone handoff feels fast."
+    }
+  },
+  "differentiator": {
+    "kicker": "What sets us apart",
+    "title": "What our site offers that others don't",
+    "intro": "Most QR sites rely on dynamic-only models: after a scan limit the code is blocked and you're asked to pay heavily to turn it back on. Sites that do offer real static codes usually ship basic design and low-quality downloads. Here, the approach is the opposite.",
+    "items": [
+      {
+        "title": "Static QR — free, pro, yours",
+        "text": "Market-leading design, full-quality PNG or SVG downloads, with no scan caps or expiry. The code stays yours — print and display it anywhere."
+      },
+      {
+        "title": "Dynamic — only when you need measurement",
+        "text": "Want to change a destination after printing or track traffic? Dynamic is there for your management. It's not the default and not the only tool — it's an option you choose."
+      },
+      {
+        "title": "No unnecessary tracking",
+        "text": "On static codes we don't see who scanned and don't keep scan lists. With dynamic measurement, the data serves you — we don't sell data about your audience."
+      },
+      {
+        "title": "Quality, security, and UX — free",
+        "text": "Solid security, a smooth interface, and a professional result — without paying for the basic freedom to create a code that works."
+      }
+    ]
+  },
+  "compare": {
+    "kicker": "Static vs dynamic",
+    "title": "Which fits you?",
+    "subtitle": "The difference is simple: is the destination fixed, or do you need flexibility after the code is out in the world?",
+    "static": {
+      "badge": "Static QR",
+      "title": "Best for content that does not change",
+      "text": "The data is encoded in the code itself, so you cannot swap the destination after printing.",
+      "item1": "Fixed Wi-Fi, phone, email, or an unchanging page",
+      "item2": "Simple and fast when you do not need ongoing management"
+    },
+    "dynamic": {
+      "badge": "Dynamic QR",
+      "title": "Best for campaigns and live content",
+      "text": "The code points to an intermediate URL, so you can update the destination and track scans even after printing.",
+      "item1": "Changing offers, landing pages, and marketing campaigns",
+      "item2": "Update targets and measure performance without reprinting"
+    }
+  },
+  "benefits": {
+    "kicker": "Why it works",
+    "title": "What QR gives a business",
+    "items": [
+      "Less friction between discovery and action",
+      "Instant bridge from physical to digital",
+      "Works for signage, print, packaging, and screens",
+      "Dynamic codes let you change destinations without reprinting",
+      "Measure scans and campaign performance"
+    ]
+  },
+  "tips": {
+    "kicker": "Smart choice",
+    "title": "How to choose",
+    "items": [
+      "If the content is fixed and unlikely to change, static is usually enough.",
+      "If you run campaigns, promotions, or need measurement, prefer dynamic.",
+      "One QR with one clear goal beats packing too much into a single scan."
+    ]
+  },
+  "summary": {
+    "kicker": "In short",
+    "title": "A good QR is not only pretty — it is clear, fast, and easy to scan.",
+    "text": "When you set one clear goal, choose static vs dynamic wisely, and keep the handoff simple, the QR becomes a real marketing tool — not just a technical gadget.",
+    "cta": "Start creating a QR",
+    "quickToBrand": "Quick jump to {{brand}}"
+  }
+}

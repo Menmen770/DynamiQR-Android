@@ -6,15 +6,14 @@
     android:background="@color/background"
     android:clipToPadding="false"
     android:fillViewport="true"
-    android:layoutDirection="rtl"
-    android:paddingBottom="24dp">
+    android:paddingBottom="@dimen/space_screen_bottom">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="4dp">
+        android:paddingHorizontal="@dimen/space_screen"
+        android:paddingTop="@dimen/space_sm">
 
         <com.example.myapplication.ui.custom.ScreenPageHeader
             android:id="@+id/header"
@@ -28,7 +27,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingVertical="8dp">
+            android:paddingVertical="@dimen/space_md">
 
             <LinearLayout
                 android:id="@+id/step1Item"
@@ -39,8 +38,8 @@
 
                 <TextView
                     android:id="@+id/step1Badge"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="@dimen/step_badge"
+                    android:layout_height="@dimen/step_badge"
                     android:background="@drawable/bg_step_circle_active"
                     android:gravity="center"
                     android:text="1"
@@ -76,8 +75,8 @@
 
                 <TextView
                     android:id="@+id/step2Badge"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="@dimen/step_badge"
+                    android:layout_height="@dimen/step_badge"
                     android:background="@drawable/bg_step_circle_inactive"
                     android:gravity="center"
                     android:text="2"
@@ -113,8 +112,8 @@
 
                 <TextView
                     android:id="@+id/step3Badge"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="@dimen/step_badge"
+                    android:layout_height="@dimen/step_badge"
                     android:background="@drawable/bg_step_circle_inactive"
                     android:gravity="center"
                     android:text="3"
@@ -139,10 +138,10 @@
             android:id="@+id/stepContentCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/space_md"
             app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="3dp"
+            app:cardCornerRadius="@dimen/radius_card"
+            app:cardElevation="@dimen/card_elevation"
             app:strokeColor="@color/border"
             app:strokeWidth="1dp">
 
@@ -150,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="@dimen/card_padding">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -159,13 +158,14 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/contentSectionTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="start"
                         android:text="תוכן הקוד"
                         android:textColor="@color/text_main"
-                        android:textSize="19sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -183,40 +183,98 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="@dimen/space_lg"
                     android:background="@drawable/bg_generator_content_box"
                     android:orientation="vertical"
-                    android:padding="14dp">
+                    android:padding="@dimen/card_padding_inner">
 
                     <TextView
+                        android:id="@+id/chooseTypeLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:text="בחרו סוג QR"
+                        android:text="@string/choose_qr_type"
                         android:textColor="@color/text_main"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/typeRecyclerView"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:nestedScrollingEnabled="false" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/moreTypesButton"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/selectedTypeCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardCornerRadius="@dimen/radius_inset"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
+
+                            <LinearLayout
+                                android:id="@+id/selectedTypeInner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_type_selected"
+                                android:gravity="center_vertical|start"
+                                android:minHeight="48dp"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="14dp"
+                                android:paddingVertical="12dp">
+
+                                <ImageView
+                                    android:id="@+id/selectedTypeIcon"
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:importantForAccessibility="no"
+                                    android:src="@drawable/ic_qr_type_url"
+                                    app:tint="@color/white" />
+
+                                <TextView
+                                    android:id="@+id/selectedTypeLabel"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:gravity="start"
+                                    android:maxLines="1"
+                                    android:text="אתר"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/moreTypesButton"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/button_height_secondary"
+                            android:layout_marginStart="@dimen/space_sm"
+                            android:minWidth="0dp"
+                            android:paddingHorizontal="14dp"
+                            android:text="החלף"
+                            android:textColor="@color/sub_text"
+                            app:cornerRadius="@dimen/radius_button"
+                            app:icon="@drawable/ic_chevron_down"
+                            app:iconGravity="textStart"
+                            app:iconPadding="6dp"
+                            app:iconTint="@color/sub_text"
+                            app:strokeColor="@color/border" />
+                    </LinearLayout>
+
+                    <!-- Kept for binding compatibility; unused (visibility gone). -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/typeRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:layout_marginTop="8dp"
-                        android:text="עוד אפשרויות"
-                        android:textColor="@color/sub_text"
-                        app:cornerRadius="12dp"
-                        app:icon="@drawable/ic_chevron_down"
-                        app:iconGravity="textStart"
-                        app:iconTint="@color/sub_text"
-                        app:strokeColor="@color/border" />
+                        android:layout_height="0dp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/fieldLabel"
@@ -234,13 +292,13 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/space_md"
                         android:hint="https://example.com"
                         app:boxBackgroundColor="@color/surface"
-                        app:boxCornerRadiusBottomEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusTopStart="12dp">
+                        app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
+                        app:boxCornerRadiusBottomStart="@dimen/radius_inset"
+                        app:boxCornerRadiusTopEnd="@dimen/radius_inset"
+                        app:boxCornerRadiusTopStart="@dimen/radius_inset">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/contentInput"
@@ -260,46 +318,69 @@
                         android:textColor="@color/sub_text"
                         android:textSize="12sp" />
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/linkModeGroup"
+                    <LinearLayout
+                        android:id="@+id/linkModeSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:visibility="gone"
-                        app:singleSelection="true">
+                        android:layout_marginTop="@dimen/space_lg"
+                        android:orientation="vertical">
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/linkStatic"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/linkModeLabel"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="סטטי"
-                            app:chipBackgroundColor="@color/background" />
+                            android:gravity="start"
+                            android:text="@string/link_mode_label"
+                            android:textColor="@color/text_main"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/linkDynamic"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="דינמי"
-                            app:chipBackgroundColor="@color/background" />
-                    </com.google.android.material.chip.ChipGroup>
+                            android:layout_marginTop="@dimen/space_sm"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <com.example.myapplication.ui.components.LinkModeToggleView
+                                android:id="@+id/linkModeToggle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:contentDescription="בחירת סוג קישור סטטי או דינמי" />
+
+                            <ImageButton
+                                android:id="@+id/linkModeHelpButton"
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:layout_marginStart="@dimen/space_sm"
+                                android:background="@drawable/bg_help_circle"
+                                android:contentDescription="מה ההבדל בין סטטי לדינמי"
+                                android:padding="9dp"
+                                android:src="@drawable/ic_help_circle"
+                                app:tint="@color/primary" />
+                        </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/continueStyleButton"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="14dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginTop="@dimen/space_lg"
                     android:backgroundTint="@color/primary"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     android:text="המשך לעיצוב"
                     android:textColor="@color/white"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    app:cornerRadius="14dp"
+                    app:cornerRadius="@dimen/radius_button"
                     app:icon="@drawable/ic_arrow_forward"
                     app:iconGravity="textEnd"
+                    app:iconPadding="8dp"
+                    app:iconSize="18dp"
                     app:iconTint="@color/white" />
 
             </LinearLayout>
@@ -310,11 +391,11 @@
             android:id="@+id/stepStyleCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="@dimen/space_lg"
             android:visibility="gone"
             app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="3dp"
+            app:cardCornerRadius="@dimen/radius_card"
+            app:cardElevation="@dimen/card_elevation"
             app:strokeColor="@color/border"
             app:strokeWidth="1dp">
 
@@ -322,7 +403,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="@dimen/card_padding">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -331,13 +412,14 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/styleSectionTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="start"
                         android:text="עיצוב הקוד"
                         android:textColor="@color/text_main"
-                        android:textSize="19sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -355,10 +437,10 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="@dimen/space_lg"
                     android:background="@drawable/bg_preview_frame"
                     android:clipToOutline="true"
-                    android:padding="0dp">
+                    android:padding="@dimen/preview_pad">
 
                     <ImageView
                         android:id="@+id/qrPreviewImage"
@@ -383,40 +465,52 @@
                     layout="@layout/view_qr_style_panel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp" />
+                    android:layout_marginTop="@dimen/space_lg" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/space_md"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/continueExportButton"
                         android:layout_width="0dp"
-                        android:layout_height="50dp"
+                        android:layout_height="@dimen/button_height"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/primary"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:paddingHorizontal="10dp"
                         android:text="המשך לייצוא"
                         android:textColor="@color/white"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-                        app:cornerRadius="14dp"
+                        app:cornerRadius="@dimen/radius_button"
                         app:icon="@drawable/ic_arrow_forward"
                         app:iconGravity="textEnd"
+                        app:iconPadding="6dp"
+                        app:iconSize="18dp"
                         app:iconTint="@color/white" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/backContentButton"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/button_height"
                         android:layout_weight="1"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:paddingHorizontal="8dp"
                         android:text="חזרה לתוכן"
                         android:textColor="@color/primary"
+                        android:textSize="14sp"
                         app:icon="@drawable/ic_arrow_back"
                         app:iconGravity="textStart"
+                        app:iconPadding="6dp"
+                        app:iconSize="18dp"
                         app:iconTint="@color/primary" />
                 </LinearLayout>
 
@@ -428,11 +522,11 @@
             android:id="@+id/stepExportCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="@dimen/space_lg"
             android:visibility="gone"
             app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="3dp"
+            app:cardCornerRadius="@dimen/radius_card"
+            app:cardElevation="@dimen/card_elevation"
             app:strokeColor="@color/border"
             app:strokeWidth="1dp">
 
@@ -440,7 +534,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="@dimen/card_padding">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -449,13 +543,14 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/exportSectionTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="start"
                         android:text="ייצוא ושמירה"
                         android:textColor="@color/text_main"
-                        android:textSize="19sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -473,10 +568,10 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="@dimen/space_lg"
                     android:background="@drawable/bg_preview_frame"
                     android:clipToOutline="true"
-                    android:padding="0dp">
+                    android:padding="@dimen/preview_pad">
 
                     <ImageView
                         android:id="@+id/qrExportPreviewImage"
@@ -492,18 +587,24 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/shareButton"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="14dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginTop="@dimen/space_lg"
                     android:backgroundTint="@color/primary"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     android:text="שתף / שמור לגלריה"
                     android:textColor="@color/white"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    app:cornerRadius="14dp"
+                    app:cornerRadius="@dimen/radius_button"
                     app:icon="@drawable/ic_share"
                     app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconSize="18dp"
                     app:iconTint="@color/white" />
 
                 <TextView
+                    android:id="@+id/saveCollectionLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -518,13 +619,13 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/space_md"
                     android:hint="שם לקוד"
                     app:boxBackgroundColor="@color/surface"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp">
+                    app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
+                    app:boxCornerRadiusBottomStart="@dimen/radius_inset"
+                    app:boxCornerRadiusTopEnd="@dimen/radius_inset"
+                    app:boxCornerRadiusTopStart="@dimen/radius_inset">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/saveNameInput"
@@ -536,22 +637,27 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/saveButton"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/button_height"
                     android:layout_marginTop="10dp"
                     android:backgroundTint="@color/primary_variant"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     android:text="שמור באוסף"
                     android:textColor="@color/white"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    app:cornerRadius="14dp"
+                    app:cornerRadius="@dimen/radius_button"
                     app:icon="@drawable/ic_save"
                     app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconSize="18dp"
                     app:iconTint="@color/white" />
 
                 <TextView
                     android:id="@+id/saveMessageText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/space_md"
                     android:gravity="center"
                     android:textColor="@color/primary"
                     android:textSize="14sp"
@@ -561,12 +667,17 @@
                     android:id="@+id/backStyleButton"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_height="@dimen/button_height_secondary"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     android:text="חזרה לעיצוב"
                     android:textColor="@color/primary"
+                    android:textSize="14sp"
                     app:icon="@drawable/ic_arrow_back"
                     app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconSize="18dp"
                     app:iconTint="@color/primary" />
 
             </LinearLayout>

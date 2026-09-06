@@ -29,7 +29,7 @@
         android:id="@+id/statSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/space_title_subtitle"
         android:gravity="start"
         android:text="שם הקוד וסוגו"
         android:textColor="@color/sub_text"
@@ -45,7 +45,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="@dimen/radius_card"
         app:cardElevation="0dp"
         app:strokeColor="@color/primary_light"
         app:strokeWidth="1dp">
@@ -184,6 +184,6 @@
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
         android:text="סגור"
-        app:cornerRadius="12dp" />
+        app:cornerRadius="@dimen/radius_button" />
 
 </LinearLayout>

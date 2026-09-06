@@ -1,16 +1,19 @@
 package com.example.myapplication.ui.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
+import com.example.myapplication.core.i18n.AppI18n;
 import com.example.myapplication.core.utils.QrPreviewLoader;
-import com.example.myapplication.core.utils.SvgThumbHelper;
+import com.example.myapplication.core.utils.QrTypeProvider;
 import com.example.myapplication.data.models.QrCode;
+import com.example.myapplication.data.models.QrType;
 import com.example.myapplication.databinding.ItemQrCodeBinding;
-import com.example.myapplication.databinding.ItemStyleThumbnailBinding;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,8 +25,20 @@ public class QrAdapter extends RecyclerView.Adapter<QrAdapter.ViewHolder> {
 
     public interface QrActionListener {
         void onDelete(QrCode qr);
+
         void onEdit(QrCode qr);
-        void onDetails(QrCode qr);
+
+        void onRename(QrCode qr);
+
+        void onToggleActive(QrCode qr, boolean active);
+
+        void onStats(QrCode qr);
+
+        void onChangeFolder(QrCode qr);
+
+        void onShare(QrCode qr);
+
+        String folderNameFor(QrCode qr);
     }
 
     private static final SimpleDateFormat ISO_FORMAT =
@@ -58,23 +73,66 @@ public class QrAdapter extends RecyclerView.Adapter<QrAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Context context = holder.itemView.getContext();
         QrCode item = items.get(position);
+        boolean isDynamic = "dynamic".equals(item.getLinkMode());
         String name = item.getDisplayName();
-        holder.binding.qrName.setText(name != null && !name.isEmpty() ? name : "ללא שם");
-        holder.binding.qrType.setText(formatQrType(item.getQrType(), item.getLinkMode()));
-        holder.binding.qrStatusBadge.setText(item.isActive() ? "פעיל" : "לא פעיל");
-        holder.binding.scanCount.setText(item.getScanCount() + " סריקות");
+        holder.binding.qrName.setText(name != null && !name.isEmpty()
+                ? name
+                : AppI18n.t(context, "dashboard", "card.qrCodeFallback", "Untitled"));
+        holder.binding.qrTypeLabel.setText(typeLabel(context, item.getQrType()));
         holder.binding.qrDate.setText(formatDate(item.getCreatedAt()));
+        holder.binding.destinationText.setText(destinationSummary(context, item, isDynamic));
+
+        if (isDynamic) {
+            holder.binding.modeBadge.setText(AppI18n.t(context, "dashboard", "card.dynamic", "Dynamic"));
+            holder.binding.modeBadge.setBackgroundResource(R.drawable.bg_badge_dynamic);
+            holder.binding.modeBadge.setTextColor(
+                    ContextCompat.getColor(context, R.color.primary));
+            holder.binding.scanChip.setVisibility(View.VISIBLE);
+            holder.binding.scanChip.setText(
+                    AppI18n.t(context, "dashboard", "card.scansShort", "Scans")
+                            + " " + item.getScanCount());
+            holder.binding.btnStats.setVisibility(View.VISIBLE);
+            holder.binding.staticHint.setVisibility(View.GONE);
+        } else {
+            holder.binding.modeBadge.setText(AppI18n.t(context, "dashboard", "card.static", "Static"));
+            holder.binding.modeBadge.setBackgroundResource(R.drawable.bg_badge_static);
+            holder.binding.modeBadge.setTextColor(
+                    ContextCompat.getColor(context, R.color.sub_text));
+            holder.binding.scanChip.setVisibility(View.GONE);
+            holder.binding.btnStats.setVisibility(View.GONE);
+            holder.binding.staticHint.setVisibility(View.VISIBLE);
+        }
+
+        holder.binding.activeSwitch.setOnCheckedChangeListener(null);
+        holder.binding.activeSwitch.setChecked(item.isActive());
+        holder.binding.activeLabel.setText(activeLabel(context, item.isActive()));
+        holder.binding.activeLabel.setTextColor(ContextCompat.getColor(
+                context,
+                item.isActive() ? R.color.primary : R.color.sub_text));
+
+        String folderName = listener != null ? listener.folderNameFor(item) : null;
+        holder.binding.folderName.setText(
+                folderName != null && !folderName.isEmpty()
+                        ? folderName
+                        : AppI18n.t(context, "dashboard", "sidebar.unfiled", "Unfiled"));
 
         if (previewLoader != null) {
-            previewLoader.loadInto(holder.itemView.getContext(), item, holder.binding.qrPreviewSmall);
+            previewLoader.loadInto(context, item, holder.binding.qrPreviewSmall);
         } else {
             holder.binding.qrPreviewSmall.setImageDrawable(null);
         }
 
-        holder.binding.btnEdit.setOnClickListener(v -> {
+        holder.binding.activeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (listener != null) {
-                listener.onEdit(item);
+                holder.binding.activeLabel.setText(activeLabel(context, isChecked));
+                listener.onToggleActive(item, isChecked);
+            }
+        });
+        holder.binding.btnRename.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onRename(item);
             }
         });
         holder.binding.btnDelete.setOnClickListener(v -> {
@@ -82,9 +140,33 @@ public class QrAdapter extends RecyclerView.Adapter<QrAdapter.ViewHolder> {
                 listener.onDelete(item);
             }
         });
-        holder.itemView.setOnClickListener(v -> {
+        holder.binding.btnEdit.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onDetails(item);
+                listener.onEdit(item);
+            }
+        });
+        holder.binding.btnShare.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onShare(item);
+            }
+        });
+        holder.binding.folderChip.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onChangeFolder(item);
+            }
+        });
+        holder.binding.btnShareLabel.setText(
+                AppI18n.t(context, "dashboard", "actions.share",
+                        context.getString(R.string.action_share)));
+        holder.binding.btnDeleteLabel.setText(
+                AppI18n.t(context, "dashboard", "actions.delete", "Delete"));
+        holder.binding.btnEditLabel.setText(
+                AppI18n.t(context, "dashboard", "actions.edit", "Edit"));
+        holder.binding.btnStatsLabel.setText(
+                AppI18n.t(context, "dashboard", "card.stats", "Statistics"));
+        holder.binding.btnStats.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onStats(item);
             }
         });
     }
@@ -94,10 +176,37 @@ public class QrAdapter extends RecyclerView.Adapter<QrAdapter.ViewHolder> {
         return items.size();
     }
 
-    private String formatQrType(String qrType, String linkMode) {
-        String type = qrType != null ? qrType : "url";
-        String mode = "dynamic".equals(linkMode) ? "דינמי" : "סטטי";
-        return "QR " + mode + " · " + type;
+    private String activeLabel(Context context, boolean active) {
+        if (active) {
+            return AppI18n.t(context, "dashboard", "card.active", "Active");
+        }
+        return AppI18n.t(context, "dashboard", "card.inactive", "Inactive");
+    }
+
+    private String typeLabel(Context context, String qrType) {
+        if (qrType == null) {
+            return "QR";
+        }
+        QrType type = QrTypeProvider.findById(context, qrType);
+        return type != null ? type.getLabel() : qrType;
+    }
+
+    private String destinationSummary(Context context, QrCode item, boolean isDynamic) {
+        if (isDynamic) {
+            String slug = item.getPublicSlug();
+            if (slug != null && !slug.isEmpty()) {
+                return AppI18n.t(context, "dashboard", "card.shortLink", "Short link")
+                        + " · /" + slug;
+            }
+            return AppI18n.t(context, "dashboard", "card.dynamicTarget",
+                    "Dynamic destination — updatable");
+        }
+        String value = item.getQrValue();
+        if (value == null || value.isEmpty()) {
+            return AppI18n.t(context, "dashboard", "card.staticEmbedded",
+                    "Embedded content");
+        }
+        return value.length() > 64 ? value.substring(0, 64) + "…" : value;
     }
 
     private String formatDate(String isoDate) {

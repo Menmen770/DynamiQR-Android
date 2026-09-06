@@ -1,0 +1,123 @@
+{
+  "nav": {
+    "savedCodes": "Saved codes",
+    "learnQr": "What is QR",
+    "learnQrFooter": "What is QR?",
+    "homeTitle": "Back to home",
+    "mainAria": "Main navigation",
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "updateDetails": "Account details",
+    "changeLanguage": "Change language",
+    "menuAria": "User menu"
+  },
+  "greeting": {
+    "morning": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening",
+    "night": "Good night"
+  },
+  "footer": {
+    "blurb": "Fast, secure, and easy — with full customization and instant download.",
+    "quickNav": "Quick links",
+    "support": "Info & support",
+    "stableService": "Reliable, always-on service",
+    "saveToAccount": "Save recent QR codes to your account",
+    "contact": "Contact",
+    "privacy": "Privacy policy & terms",
+    "privacyShort": "Privacy & terms",
+    "rights": "All rights reserved · 2026 · menmen770 & levi770 ©"
+  },
+  "language": {
+    "switchAria": "Switch language",
+    "toEnglish": "EN",
+    "toHebrew": "עב",
+    "toArabic": "ع",
+    "toYiddish": "ייִ",
+    "hebrew": "עברית",
+    "english": "English",
+    "arabic": "العربية",
+    "yiddish": "ייִדיש"
+  },
+  "loading": "Loading...",
+  "notFound": {
+    "title": "404 — Page not found",
+    "body": "The page you’re looking for doesn’t exist or has moved.",
+    "home": "Home",
+    "create": "Create QR"
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "body": "An unexpected error occurred. Try refreshing the page.",
+    "reload": "Refresh page"
+  },
+  "a11y": {
+    "button": "Accessibility",
+    "openMenu": "Open accessibility menu",
+    "menuTitle": "Accessibility options",
+    "closeMenu": "Close menu",
+    "fontSize": "Text size",
+    "readableFont": "Readable font",
+    "readableFontAria": "More readable font",
+    "displayMode": "Display mode",
+    "toggleDark": "Switch to dark mode",
+    "reset": "Reset all"
+  },
+  "back": "Back",
+  "backToTop": "Back to top",
+  "modal": {
+    "cancel": "Cancel",
+    "waiting": "Please wait…"
+  },
+  "tabs": {
+    "myCodes": "Saved codes",
+    "create": "Create QR",
+    "scan": "Scan QR",
+    "guide": "Guide"
+  },
+  "theme": {
+    "night": "Night mode",
+    "day": "Day mode"
+  },
+  "scanner": {
+    "loading": "Loading...",
+    "permissionTitle": "Camera permission required",
+    "permissionText": "To scan QR codes, please allow camera access",
+    "allowAccess": "Allow access",
+    "title": "Scan QR",
+    "subtitle": "Point the camera at the code",
+    "hint": "Place the QR code inside the frame",
+    "subHint": "The link opens automatically after a successful scan",
+    "torchOn": "Turn flash on",
+    "torchOff": "Turn flash off",
+    "errorTitle": "Error",
+    "openLinkFailed": "Could not open the link",
+    "scannedTitle": "Scanned content",
+    "emptyContent": "No content found",
+    "close": "Close"
+  },
+  "settings": {
+    "title": "Settings",
+    "accountAria": "Account settings",
+    "updateName": "Update name",
+    "firstName": "First name",
+    "firstNamePlaceholder": "Your name",
+    "email": "Email",
+    "saveProfile": "Save details",
+    "saveSuccess": "Details saved successfully",
+    "saveFailed": "Save failed",
+    "displayMode": "Display mode",
+    "language": "Language",
+    "userFallback": "User",
+    "userInitial": "U"
+  },
+  "password": {
+    "show": "Show password",
+    "hide": "Hide password"
+  },
+  "api": {
+    "serverUnexpected": "The server returned an unexpected response. Make sure the backend is running.",
+    "invalidResponse": "Invalid response from the server."
+  }
+}

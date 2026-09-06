@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_generator_content_box"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="@dimen/card_padding_inner">
 
         <TextView
             android:layout_width="match_parent"
@@ -52,8 +52,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:clipChildren="false"
             android:clipToPadding="false"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            android:paddingHorizontal="4dp" />
 
         <LinearLayout
             android:id="@+id/gradientPanel"
@@ -77,26 +79,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:clipChildren="false"
                 android:clipToPadding="false"
-                android:overScrollMode="never" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="start"
-                android:text="כיוון"
-                android:textAlignment="viewStart"
-                android:textColor="@color/sub_text"
-                android:textSize="13sp" />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/gradientAngleGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                app:selectionRequired="true"
-                app:singleSelection="true" />
+                android:overScrollMode="never"
+                android:paddingHorizontal="4dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -107,7 +93,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/bg_generator_content_box"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="@dimen/card_padding_inner">
 
         <TextView
             android:layout_width="match_parent"
@@ -155,16 +141,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:clipChildren="false"
             android:clipToPadding="false"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            android:paddingHorizontal="4dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bgGradientRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:clipChildren="false"
             android:clipToPadding="false"
             android:overScrollMode="never"
+            android:paddingHorizontal="4dp"
             android:visibility="gone" />
     </LinearLayout>
 

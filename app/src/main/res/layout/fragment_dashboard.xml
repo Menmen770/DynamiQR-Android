@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="24dp">
+            android:paddingBottom="@dimen/space_screen_bottom">
 
             <com.example.myapplication.ui.custom.ScreenPageHeader
                 android:id="@+id/pageHeader"
@@ -26,13 +26,13 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/space_screen"
                 android:hint="חיפוש לפי שם..."
                 app:boxBackgroundColor="@color/surface"
-                app:boxCornerRadiusBottomEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
+                app:boxCornerRadiusBottomStart="@dimen/radius_inset"
+                app:boxCornerRadiusTopEnd="@dimen/radius_inset"
+                app:boxCornerRadiusTopStart="@dimen/radius_inset"
                 app:startIconDrawable="@drawable/ic_search">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -46,9 +46,9 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/space_md"
                 android:clipToPadding="false"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/space_screen"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -89,7 +89,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/space_md"
                 android:minHeight="200dp">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -108,6 +108,7 @@
                     android:visibility="gone">
 
                     <TextView
+                        android:id="@+id/emptyTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="אין קודים להצגה"
@@ -116,9 +117,10 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/emptySubtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/space_md"
                         android:gravity="center"
                         android:text="צור קוד QR חדש או שנה את הסינון"
                         android:textColor="@color/sub_text"
@@ -132,7 +134,7 @@
                         android:backgroundTint="@color/primary"
                         android:text="צור קוד חדש"
                         android:textColor="@color/white"
-                        app:cornerRadius="24dp" />
+                        app:cornerRadius="@dimen/radius_button" />
                 </LinearLayout>
 
                 <ProgressBar

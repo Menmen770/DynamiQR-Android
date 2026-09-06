@@ -24,10 +24,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private static final int TAB_LEARN = 3;
 
     private Fragment activeFragment;
-    private final Fragment dashboardFragment = new DashboardFragment();
-    private final Fragment scannerFragment = new ScannerFragment();
-    private final Fragment generatorFragment = new GeneratorFragment();
-    private final Fragment learnFragment = new LearnQrFragment();
+    private Fragment dashboardFragment;
+    private Fragment scannerFragment;
+    private Fragment generatorFragment;
+    private Fragment learnFragment;
     private int selectedTab = TAB_CODES;
 
     @Override
@@ -83,6 +83,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private void setupFragments(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
+            dashboardFragment = new DashboardFragment();
+            scannerFragment = new ScannerFragment();
+            generatorFragment = new GeneratorFragment();
+            learnFragment = new LearnQrFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragmentContainer, dashboardFragment, "dashboard")
                     .add(R.id.fragmentContainer, scannerFragment, "scanner")
@@ -93,9 +97,29 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                     .hide(learnFragment)
                     .commit();
             activeFragment = dashboardFragment;
+            selectedTab = TAB_CODES;
         } else {
+            // After theme/locale recreate the FragmentManager restores tagged fragments —
+            // must reuse those instances or hide/show navigation breaks.
             selectedTab = savedInstanceState.getInt("selected_tab", TAB_CODES);
+            dashboardFragment = getSupportFragmentManager().findFragmentByTag("dashboard");
+            scannerFragment = getSupportFragmentManager().findFragmentByTag("scanner");
+            generatorFragment = getSupportFragmentManager().findFragmentByTag("generator");
+            learnFragment = getSupportFragmentManager().findFragmentByTag("learn");
+            if (dashboardFragment == null) {
+                dashboardFragment = new DashboardFragment();
+            }
+            if (scannerFragment == null) {
+                scannerFragment = new ScannerFragment();
+            }
+            if (generatorFragment == null) {
+                generatorFragment = new GeneratorFragment();
+            }
+            if (learnFragment == null) {
+                learnFragment = new LearnQrFragment();
+            }
             activeFragment = fragmentForTab(selectedTab);
+            highlightTab(selectedTab);
         }
         updateShellForTab(selectedTab);
     }
@@ -130,21 +154,60 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void selectTab(int tabIndex) {
-        if (tabIndex == selectedTab && activeFragment != null) {
+        if (tabIndex == selectedTab && activeFragment != null && activeFragment.isAdded()) {
             return;
         }
         Fragment target = fragmentForTab(tabIndex);
-        if (target == null || target == activeFragment) {
+        if (target == null) {
             return;
         }
-        getSupportFragmentManager().beginTransaction()
-                .hide(activeFragment)
-                .show(target)
-                .commit();
+        if (activeFragment == null || !activeFragment.isAdded()) {
+            activeFragment = findVisibleFragment();
+        }
+        if (activeFragment == target) {
+            selectedTab = tabIndex;
+            highlightTab(tabIndex);
+            updateShellForTab(tabIndex);
+            return;
+        }
+        androidx.fragment.app.FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        if (activeFragment != null && activeFragment.isAdded()) {
+            tx.hide(activeFragment);
+        }
+        if (target.isAdded()) {
+            tx.show(target);
+        } else {
+            tx.add(R.id.fragmentContainer, target, tagForTab(tabIndex));
+        }
+        tx.commitAllowingStateLoss();
         activeFragment = target;
         selectedTab = tabIndex;
         highlightTab(tabIndex);
         updateShellForTab(tabIndex);
+    }
+
+    private Fragment findVisibleFragment() {
+        for (Fragment fragment : new Fragment[]{
+                dashboardFragment, generatorFragment, scannerFragment, learnFragment}) {
+            if (fragment != null && fragment.isAdded() && !fragment.isHidden()) {
+                return fragment;
+            }
+        }
+        return dashboardFragment;
+    }
+
+    private String tagForTab(int tabIndex) {
+        switch (tabIndex) {
+            case TAB_CREATE:
+                return "generator";
+            case TAB_SCAN:
+                return "scanner";
+            case TAB_LEARN:
+                return "learn";
+            case TAB_CODES:
+            default:
+                return "dashboard";
+        }
     }
 
     private void updateShellForTab(int tabIndex) {

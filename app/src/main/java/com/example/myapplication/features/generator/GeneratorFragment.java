@@ -23,6 +23,7 @@ import com.example.myapplication.DynamiQRApplication;
 import com.example.myapplication.R;
 import com.example.myapplication.core.base.BaseFragment;
 import com.example.myapplication.core.factory.ViewModelFactory;
+import com.example.myapplication.core.i18n.AppI18n;
 import com.example.myapplication.core.utils.ColorProvider;
 import com.example.myapplication.core.utils.PresetLogos;
 import com.example.myapplication.core.utils.QrLogoHelper;
@@ -30,6 +31,7 @@ import com.example.myapplication.core.utils.QrPreviewCompositor;
 import com.example.myapplication.core.utils.PresetData;
 import com.example.myapplication.core.utils.QrTypeProvider;
 import com.example.myapplication.data.models.QrType;
+import com.example.myapplication.databinding.DialogStaticDynamicHelpBinding;
 import com.example.myapplication.databinding.FragmentGeneratorBinding;
 import com.example.myapplication.databinding.LayoutGeneratorMoreTypesBinding;
 import com.example.myapplication.databinding.LayoutQrStyleColorBinding;
@@ -42,7 +44,6 @@ import com.example.myapplication.ui.adapters.QrTypeSelectorAdapter;
 import com.example.myapplication.ui.adapters.StyleThumbnailAdapter;
 import com.example.myapplication.ui.components.ColorPickerSheet;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.chip.Chip;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -52,7 +53,6 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
 
     private GeneratorViewModel viewModel;
     private String selectedType = "url";
-    private QrTypeSelectorAdapter mainTypeAdapter;
     private Bitmap previewBitmap;
 
     @Override
@@ -67,46 +67,98 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
         ViewModelFactory factory = new ViewModelFactory(DynamiQRApplication.getInstance().getQrRepository());
         viewModel = new ViewModelProvider(this, factory).get(GeneratorViewModel.class);
 
-        binding.header.setTitle("יוצר קודי QR");
-        binding.header.setSubtitle("בחר סוג, עצב ושמור — שלושה שלבים פשוטים");
+        binding.header.setTitle(tr("generator", "screen.title", "Create QR"));
+        binding.header.setSubtitle(tr("generator", "screen.subtitle",
+                "Pick a type, adjust colors and gradients, then download"));
+        applyGeneratorChrome();
 
         setupTypeSelector();
         setupStylePanel();
+        setupLinkMode();
         setupActions();
         updateFieldsForType(selectedType);
         observeViewModel();
         renderStep(GeneratorViewModel.STEP_CONTENT);
     }
 
-    private void setupTypeSelector() {
-        mainTypeAdapter = new QrTypeSelectorAdapter(
-                QrTypeProvider.getMainTypes(),
-                selectedType,
-                this::onTypeSelected);
-        binding.typeRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        binding.typeRecyclerView.setAdapter(mainTypeAdapter);
+    private String tr(String ns, String path, String fallback) {
+        return AppI18n.t(requireContext(), ns, path, fallback);
+    }
 
+    private void applyGeneratorChrome() {
+        binding.step1Label.setText(tr("generator", "steps.content", "Content"));
+        binding.step2Label.setText(tr("generator", "steps.style", "Design"));
+        binding.step3Label.setText(tr("generator", "steps.export", "Download"));
+        binding.contentSectionTitle.setText(tr("generator", "screen.contentTitle", "What goes in the code?"));
+        binding.chooseTypeLabel.setText(getString(R.string.choose_qr_type));
+        binding.moreTypesButton.setText(getString(R.string.type_switch));
+        binding.fieldLabel.setText(tr("generator", "fields.url", "Address (URL)"));
+        binding.fieldHint.setText(tr("generator", "hints.urlScan", "The link that opens on scan"));
+        binding.linkModeLabel.setText(getString(R.string.link_mode_label));
+        binding.styleSectionTitle.setText(tr("generator", "screen.styleTitle", "Customize the design"));
+        binding.exportSectionTitle.setText(tr("generator", "screen.exportTitle", "Download and save"));
+        binding.saveCollectionLabel.setText(tr("generator", "screen.saveToCollectionAccount", "Save to collection"));
+        binding.saveNameLayout.setHint(tr("generator", "placeholders.saveNameMobile", "Code name"));
+        binding.continueStyleButton.setText(tr("generator", "screen.continueStyle", "Continue to design"));
+        binding.continueExportButton.setText(tr("generator", "screen.continueExport", "Continue to download"));
+        binding.backContentButton.setText(tr("generator", "screen.backContent", "Back to content"));
+        binding.backStyleButton.setText(tr("generator", "screen.backStyle", "Back to design"));
+        binding.shareButton.setText(tr("generator", "screen.shareSave", "Share / Save"));
+        binding.saveButton.setText(tr("generator", "screen.saveToCollectionAccount", "Save to collection"));
+    }
+
+    private void setupLinkMode() {
+        binding.linkModeToggle.setDynamic("dynamic".equals(viewModel.getLinkMode()), false);
+        binding.linkModeToggle.setOnModeChangeListener(dynamic ->
+                viewModel.setLinkMode(dynamic ? "dynamic" : "static"));
+        binding.linkModeHelpButton.setOnClickListener(v -> showStaticDynamicHelp());
+    }
+
+    private void showStaticDynamicHelp() {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        DialogStaticDynamicHelpBinding sheet =
+                DialogStaticDynamicHelpBinding.inflate(getLayoutInflater());
+        dialog.setContentView(sheet.getRoot());
+        sheet.helpHeading.setText(tr("generator", "help.heading", "Static or dynamic — which to choose?"));
+        sheet.helpIntro.setText(tr("generator", "help.intro",
+                "Two ways to create a QR. The choice is yours."));
+        sheet.helpStaticBadge.setText(tr("generator", "help.staticBadge", "Static"));
+        sheet.helpStaticTitle.setText(tr("generator", "help.staticTitle", "The link lives in the code"));
+        sheet.helpStaticBody.setText(tr("generator", "help.staticBodyMobile",
+                "The destination is encoded in the QR image."));
+        sheet.helpDynamicBadge.setText(tr("generator", "help.dynamicBadge", "Dynamic"));
+        sheet.helpDynamicTitle.setText(tr("generator", "help.dynamicTitle", "A short link you can update"));
+        sheet.helpDynamicBody.setText(tr("generator", "help.dynamicBodyMobile",
+                "A fixed short link in the code; update the destination from your account."));
+        sheet.helpTip.setText(tr("generator", "help.tip",
+                "Fixed content? Choose static. Campaigns or measurement? Choose dynamic."));
+        sheet.helpGotItButton.setText(tr("generator", "help.gotIt", "Got it"));
+        sheet.helpCloseButton.setOnClickListener(v -> dialog.dismiss());
+        sheet.helpGotItButton.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
+    private void setupTypeSelector() {
+        refreshSelectedTypeCard();
         binding.moreTypesButton.setOnClickListener(v -> showMoreTypesSheet());
+        binding.selectedTypeCard.setOnClickListener(v -> showMoreTypesSheet());
     }
 
     private void onTypeSelected(QrType type) {
         selectedType = type.getId();
         viewModel.setQrType(type.getId());
         updateFieldsForType(type.getId());
-        updateMoreTypesButton();
+        refreshSelectedTypeCard();
     }
 
-    private void updateMoreTypesButton() {
-        if (QrTypeProvider.isMoreType(selectedType)) {
-            QrType type = QrTypeProvider.findById(selectedType);
-            binding.moreTypesButton.setText(type.getLabel());
-            binding.moreTypesButton.setStrokeColorResource(R.color.primary);
-            binding.moreTypesButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
-        } else {
-            binding.moreTypesButton.setText("עוד אפשרויות");
-            binding.moreTypesButton.setStrokeColorResource(R.color.border);
-            binding.moreTypesButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_text));
-        }
+    private void refreshSelectedTypeCard() {
+        QrType type = QrTypeProvider.findById(requireContext(), selectedType);
+        binding.selectedTypeLabel.setText(type.getLabel());
+        binding.selectedTypeIcon.setImageResource(type.getIconRes());
+        binding.selectedTypeIcon.setColorFilter(
+                ContextCompat.getColor(requireContext(), R.color.white));
+        binding.selectedTypeLabel.setTextColor(
+                ContextCompat.getColor(requireContext(), R.color.white));
     }
 
     private void showMoreTypesSheet() {
@@ -115,11 +167,10 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
         dialog.setContentView(sheet.getRoot());
 
         QrTypeSelectorAdapter moreAdapter = new QrTypeSelectorAdapter(
-                QrTypeProvider.getMoreTypes(),
+                QrTypeProvider.getSelectableTypes(requireContext()),
                 selectedType,
                 type -> {
                     onTypeSelected(type);
-                    mainTypeAdapter.setSelectedId(type.getId());
                     dialog.dismiss();
                 });
         sheet.moreTypesRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -128,50 +179,47 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
     }
 
     private void updateFieldsForType(String type) {
-        binding.linkModeGroup.setVisibility(
-                "url".equals(type) || "pdf".equals(type) ? View.VISIBLE : View.GONE);
-
         switch (type) {
             case "email":
-                binding.fieldLabel.setText("כתובת אימייל");
+                binding.fieldLabel.setText(tr("generator", "fields.email", "Email address"));
                 binding.contentLayout.setHint("name@example.com");
-                binding.fieldHint.setText("יפתח אפליקציית דואר בסריקה");
+                binding.fieldHint.setText(tr("generator", "hints.emailOpensShort", "Opens the email app"));
                 binding.contentInput.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                 break;
             case "phone":
-                binding.fieldLabel.setText("מספר טלפון");
+                binding.fieldLabel.setText(tr("generator", "fields.phone", "Phone number"));
                 binding.contentLayout.setHint("+972 50 123 4567");
-                binding.fieldHint.setText("יפתח חיוג בסריקה");
+                binding.fieldHint.setText(tr("generator", "hints.phoneDialShort", "Direct dial on scan"));
                 binding.contentInput.setInputType(InputType.TYPE_CLASS_PHONE);
                 break;
             case "whatsapp":
-                binding.fieldLabel.setText("מספר וואטסאפ");
+                binding.fieldLabel.setText(tr("generator", "fields.phone", "Phone number"));
                 binding.contentLayout.setHint("+972 50 123 4567");
-                binding.fieldHint.setText("יפתח שיחת וואטסאפ");
+                binding.fieldHint.setText(tr("generator", "hints.whatsappOpensShort", "Opens WhatsApp chat"));
                 binding.contentInput.setInputType(InputType.TYPE_CLASS_PHONE);
                 break;
             case "wifi":
-                binding.fieldLabel.setText("פרטי רשת Wi-Fi");
-                binding.contentLayout.setHint("SSID,סיסמה");
-                binding.fieldHint.setText("פורמט: שם רשת,סיסמה");
+                binding.fieldLabel.setText(tr("generator", "types.wifi", "Wi-Fi"));
+                binding.contentLayout.setHint("SSID,password");
+                binding.fieldHint.setText(tr("generator", "hints.wifiConnectShort", "Auto-connect to WiFi"));
                 binding.contentInput.setInputType(InputType.TYPE_CLASS_TEXT);
                 break;
             case "pdf":
-                binding.fieldLabel.setText("קישור לקובץ PDF");
+                binding.fieldLabel.setText(tr("generator", "fields.pdfLink", "PDF link"));
                 binding.contentLayout.setHint("https://example.com/file.pdf");
-                binding.fieldHint.setText("קישור ישיר לקובץ PDF");
+                binding.fieldHint.setText(tr("generator", "hints.pastePdfUrlShort", "Paste a PDF file URL"));
                 binding.contentInput.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
                 break;
             case "contact":
-                binding.fieldLabel.setText("פרטי איש קשר");
-                binding.contentLayout.setHint("שם, טלפון, אימייל");
-                binding.fieldHint.setText("הפרד בפסיקים בין השדות");
+                binding.fieldLabel.setText(tr("generator", "types.contact", "Contact"));
+                binding.contentLayout.setHint(tr("generator", "placeholders.contactNameExample", "Jane Doe"));
+                binding.fieldHint.setText(tr("generator", "hints.contactSaveShort", "Save as vCard"));
                 binding.contentInput.setInputType(InputType.TYPE_CLASS_TEXT);
                 break;
             default:
-                binding.fieldLabel.setText("כתובת URL");
+                binding.fieldLabel.setText(tr("generator", "fields.url", "Address (URL)"));
                 binding.contentLayout.setHint("https://example.com");
-                binding.fieldHint.setText("הקישור ייפתח בסריקה");
+                binding.fieldHint.setText(tr("generator", "hints.urlScan", "The link that opens on scan"));
                 binding.contentInput.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
                 break;
         }
@@ -219,7 +267,9 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
     private boolean validateContent() {
         String text = binding.contentInput.getText().toString().trim();
         if (text.isEmpty()) {
-            Toast.makeText(requireContext(), "אנא הזן תוכן", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(),
+                    tr("generator", "preview.emptyHint", "Start typing to create a QR code."),
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         viewModel.setQrType(selectedType);
@@ -236,6 +286,11 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
     private void showColorTab() {
         LayoutQrStyleColorBinding colorBinding = LayoutQrStyleColorBinding.inflate(getLayoutInflater());
         binding.stylePanel.tabContentContainer.addView(colorBinding.getRoot());
+        colorBinding.modeSolid.setText(tr("generator", "style.solid", "Solid color"));
+        colorBinding.modeGradient.setText(tr("generator", "style.gradient", "Gradient"));
+        colorBinding.bgModeNone.setText(tr("generator", "style.bgNone", "None"));
+        colorBinding.bgModeSolid.setText(tr("generator", "style.solid", "Solid color"));
+        colorBinding.bgModeGradient.setText(tr("generator", "style.gradient", "Gradient"));
 
         String currentFg = viewModel.getFgColor() != null ? viewModel.getFgColor() : "#111111";
         String currentBg = "#ffffff".equals(viewModel.getBgColor()) || viewModel.getBgColor() == null
@@ -252,16 +307,22 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
 
                     @Override
                     public void onCustomClicked(String currentHex) {
-                        ColorPickerSheet.show(requireContext(), "צבע ה-QR",
+                        ColorPickerSheet.show(requireContext(),
+                                tr("generator", "style.qrColor", "QR color"),
                                 ColorProvider.getExtendedFgColors(), currentHex, hex -> {
                                     viewModel.setFgColor(hex);
                                     fgAdapterRef[0].setSelectedColor(hex);
                                 });
                     }
                 });
-        colorBinding.fgColorRecyclerView.setLayoutManager(
-                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        colorBinding.fgColorRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 6));
         colorBinding.fgColorRecyclerView.setAdapter(fgAdapterRef[0]);
+        colorBinding.fgColorRecyclerView.setClipChildren(false);
+        colorBinding.fgColorRecyclerView.setClipToPadding(false);
+        if (colorBinding.fgColorRecyclerView.getParent() instanceof ViewGroup) {
+            ((ViewGroup) colorBinding.fgColorRecyclerView.getParent()).setClipChildren(false);
+        }
+        fixColorRecyclerHeight(colorBinding.fgColorRecyclerView, ColorProvider.getFgColors().size() + 1, 6);
 
         final ColorCircleAdapter[] bgAdapterRef = new ColorCircleAdapter[1];
         bgAdapterRef[0] = new ColorCircleAdapter(
@@ -274,23 +335,32 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
 
                     @Override
                     public void onCustomClicked(String currentHex) {
-                        ColorPickerSheet.show(requireContext(), "צבע רקע",
+                        ColorPickerSheet.show(requireContext(),
+                                tr("generator", "style.background", "Background"),
                                 ColorProvider.getExtendedBgColors(), currentHex, hex -> {
                                     viewModel.setBgColor(hex);
                                     bgAdapterRef[0].setSelectedColor(hex);
                                 });
                     }
                 });
-        colorBinding.bgColorRecyclerView.setLayoutManager(
-                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        colorBinding.bgColorRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 6));
         colorBinding.bgColorRecyclerView.setAdapter(bgAdapterRef[0]);
+        colorBinding.bgColorRecyclerView.setClipChildren(false);
+        colorBinding.bgColorRecyclerView.setClipToPadding(false);
+        if (colorBinding.bgColorRecyclerView.getParent() instanceof ViewGroup) {
+            ((ViewGroup) colorBinding.bgColorRecyclerView.getParent()).setClipChildren(false);
+        }
+        fixColorRecyclerHeight(colorBinding.bgColorRecyclerView, ColorProvider.getBgColors().size() + 1, 6);
 
         GradientSwatchAdapter fgGradAdapter = new GradientSwatchAdapter(
                 ColorProvider.getQrGradientPresets(), "brand-teal",
                 preset -> viewModel.setGradient(preset.start, preset.end, preset.angle));
-        colorBinding.fgGradientRecyclerView.setLayoutManager(
-                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        colorBinding.fgGradientRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5));
         colorBinding.fgGradientRecyclerView.setAdapter(fgGradAdapter);
+        colorBinding.fgGradientRecyclerView.setClipChildren(false);
+        colorBinding.fgGradientRecyclerView.setClipToPadding(false);
+        fixColorRecyclerHeight(colorBinding.fgGradientRecyclerView,
+                ColorProvider.getQrGradientPresets().size(), 5);
 
         GradientSwatchAdapter bgGradAdapter = new GradientSwatchAdapter(
                 ColorProvider.getBgGradientPresets(), "peach-cream",
@@ -298,22 +368,12 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
                     viewModel.setBgGradient(preset.start, preset.end, preset.angle);
                     viewModel.setBgColor(preset.start);
                 });
-        colorBinding.bgGradientRecyclerView.setLayoutManager(
-                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        colorBinding.bgGradientRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         colorBinding.bgGradientRecyclerView.setAdapter(bgGradAdapter);
-
-        // Angle chips
-        colorBinding.gradientAngleGroup.removeAllViews();
-        int currentAngle = viewModel.getGradientAngle();
-        for (Integer angle : ColorProvider.getGradientAngles()) {
-            Chip chip = new Chip(requireContext());
-            chip.setText(angle + "°");
-            chip.setCheckable(true);
-            chip.setChecked(angle == currentAngle || (currentAngle == 135 && angle == 135));
-            chip.setOnClickListener(v -> viewModel.setGradient(
-                    viewModel.getGradientStart(), viewModel.getGradientEnd(), angle));
-            colorBinding.gradientAngleGroup.addView(chip);
-        }
+        colorBinding.bgGradientRecyclerView.setClipChildren(false);
+        colorBinding.bgGradientRecyclerView.setClipToPadding(false);
+        fixColorRecyclerHeight(colorBinding.bgGradientRecyclerView,
+                ColorProvider.getBgGradientPresets().size(), 4);
 
         boolean isGradient = "gradient".equals(viewModel.getColorMode());
         if (isGradient) {
@@ -381,7 +441,11 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
         StyleThumbnailAdapter bodyAdapter = new StyleThumbnailAdapter(
                 getBodyShapes(),
                 viewModel.getSelectedBodyId(),
-                item -> viewModel.setBodyShape(item.getId()));
+                item -> {
+                    if (item != null) {
+                        viewModel.setBodyShape(item.getId());
+                    }
+                });
         shapeBinding.bodyShapeRecyclerView.setAdapter(bodyAdapter);
         fixRecyclerHeight(shapeBinding.bodyShapeRecyclerView, 2);
 
@@ -389,7 +453,11 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
         StyleThumbnailAdapter cornerAdapter = new StyleThumbnailAdapter(
                 getCornerShapes(),
                 viewModel.getSelectedCornerId(),
-                item -> viewModel.setCornerShape(item.getId()));
+                item -> {
+                    if (item != null) {
+                        viewModel.setCornerShape(item.getId());
+                    }
+                });
         shapeBinding.eyeShapeRecyclerView.setAdapter(cornerAdapter);
         fixRecyclerHeight(shapeBinding.eyeShapeRecyclerView, 2);
     }
@@ -402,29 +470,44 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
         recyclerView.setLayoutParams(params);
     }
 
+    private void fixColorRecyclerHeight(androidx.recyclerview.widget.RecyclerView recyclerView,
+                                        int itemCount, int columns) {
+        recyclerView.setNestedScrollingEnabled(false);
+        int rows = Math.max(1, (int) Math.ceil(itemCount / (float) columns));
+        int itemHeight = (int) (56 * getResources().getDisplayMetrics().density);
+        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
+        params.height = itemHeight * rows;
+        recyclerView.setLayoutParams(params);
+    }
+
     private void showLogoTab() {
         LayoutQrStyleLogoBinding logoBinding = LayoutQrStyleLogoBinding.inflate(getLayoutInflater());
         binding.stylePanel.tabContentContainer.addView(logoBinding.getRoot());
         logoBinding.logoRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
 
         String currentLogo = viewModel.getLogoId();
-        if (currentLogo == null || currentLogo.isEmpty()) {
-            currentLogo = "none";
+        if (currentLogo == null || currentLogo.isEmpty() || "none".equals(currentLogo)) {
+            currentLogo = "";
         }
         StyleThumbnailAdapter logoAdapter = new StyleThumbnailAdapter(
                 getLogos(),
                 currentLogo,
                 item -> {
-                    if ("none".equals(item.getId())) {
+                    if (item == null) {
                         viewModel.clearLogo();
-                    } else {
-                        float inset = PresetLogos.insetForId(item.getId());
-                        int resId = PresetLogos.rawResForId(requireContext(), item.getId());
-                        String dataUrl = QrLogoHelper.rawSvgToDataUrl(requireContext(), resId, 256, inset);
-                        // בחירת לוגו לא משנה את צורת החור — נשארת בחירת המשתמש (ברירת מחדל: ללא חור)
-                        viewModel.setLogo(item.getId(), dataUrl, inset);
+                        viewModel.setLogoShape("overlay");
+                        logoBinding.logoShapeGroup.check(R.id.logoOverlay);
+                        return;
                     }
+                    float inset = PresetLogos.insetForId(item.getId());
+                    int resId = PresetLogos.rawResForId(requireContext(), item.getId());
+                    String dataUrl = QrLogoHelper.rawSvgToDataUrl(requireContext(), resId, 256, inset);
+                    viewModel.setLogo(item.getId(), dataUrl, inset);
+                    // בחירת לוגו מפעילה אוטומטית חור עגול
+                    viewModel.setLogoShape("circle");
+                    logoBinding.logoShapeGroup.check(R.id.logoCircle);
                 },
+                true,
                 true);
         logoBinding.logoRecyclerView.setAdapter(logoAdapter);
         fixRecyclerHeight(logoBinding.logoRecyclerView, 4);
@@ -458,12 +541,24 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
         LayoutQrStyleStickerBinding stickerBinding = LayoutQrStyleStickerBinding.inflate(getLayoutInflater());
         binding.stylePanel.tabContentContainer.addView(stickerBinding.getRoot());
         stickerBinding.stickerRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+        String currentSticker = viewModel.getStickerId();
+        if (currentSticker == null || "none".equals(currentSticker)) {
+            currentSticker = "";
+        }
         StyleThumbnailAdapter stickerAdapter = new StyleThumbnailAdapter(
                 getStickers(),
-                viewModel.getStickerId(),
-                item -> viewModel.setSticker(item.getId()));
+                currentSticker,
+                item -> {
+                    if (item == null) {
+                        viewModel.setSticker("none");
+                    } else {
+                        viewModel.setSticker(item.getId());
+                    }
+                },
+                false,
+                true);
         stickerBinding.stickerRecyclerView.setAdapter(stickerAdapter);
-        fixRecyclerHeight(stickerBinding.stickerRecyclerView, 7);
+        fixRecyclerHeight(stickerBinding.stickerRecyclerView, 6);
     }
 
     private void observeViewModel() {
@@ -502,7 +597,7 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
                     qrBitmap,
                     sticker,
                     viewModel.getBgColor(),
-                    viewModel.getFgColor(),
+                    stickerInkFromViewModel(),
                     QrPreviewCompositor.DEFAULT_STAGE_PX);
             binding.qrPreviewImage.setImageBitmap(previewBitmap);
             binding.qrExportPreviewImage.setImageBitmap(previewBitmap);
@@ -511,10 +606,74 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
     }
 
     private void sharePreview() {
-        if (previewBitmap == null) {
-            Toast.makeText(requireContext(), "אין תצוגה מקדימה לשיתוף", Toast.LENGTH_SHORT).show();
-            return;
+        Toast.makeText(requireContext(),
+                tr("generator", "preview.generating", "Preparing high-quality file…"),
+                Toast.LENGTH_SHORT).show();
+        viewModel.generateExport(new GeneratorViewModel.ExportCallback() {
+            @Override
+            public void onSuccess(String dataUrl) {
+                if (!isAdded()) {
+                    return;
+                }
+                Bitmap exportBitmap = buildExportBitmap(dataUrl);
+                if (exportBitmap == null) {
+                    Toast.makeText(requireContext(),
+                            tr("generator", "errors.generateFailed", "Could not create share file"),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                shareBitmap(exportBitmap);
+                if (exportBitmap != previewBitmap) {
+                    exportBitmap.recycle();
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                if (!isAdded()) {
+                    return;
+                }
+                Toast.makeText(requireContext(),
+                        message != null ? message : tr("generator", "errors.generateFailed", "Share failed"),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private Bitmap buildExportBitmap(String dataUrl) {
+        try {
+            String base64 = dataUrl.contains(",") ? dataUrl.substring(dataUrl.indexOf(',') + 1) : dataUrl;
+            byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
+            Bitmap qrBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            if (qrBitmap == null) {
+                return null;
+            }
+            Bitmap composed = QrPreviewCompositor.compositeForExport(
+                    requireContext(),
+                    qrBitmap,
+                    viewModel.getStickerId(),
+                    viewModel.getBgColor(),
+                    stickerInkFromViewModel());
+            if (qrBitmap != composed) {
+                qrBitmap.recycle();
+            }
+            return composed;
+        } catch (Exception e) {
+            return null;
         }
+    }
+
+    private QrPreviewCompositor.StickerInk stickerInkFromViewModel() {
+        if ("gradient".equals(viewModel.getColorMode())) {
+            return QrPreviewCompositor.StickerInk.gradient(
+                    viewModel.getGradientStart(),
+                    viewModel.getGradientEnd(),
+                    viewModel.getGradientAngle());
+        }
+        return QrPreviewCompositor.StickerInk.solid(viewModel.getFgColor());
+    }
+
+    private void shareBitmap(Bitmap bitmap) {
         try {
             File cacheDir = new File(requireContext().getCacheDir(), "qr_exports");
             if (!cacheDir.exists()) {
@@ -522,7 +681,8 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
             }
             File file = new File(cacheDir, "dynamiqr_" + System.currentTimeMillis() + ".png");
             try (FileOutputStream out = new FileOutputStream(file)) {
-                previewBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.flush();
             }
             Uri uri = FileProvider.getUriForFile(
                     requireContext(),
@@ -532,9 +692,12 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
             share.setType("image/png");
             share.putExtra(Intent.EXTRA_STREAM, uri);
             share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(Intent.createChooser(share, "שתף QR"));
+            startActivity(Intent.createChooser(share,
+                    tr("generator", "screen.shareSave", "Share QR")));
         } catch (Exception e) {
-            Toast.makeText(requireContext(), "שיתוף נכשל", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(),
+                    tr("generator", "errors.generateFailed", "Share failed"),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -585,7 +748,6 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
 
     private List<PresetData.StyleItemImpl> getStickers() {
         List<PresetData.StyleItemImpl> items = new ArrayList<>();
-        items.add(new PresetData.StyleItemImpl("none", R.drawable.ic_close, false));
         for (int i = 1; i <= 18; i++) {
             String id = String.format("frame-%02d", i);
             String name = String.format("sticker_thumb_%02d", i);
@@ -599,7 +761,6 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
 
     private List<PresetData.StyleItemImpl> getLogos() {
         List<PresetData.StyleItemImpl> items = new ArrayList<>();
-        items.add(new PresetData.StyleItemImpl("none", R.drawable.ic_close, false));
         for (PresetLogos.Preset preset : PresetLogos.all()) {
             items.add(new PresetData.StyleItemImpl(preset.id, preset.rawResId, true));
         }

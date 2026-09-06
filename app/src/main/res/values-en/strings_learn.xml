@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="learn_page_title">What is QR?</string>
+    <string name="learn_page_subtitle">A short guide for businesses and brands — how to use it right</string>
+    <string name="learn_hero_lead">A QR code is a smart shortcut from the physical world to digital: scan with a camera and go straight to a page, file, form, WhatsApp, contact, or Wi-Fi — no typing and no dropped users.</string>
+    <string name="learn_cta_create">Create a new QR</string>
+
+    <string name="learn_panel_kicker">Bottom line</string>
+    <string name="learn_panel_title">Why businesses use QR codes</string>
+    <string name="learn_point_fast">Faster path to action without manual typing</string>
+    <string name="learn_point_update">With a dynamic QR you can update the destination after printing</string>
+    <string name="learn_point_stats">Measure scans and see what actually works</string>
+    <string name="learn_stat_friction_label">Less friction</string>
+    <string name="learn_stat_friction_strong">One scan</string>
+    <string name="learn_stat_friction_text">and instant access to content</string>
+    <string name="learn_stat_flex_label">More flexibility</string>
+    <string name="learn_stat_flex_strong">Dynamic</string>
+    <string name="learn_stat_flex_text">when you need to change the target</string>
+
+    <string name="learn_use_cases_kicker">Common uses</string>
+    <string name="learn_use_cases_title">Where QR codes really save time</string>
+    <string name="learn_use_cases_subtitle">When you give customers a direct path to the right place, they are far more likely to take the next step.</string>
+    <string name="learn_use_site_title">Website or landing page</string>
+    <string name="learn_use_site_text">Send someone from a flyer, package, or sign straight to the right page — no URL typing.</string>
+    <string name="learn_use_wifi_title">Guest Wi-Fi</string>
+    <string name="learn_use_wifi_text">One scan and they join the network without wrestling a long password.</string>
+    <string name="learn_use_pdf_title">Menu, catalog, or PDF</string>
+    <string name="learn_use_pdf_text">Show up-to-date content cleanly without reprinting every version.</string>
+    <string name="learn_use_leads_title">Leads, WhatsApp, and inquiries</string>
+    <string name="learn_use_leads_text">Shorten the path to action and raise the chance they continue to the next step.</string>
+
+    <string name="learn_workflow_kicker">How it works</string>
+    <string name="learn_workflow_title">Three simple steps</string>
+    <string name="learn_workflow_subtitle">Keep it simple: pick a goal, design for scanning, then publish.</string>
+    <string name="learn_step_label">Step %1$d</string>
+    <string name="learn_step_goal_title">Choose one clear destination</string>
+    <string name="learn_step_goal_text">Website, PDF, contact, WhatsApp, or Wi-Fi. The clearer the goal, the better the scan experience.</string>
+    <string name="learn_step_design_title">Design for easy scanning</string>
+    <string name="learn_step_design_text">Keep strong contrast, a sensible logo size, and an error-correction level that matches real use.</string>
+    <string name="learn_step_publish_title">Send to print or digital</string>
+    <string name="learn_step_publish_text">Place it on a sign, flyer, package, screen, or business card — and make sure the phone handoff feels fast.</string>
+
+    <string name="learn_diff_kicker">What sets us apart</string>
+    <string name="learn_diff_title">What our site offers that others don\'t</string>
+    <string name="learn_diff_intro">Most QR sites rely on dynamic-only models: after a scan limit the code is blocked and you\'re asked to pay heavily to turn it back on. Sites that do offer real static codes usually ship basic design and low-quality downloads. Here, the approach is the opposite.</string>
+
+    <string name="learn_compare_kicker">Static vs dynamic</string>
+    <string name="learn_compare_title">Which fits you?</string>
+    <string name="learn_compare_subtitle">The difference is simple: is the destination fixed, or do you need flexibility after the code is out in the world?</string>
+    <string name="learn_static_badge">Static QR</string>
+    <string name="learn_static_title">Best for content that does not change</string>
+    <string name="learn_static_text">The data is encoded in the code itself, so you cannot swap the destination after printing.</string>
+    <string name="learn_static_item1">Fixed Wi-Fi, phone, email, or an unchanging page</string>
+    <string name="learn_static_item2">Simple and fast when you do not need ongoing management</string>
+    <string name="learn_dynamic_badge">Dynamic QR</string>
+    <string name="learn_dynamic_title">Best for campaigns and live content</string>
+    <string name="learn_dynamic_text">The code points to an intermediate URL, so you can update the destination and track scans even after printing.</string>
+    <string name="learn_dynamic_item1">Changing offers, landing pages, and marketing campaigns</string>
+    <string name="learn_dynamic_item2">Update targets and measure performance without reprinting</string>
+
+    <string name="learn_benefits_kicker">Why it works</string>
+    <string name="learn_benefits_title">What QR gives a business</string>
+    <string name="learn_tips_kicker">Smart choice</string>
+    <string name="learn_tips_title">How to choose</string>
+
+    <string name="learn_summary_kicker">In short</string>
+    <string name="learn_summary_title">A good QR is not only pretty — it is clear, fast, and easy to scan.</string>
+    <string name="learn_summary_text">When you set one clear goal, choose static vs dynamic wisely, and keep the handoff simple, the QR becomes a real marketing tool — not just a technical gadget.</string>
+    <string name="learn_summary_cta">Start creating a QR</string>
+
+    <string-array name="learn_benefits">
+        <item>Less friction between discovery and action</item>
+        <item>Instant bridge from physical to digital</item>
+        <item>Works for signage, print, packaging, and screens</item>
+        <item>Dynamic codes let you change destinations without reprinting</item>
+        <item>Measure scans and campaign performance</item>
+    </string-array>
+
+    <string-array name="learn_tips">
+        <item>If the content is fixed and unlikely to change, static is usually enough.</item>
+        <item>If you run campaigns, promotions, or need measurement, prefer dynamic.</item>
+        <item>One QR with one clear goal beats packing too much into a single scan.</item>
+    </string-array>
+
+    <string-array name="learn_diff_titles">
+        <item>Static QR — free, pro, yours</item>
+        <item>Dynamic — only when you need measurement</item>
+        <item>No unnecessary tracking</item>
+        <item>Quality, security, and UX — free</item>
+    </string-array>
+
+    <string-array name="learn_diff_texts">
+        <item>Market-leading design, full-quality PNG or SVG downloads, with no scan caps or expiry. The code stays yours — print and display it anywhere.</item>
+        <item>Want to change a destination after printing or track traffic? Dynamic is there for your management. It\'s not the default and not the only tool — it\'s an option you choose.</item>
+        <item>On static codes we don\'t see who scanned and don\'t keep scan lists. With dynamic measurement, the data serves you — we don\'t sell data about your audience.</item>
+        <item>Solid security, a smooth interface, and a professional result — without paying for the basic freedom to create a code that works.</item>
+    </string-array>
+</resources>

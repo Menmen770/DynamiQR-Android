@@ -31,6 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="start"
+            android:textAlignment="viewStart"
+            android:textDirection="anyRtl"
             android:textColor="@color/text_main"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -42,6 +44,8 @@
             android:layout_marginTop="4dp"
             android:gravity="start"
             android:lineSpacingExtra="2dp"
+            android:textAlignment="viewStart"
+            android:textDirection="anyRtl"
             android:textColor="@color/sub_text"
             android:textSize="13sp" />
 

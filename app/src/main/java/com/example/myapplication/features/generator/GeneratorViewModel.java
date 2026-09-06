@@ -5,7 +5,10 @@ import android.os.Looper;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import com.example.myapplication.DynamiQRApplication;
+import com.example.myapplication.core.i18n.AppI18n;
 import com.example.myapplication.core.utils.QrEncoder;
+import com.example.myapplication.core.utils.QrPreviewCompositor;
 import com.example.myapplication.core.utils.QrStyleMapper;
 import com.example.myapplication.data.repository.QrRepository;
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ public class GeneratorViewModel extends ViewModel {
     private final MutableLiveData<String> saveMessage = new MutableLiveData<>();
 
     private String qrType = "url";
+    private String linkMode = "static";
     private String content = "";
     private String fgColor = "#111111";
     private String bgColor = "#ffffff";
@@ -64,6 +68,14 @@ public class GeneratorViewModel extends ViewModel {
 
     public void setQrType(String type) {
         qrType = type;
+    }
+
+    public void setLinkMode(String mode) {
+        linkMode = "dynamic".equals(mode) ? "dynamic" : "static";
+    }
+
+    public String getLinkMode() {
+        return linkMode;
     }
 
     public void setContent(String value) {
@@ -138,7 +150,6 @@ public class GeneratorViewModel extends ViewModel {
     }
 
     public void setLogoShape(String shape) {
-        // ברירת מחדל כמו ב-RN: ללא חור (overlay) — לא עיגול אוטומטי
         logoShape = shape != null && !shape.isEmpty() ? shape : "overlay";
         schedulePreview();
     }
@@ -158,13 +169,88 @@ public class GeneratorViewModel extends ViewModel {
     }
 
     public void generatePreview() {
+        generateQrImage(480, new ExportCallback() {
+            @Override
+            public void onSuccess(String dataUrl) {
+                qrPreviewImage.setValue(dataUrl);
+            }
+
+            @Override
+            public void onError(String message) {
+                error.setValue(message != null ? message : AppI18n.t(DynamiQRApplication.getInstance(),
+                        "generator", "errors.generateFailed", "Preview failed"));
+            }
+        }, true);
+    }
+
+    /**
+     * ייצור QR באיכות הדפסה (2400px) לשיתוף/הורדה — כמו QR_EXPORT_PIXEL_SIZE באתר.
+     */
+    public void generateExport(ExportCallback callback) {
+        generateQrImage(QrPreviewCompositor.EXPORT_PIXEL_SIZE, callback, true);
+    }
+
+    public interface ExportCallback {
+        void onSuccess(String dataUrl);
+
+        void onError(String message);
+    }
+
+    private void generateQrImage(int widthPx, ExportCallback callback, boolean manageLoading) {
         String encoded = QrEncoder.encode(qrType, content);
         if (encoded.isEmpty()) {
-            error.setValue("הזן תוכן תקין");
+            if (callback != null) {
+                callback.onError(AppI18n.t(DynamiQRApplication.getInstance(),
+                        "generator", "preview.emptyHint", "Enter valid content"));
+            } else {
+                error.setValue(AppI18n.t(DynamiQRApplication.getInstance(),
+                        "generator", "errors.fillBeforeDynamicSave", "Enter valid content"));
+            }
             return;
         }
-        isLoading.setValue(true);
+        if (manageLoading) {
+            isLoading.setValue(true);
+        }
 
+        Map<String, Object> body = buildGenerateBody(widthPx);
+        repository.generateQr(body).enqueue(new Callback<com.example.myapplication.data.models.GenerateQrResponse>() {
+            @Override
+            public void onResponse(Call<com.example.myapplication.data.models.GenerateQrResponse> call,
+                                   Response<com.example.myapplication.data.models.GenerateQrResponse> response) {
+                if (manageLoading) {
+                    isLoading.setValue(false);
+                }
+                if (response.isSuccessful() && response.body() != null
+                        && response.body().getQrImage() != null) {
+                    if (callback != null) {
+                        callback.onSuccess(response.body().getQrImage());
+                    }
+                } else if (callback != null) {
+                    callback.onError(AppI18n.t(DynamiQRApplication.getInstance(),
+                            "generator", "errors.generateFailed", "QR creation failed"));
+                } else {
+                    error.setValue(AppI18n.t(DynamiQRApplication.getInstance(),
+                            "generator", "errors.generateFailed", "Preview failed"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.myapplication.data.models.GenerateQrResponse> call, Throwable t) {
+                if (manageLoading) {
+                    isLoading.setValue(false);
+                }
+                String message = t != null ? t.getMessage() : AppI18n.t(DynamiQRApplication.getInstance(),
+                        "common", "api.serverUnexpected", "Network error");
+                if (callback != null) {
+                    callback.onError(message);
+                } else {
+                    error.setValue(message);
+                }
+            }
+        });
+    }
+
+    private Map<String, Object> buildGenerateBody(int widthPx) {
         boolean hasSticker = stickerId != null && !"none".equals(stickerId);
         String bgForApi;
         if (hasSticker || "none".equals(bgColorMode) || "gradient".equals(bgColorMode)) {
@@ -177,14 +263,14 @@ public class GeneratorViewModel extends ViewModel {
                 : fgColor;
 
         Map<String, Object> body = new HashMap<>();
-        body.put("text", encoded);
+        body.put("text", QrEncoder.encode(qrType, content));
         body.put("color", colorForApi);
         body.put("bgColor", bgForApi);
         body.put("dotsType", dotsType);
         body.put("cornersType", cornersType);
         body.put("logoShape", logoShape);
         body.put("errorCorrectionLevel", errorCorrectionLevel);
-        body.put("width", 480);
+        body.put("width", widthPx);
 
         if ("gradient".equals(colorMode)) {
             body.put("dotsGradient", buildDotsGradient());
@@ -194,25 +280,7 @@ public class GeneratorViewModel extends ViewModel {
             body.put("image", logoDataUrl);
             body.put("logoInsetScale", logoInsetScale);
         }
-
-        repository.generateQr(body).enqueue(new Callback<com.example.myapplication.data.models.GenerateQrResponse>() {
-            @Override
-            public void onResponse(Call<com.example.myapplication.data.models.GenerateQrResponse> call,
-                                   Response<com.example.myapplication.data.models.GenerateQrResponse> response) {
-                isLoading.setValue(false);
-                if (response.isSuccessful() && response.body() != null) {
-                    qrPreviewImage.setValue(response.body().getQrImage());
-                } else {
-                    error.setValue("יצירת תצוגה מקדימה נכשלה");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<com.example.myapplication.data.models.GenerateQrResponse> call, Throwable t) {
-                isLoading.setValue(false);
-                error.setValue(t.getMessage());
-            }
-        });
+        return body;
     }
 
     private Map<String, Object> buildDotsGradient() {
@@ -238,16 +306,18 @@ public class GeneratorViewModel extends ViewModel {
     public void saveQr(String displayName) {
         String encoded = QrEncoder.encode(qrType, content);
         if (encoded.isEmpty()) {
-            error.setValue("הזן תוכן תקין");
+            error.setValue(AppI18n.t(DynamiQRApplication.getInstance(),
+                    "generator", "preview.emptyHint", "Enter valid content"));
             return;
         }
         isLoading.setValue(true);
         Map<String, Object> body = new HashMap<>();
-        body.put("displayName", displayName != null && !displayName.isEmpty() ? displayName : "קוד חדש");
+        body.put("displayName", displayName != null && !displayName.isEmpty() ? displayName
+                : AppI18n.t(DynamiQRApplication.getInstance(), "generator", "save.defaultName", "New QR"));
         body.put("qrType", qrType);
         body.put("qrInputs", QrEncoder.buildQrInputs(qrType, content));
         body.put("qrValue", encoded);
-        body.put("linkMode", "static");
+        body.put("linkMode", linkMode);
 
         Map<String, Object> style = new HashMap<>();
         style.put("fgColor", fgColor);
@@ -286,9 +356,12 @@ public class GeneratorViewModel extends ViewModel {
                                    Response<com.example.myapplication.data.models.SaveQrResponse> response) {
                 isLoading.setValue(false);
                 if (response.isSuccessful() && response.body() != null) {
-                    saveMessage.setValue(response.body().isUpdated() ? "הקוד עודכן" : "הקוד נשמר בהצלחה");
+                    saveMessage.setValue(response.body().isUpdated()
+                            ? AppI18n.t(DynamiQRApplication.getInstance(), "generator", "save.updated", "Updated in collection")
+                            : AppI18n.t(DynamiQRApplication.getInstance(), "generator", "save.savedSuccess", "Saved successfully"));
                 } else {
-                    error.setValue("שמירה נכשלה");
+                    error.setValue(AppI18n.t(DynamiQRApplication.getInstance(),
+                            "generator", "errors.saveFailed", "Save failed"));
                 }
             }
 

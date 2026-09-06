@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 import com.example.myapplication.DynamiQRApplication;
 import com.example.myapplication.MainActivity;
+import com.example.myapplication.R;
 import com.example.myapplication.core.base.BaseActivity;
+import com.example.myapplication.core.i18n.AppI18n;
 import com.example.myapplication.data.local.AuthManager;
 import com.example.myapplication.data.models.LoginResponse;
 import com.example.myapplication.data.repository.AuthRepository;
@@ -44,7 +46,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
         String password = binding.passwordInput.getText().toString().trim();
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "אנא מלא את כל השדות", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_fill_all), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -72,14 +74,21 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
                         finish();
                     }
                 } else {
-                    Toast.makeText(RegisterActivity.this, "הרשמה נכשלה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,
+                            AppI18n.t(RegisterActivity.this, "auth", "errors.registerFailed",
+                                    "Registration failed"),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 setLoading(false);
-                Toast.makeText(RegisterActivity.this, "שגיאה: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                String detail = t.getMessage() != null ? t.getMessage() : "";
+                Toast.makeText(RegisterActivity.this,
+                        getString(R.string.settings_network_error)
+                                + (detail.isEmpty() ? "" : ": " + detail),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.example.myapplication.data.api;
 
+import com.example.myapplication.data.models.FolderState;
 import com.example.myapplication.data.models.GenerateQrResponse;
 import com.example.myapplication.data.models.LoginResponse;
 import com.example.myapplication.data.models.MeResponse;
@@ -51,6 +52,15 @@ public interface ApiService {
 
     @DELETE("/api/saved-qrs/{id}")
     Call<Map<String, Object>> deleteQr(@Path("id") String id);
+
+    @GET("/api/saved-qrs/{id}/stats")
+    Call<Map<String, Object>> getQrStats(@Path("id") String id);
+
+    @GET("/api/dashboard/folders")
+    Call<FolderState> getFolders();
+
+    @PUT("/api/dashboard/folders")
+    Call<FolderState> putFolders(@Body FolderState body);
 
     @POST("/api/generate-qr")
     Call<GenerateQrResponse> generateQr(@Body Map<String, Object> body);

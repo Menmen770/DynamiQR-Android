@@ -62,7 +62,7 @@
                 android:id="@+id/authSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/space_title_subtitle"
                 android:gravity="center"
                 android:textColor="@color/sub_text"
                 android:textSize="14sp" />

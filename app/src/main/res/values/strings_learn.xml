@@ -38,6 +38,7 @@
     <string name="learn_step_design_text">שומרים על ניגודיות טובה, לוגו במידה נכונה ורמת תיקון שגיאות שמתאימה לשימוש בפועל.</string>
     <string name="learn_step_publish_title">שולחים לדפוס או לדיגיטל</string>
     <string name="learn_step_publish_text">מטמיעים על שלט, פלייר, אריזה, מסך או כרטיס ביקור ומוודאים שהמעבר מהיר ונוח בטלפון.</string>
+    <string name="learn_step_label">שלב %1$d</string>
 
     <string name="learn_diff_kicker">ההבדל שלנו</string>
     <string name="learn_diff_title">מה האתר שלנו מציע שאין בשום מקום אחר</string>

@@ -1,0 +1,123 @@
+{
+  "nav": {
+    "savedCodes": "קודים שמורים",
+    "learnQr": "מה זה QR",
+    "learnQrFooter": "מה זה QR?",
+    "homeTitle": "חזרה לעמוד הבית",
+    "mainAria": "ניווט ראשי",
+    "login": "התחברות",
+    "register": "הרשמה",
+    "logout": "יציאה",
+    "updateDetails": "עדכון פרטים",
+    "changeLanguage": "שינוי שפה",
+    "menuAria": "תפריט משתמש"
+  },
+  "greeting": {
+    "morning": "בוקר טוב",
+    "afternoon": "צהריים טובים",
+    "evening": "ערב טוב",
+    "night": "לילה טוב"
+  },
+  "footer": {
+    "blurb": "מהיר, מאובטח ונוח לשימוש — עם התאמה אישית מלאה והורדה מיידית.",
+    "quickNav": "ניווט מהיר",
+    "support": "מידע ותמיכה",
+    "stableService": "שירות יציב וזמין",
+    "saveToAccount": "שמירת QR אחרונים לחשבון שלך",
+    "contact": "צור קשר",
+    "privacy": "מדיניות פרטיות ותנאי שימוש",
+    "privacyShort": "פרטיות ותנאים",
+    "rights": "All rights reserved · 2026 · menmen770 & levi770 ©"
+  },
+  "language": {
+    "switchAria": "החלף שפה",
+    "toEnglish": "EN",
+    "toHebrew": "עב",
+    "toArabic": "ع",
+    "toYiddish": "ייִ",
+    "hebrew": "עברית",
+    "english": "English",
+    "arabic": "العربية",
+    "yiddish": "ייִדיש"
+  },
+  "loading": "טוען...",
+  "notFound": {
+    "title": "404 — העמוד לא נמצא",
+    "body": "העמוד שחיפשתם אינו קיים או שהועבר למקום אחר.",
+    "home": "לדף הבית",
+    "create": "יצירת QR"
+  },
+  "errorBoundary": {
+    "title": "משהו השתבש",
+    "body": "אירעה שגיאה בלתי צפויה. נסו לרענן את העמוד.",
+    "reload": "רענון העמוד"
+  },
+  "a11y": {
+    "button": "נגישות",
+    "openMenu": "פתח תפריט נגישות",
+    "menuTitle": "אפשרויות נגישות",
+    "closeMenu": "סגור תפריט",
+    "fontSize": "גודל הטקסט",
+    "readableFont": "גופן קריא",
+    "readableFontAria": "גופן קריא יותר",
+    "displayMode": "מצב תצוגה",
+    "toggleDark": "החלף למצב אפל",
+    "reset": "איפוס הכל"
+  },
+  "back": "חזרה",
+  "backToTop": "בחזרה ללמעלה",
+  "modal": {
+    "cancel": "ביטול",
+    "waiting": "ממתין…"
+  },
+  "tabs": {
+    "myCodes": "קודים שמורים",
+    "create": "יצירת QR",
+    "scan": "סריקת QR",
+    "guide": "מדריך"
+  },
+  "theme": {
+    "night": "מצב לילה",
+    "day": "מצב יום"
+  },
+  "scanner": {
+    "loading": "טוען...",
+    "permissionTitle": "נדרשת הרשאת מצלמה",
+    "permissionText": "כדי לסרוק קודי QR, יש לאפשר גישה למצלמה",
+    "allowAccess": "אפשר גישה",
+    "title": "סריקת QR",
+    "subtitle": "כוון את המצלמה לקוד",
+    "hint": "מקם את קוד ה-QR בתוך המסגרת",
+    "subHint": "הקישור ייפתח אוטומטית לאחר סריקה מוצלחת",
+    "torchOn": "הדלק פלאש",
+    "torchOff": "כבה פלאש",
+    "errorTitle": "שגיאה",
+    "openLinkFailed": "לא ניתן לפתוח את הקישור",
+    "scannedTitle": "תוכן שנסרק",
+    "emptyContent": "לא נמצא תוכן",
+    "close": "סגור"
+  },
+  "settings": {
+    "title": "הגדרות",
+    "accountAria": "הגדרות חשבון",
+    "updateName": "עדכון שם",
+    "firstName": "שם פרטי",
+    "firstNamePlaceholder": "השם שלך",
+    "email": "אימייל",
+    "saveProfile": "שמירת פרטים",
+    "saveSuccess": "הפרטים נשמרו בהצלחה",
+    "saveFailed": "שמירה נכשלה",
+    "displayMode": "מצב תצוגה",
+    "language": "שפה / Language",
+    "userFallback": "משתמש",
+    "userInitial": "מ"
+  },
+  "password": {
+    "show": "הצג סיסמה",
+    "hide": "הסתר סיסמה"
+  },
+  "api": {
+    "serverUnexpected": "השרת החזיר תשובה לא צפויה. ודא שה-backend רץ.",
+    "invalidResponse": "תשובה לא תקינה מהשרת."
+  }
+}

@@ -89,6 +89,76 @@ public class QrPreviewLoader {
         cache.evictAll();
     }
 
+    public interface ExportCallback {
+        void onReady(Bitmap bitmap);
+
+        void onError(String message);
+    }
+
+    /** מייצר QR באיכות הדפסה לשיתוף מכרטיס שמור. */
+    public void loadExportBitmap(Context context, QrCode qr, ExportCallback callback) {
+        if (qr == null || callback == null) {
+            return;
+        }
+        Map<String, Object> body = SavedQrPreviewHelper.buildExportBody(qr);
+        if (body == null) {
+            callback.onError("missing");
+            return;
+        }
+        Context app = context.getApplicationContext();
+        repository.generateQr(body).enqueue(new Callback<GenerateQrResponse>() {
+            @Override
+            public void onResponse(Call<GenerateQrResponse> call, Response<GenerateQrResponse> response) {
+                if (!response.isSuccessful() || response.body() == null
+                        || response.body().getQrImage() == null) {
+                    mainHandler.post(() -> callback.onError("generate"));
+                    return;
+                }
+                String dataUrl = response.body().getQrImage();
+                executor.execute(() -> {
+                    Bitmap composed = decodeExport(app, dataUrl, qr);
+                    mainHandler.post(() -> {
+                        if (composed != null) {
+                            callback.onReady(composed);
+                        } else {
+                            callback.onError("compose");
+                        }
+                    });
+                });
+            }
+
+            @Override
+            public void onFailure(Call<GenerateQrResponse> call, Throwable t) {
+                mainHandler.post(() -> callback.onError(
+                        t != null && t.getMessage() != null ? t.getMessage() : "network"));
+            }
+        });
+    }
+
+    private Bitmap decodeExport(Context context, String dataUrl, QrCode qr) {
+        try {
+            String base64 = dataUrl.contains(",")
+                    ? dataUrl.substring(dataUrl.indexOf(',') + 1) : dataUrl;
+            byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
+            Bitmap qrBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            if (qrBitmap == null) {
+                return null;
+            }
+            Bitmap composed = QrPreviewCompositor.compositeForExport(
+                    context,
+                    qrBitmap,
+                    SavedQrPreviewHelper.stickerType(qr),
+                    SavedQrPreviewHelper.bgColorForComposite(qr),
+                    SavedQrPreviewHelper.stickerInkFor(qr));
+            if (qrBitmap != composed) {
+                qrBitmap.recycle();
+            }
+            return composed;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private Bitmap decodeAndComposite(Context context, String dataUrl, QrCode qr) {
         try {
             String base64 = dataUrl.contains(",")
@@ -103,7 +173,7 @@ public class QrPreviewLoader {
                     qrBitmap,
                     SavedQrPreviewHelper.stickerType(qr),
                     SavedQrPreviewHelper.bgColorForComposite(qr),
-                    SavedQrPreviewHelper.fgColorForComposite(qr),
+                    SavedQrPreviewHelper.stickerInkFor(qr),
                     CARD_STAGE_PX);
         } catch (Exception e) {
             return null;

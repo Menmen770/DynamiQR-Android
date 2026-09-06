@@ -15,6 +15,7 @@
     android:visibility="gone">
 
     <TextView
+      android:id="@+id/permissionTitle"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="נדרשת הרשאת מצלמה"
@@ -23,6 +24,7 @@
       android:textStyle="bold" />
 
     <TextView
+      android:id="@+id/permissionText"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
@@ -39,7 +41,7 @@
       android:backgroundTint="@color/primary"
       android:text="אפשר מצלמה"
       android:textColor="@color/white"
-      app:cornerRadius="12dp" />
+      app:cornerRadius="@dimen/radius_button" />
   </LinearLayout>
 
   <FrameLayout
@@ -67,19 +69,21 @@
       android:paddingHorizontal="24dp">
 
       <TextView
+        android:id="@+id/scannerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="סריקת קוד QR"
+        android:text="@string/scanner_title"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
 
       <TextView
+        android:id="@+id/scannerHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/space_title_subtitle"
         android:gravity="center"
-        android:text="מקם את הקוד בתוך המסגרת"
+        android:text="@string/scanner_hint"
         android:textColor="#CCFFFFFF"
         android:textSize="14sp" />
     </LinearLayout>
@@ -93,7 +97,7 @@
       android:layout_marginBottom="32dp"
       android:text="הדלק פנס"
       android:textColor="@color/white"
-      app:cornerRadius="24dp"
+      app:cornerRadius="@dimen/radius_button"
       app:strokeColor="@color/white" />
 
   </FrameLayout>

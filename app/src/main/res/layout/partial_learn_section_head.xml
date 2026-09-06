@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
+        android:textAlignment="viewStart"
+        android:textDirection="anyRtl"
         android:textColor="@color/primary"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -20,6 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
+        android:textAlignment="viewStart"
+        android:textDirection="anyRtl"
         android:textColor="@color/text_main"
         android:textSize="17sp"
         android:textStyle="bold" />
@@ -28,9 +32,11 @@
         android:id="@+id/sectionSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/space_title_subtitle"
         android:gravity="start"
         android:lineSpacingExtra="2dp"
+        android:textAlignment="viewStart"
+        android:textDirection="anyRtl"
         android:textColor="@color/sub_text"
         android:textSize="13sp" />
 

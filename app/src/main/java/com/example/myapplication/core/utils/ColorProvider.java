@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Color / gradient presets aligned with RN {@code PRESET_*} and {@code QR_GRADIENT_PRESETS}.
+ * Display names are English keys; localize via AppI18n {@code generator.gradients.*} when shown.
+ */
 public final class ColorProvider {
 
     public static final class GradientPreset {
@@ -25,7 +29,6 @@ public final class ColorProvider {
     private ColorProvider() {
     }
 
-    /** כמו PRESET_QR_COLORS ב-RN */
     public static List<String> getFgColors() {
         return Arrays.asList(
                 "#111111", "#1f2937", "#4b5563", "#1877f2", "#1d4ed8",
@@ -33,15 +36,13 @@ public final class ColorProvider {
         );
     }
 
-    /** כמו PRESET_BG_COLORS ב-RN (+ לבן לנוחות) */
     public static List<String> getBgColors() {
         return Arrays.asList(
                 "#ffffff", "#fde68a", "#fdba74", "#fca5a5", "#f9a8d4",
-                "#ddd6fe", "#bfdbfe", "#93c5fd", "#a7f3d0", "#86efac", "#d9f99d", "#e5e7eb"
+                "#ddd6fe", "#bfdbfe", "#93c5fd", "#a7f3d0", "#86efac", "#d9f99d"
         );
     }
 
-    /** פלטה מורחבת לדיאלוג העיפרון (בלי הקלדת HEX) */
     public static List<String> getExtendedFgColors() {
         return Arrays.asList(
                 "#111111", "#1f2937", "#374151", "#4b5563", "#6b7280",
@@ -62,32 +63,31 @@ public final class ColorProvider {
         );
     }
 
-    /** כמו QR_GRADIENT_PRESETS ב-RN */
     public static List<GradientPreset> getQrGradientPresets() {
         return Arrays.asList(
-                new GradientPreset("brand-teal", "טורקיז מותג", "#0a9396", "#005f73", 135),
-                new GradientPreset("social-pop", "פופ חברתי", "#7c3aed", "#ec4899", 135),
-                new GradientPreset("sunrise", "זריחה", "#f97316", "#ef4444", 135),
-                new GradientPreset("electric", "חשמלי", "#2563eb", "#06b6d4", 120),
-                new GradientPreset("lime-night", "ליים כהה", "#65a30d", "#14532d", 135),
-                new GradientPreset("royal", "מלכותי", "#4338ca", "#7c3aed", 140),
-                new GradientPreset("ruby-fire", "אש אדומה", "#dc2626", "#fb7185", 135),
-                new GradientPreset("matrix", "מטריקס", "#22c55e", "#15803d", 135),
-                new GradientPreset("arctic", "ארקטי", "#38bdf8", "#6366f1", 140),
-                new GradientPreset("gold-plum", "זהב־שזיף", "#f59e0b", "#7c3aed", 135)
+                new GradientPreset("brand-teal", "Deep teal", "#0a9396", "#005f73", 135),
+                new GradientPreset("social-pop", "Pink purple", "#7c3aed", "#ec4899", 135),
+                new GradientPreset("sunrise", "Warm sunset", "#f97316", "#ef4444", 135),
+                new GradientPreset("electric", "Electric blue", "#2563eb", "#06b6d4", 120),
+                new GradientPreset("lime-night", "Dark lime", "#65a30d", "#14532d", 135),
+                new GradientPreset("royal", "Royal purple", "#4338ca", "#7c3aed", 140),
+                new GradientPreset("ruby-fire", "Hot ruby", "#dc2626", "#fb7185", 135),
+                new GradientPreset("matrix", "Neon green", "#22c55e", "#15803d", 135),
+                new GradientPreset("arctic", "Ice blue", "#38bdf8", "#6366f1", 140),
+                new GradientPreset("gold-plum", "Gold plum", "#f59e0b", "#7c3aed", 135)
         );
     }
 
     public static List<GradientPreset> getBgGradientPresets() {
         return Arrays.asList(
-                new GradientPreset("peach-cream", "אפרסק", "#fff7ed", "#fdba74", 135),
-                new GradientPreset("sky-mint", "שמיים־מנטה", "#dbeafe", "#a7f3d0", 135),
-                new GradientPreset("lavender-blush", "לבנדר", "#ede9fe", "#fbcfe8", 135),
-                new GradientPreset("sunset-soft", "שקיעה רכה", "#fde68a", "#fca5a5", 135),
-                new GradientPreset("ocean-silk", "אוקיינוס", "#bfdbfe", "#93c5fd", 135),
-                new GradientPreset("stone-glow", "אבן", "#f5f5f4", "#d6d3d1", 140),
-                new GradientPreset("citrus-fresh", "הדרים", "#fef08a", "#86efac", 135),
-                new GradientPreset("rose-cloud", "ענן ורוד", "#ffe4e6", "#fbcfe8", 135)
+                new GradientPreset("peach-cream", "Peach", "#fff7ed", "#fdba74", 135),
+                new GradientPreset("sky-mint", "Sky mint", "#dbeafe", "#a7f3d0", 135),
+                new GradientPreset("lavender-blush", "Lavender", "#ede9fe", "#fbcfe8", 135),
+                new GradientPreset("sunset-soft", "Soft sunset", "#fde68a", "#fca5a5", 135),
+                new GradientPreset("ocean-silk", "Ocean", "#bfdbfe", "#93c5fd", 135),
+                new GradientPreset("stone-glow", "Stone", "#f5f5f4", "#d6d3d1", 140),
+                new GradientPreset("citrus-fresh", "Citrus", "#fef08a", "#86efac", 135),
+                new GradientPreset("rose-cloud", "Rose cloud", "#ffe4e6", "#fbcfe8", 135)
         );
     }
 

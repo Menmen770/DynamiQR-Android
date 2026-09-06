@@ -5,13 +5,15 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_learn_block"
     android:orientation="vertical"
-    android:padding="14dp">
+    android:padding="@dimen/card_padding_inner">
 
     <TextView
         android:id="@+id/statLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
+        android:textAlignment="viewStart"
+        android:textDirection="anyRtl"
         android:textColor="@color/primary"
         android:textSize="11sp"
         android:textStyle="bold" />
@@ -20,8 +22,10 @@
         android:id="@+id/statStrong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/space_xs"
         android:gravity="start"
+        android:textAlignment="viewStart"
+        android:textDirection="anyRtl"
         android:textColor="@color/text_main"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -30,8 +34,10 @@
         android:id="@+id/statText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/space_xs"
         android:gravity="start"
+        android:textAlignment="viewStart"
+        android:textDirection="anyRtl"
         android:textColor="@color/sub_text"
         android:textSize="12sp" />
 </LinearLayout>

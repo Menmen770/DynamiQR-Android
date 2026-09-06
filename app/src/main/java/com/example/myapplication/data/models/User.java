@@ -49,7 +49,7 @@ public class User {
         if (email != null && email.contains("@")) {
             return email.substring(0, email.indexOf('@'));
         }
-        return "משתמש";
+        return "User";
     }
 
     public String getInitial() {

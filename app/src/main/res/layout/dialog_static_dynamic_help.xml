@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_sheet"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/space_screen"
+        android:paddingBottom="@dimen/space_xxl">
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/border" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/helpHeading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="סטטי או דינמי — מה לבחור?"
+                android:textColor="@color/text_main"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/helpCloseButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="סגור"
+                android:padding="8dp"
+                android:src="@drawable/ic_close"
+                app:tint="@color/sub_text" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/helpIntro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:gravity="start"
+            android:lineSpacingExtra="3dp"
+            android:text="שני מצבים ליצירת QR. הבחירה שלכם — לא מגבלה שמכריחים אתכם לשלם עליה."
+            android:textColor="@color/sub_text"
+            android:textSize="14sp" />
+
+        <!-- Static card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:background="@drawable/bg_help_card_static"
+            android:orientation="vertical"
+            android:padding="@dimen/card_padding">
+
+            <TextView
+                android:id="@+id/helpStaticBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_badge_static"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="סטטי"
+                android:textColor="@color/sub_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/helpStaticTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:gravity="start"
+                android:text="הקישור בתוך הקוד — שלכם לנצח"
+                android:textColor="@color/text_main"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/helpStaticBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xs"
+                android:gravity="start"
+                android:lineSpacingExtra="2dp"
+                android:text="היעד מקודד ישירות בתמונת ה-QR. חינמי, בלי מכסת סריקות ובלי כפתור כיבוי."
+                android:textColor="@color/sub_text"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:gravity="start"
+                android:lineSpacingExtra="3dp"
+                android:text="✓  עיצוב מקצועי והורדה באיכות מלאה\n✓  אין מעקב סריקות מצדנו"
+                android:textColor="@color/text_main"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Dynamic card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:background="@drawable/bg_help_card_dynamic"
+            android:orientation="vertical"
+            android:padding="@dimen/card_padding">
+
+            <TextView
+                android:id="@+id/helpDynamicBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_badge_dynamic"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="דינמי"
+                android:textColor="@color/primary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/helpDynamicTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:gravity="start"
+                android:text="קישור קצר שאפשר לעדכן"
+                android:textColor="@color/text_main"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/helpDynamicBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xs"
+                android:gravity="start"
+                android:lineSpacingExtra="2dp"
+                android:text="קישור קצר קבוע בקוד; היעד ניתן לעדכון מהחשבון בלי הדפסה מחדש."
+                android:textColor="@color/sub_text"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:gravity="start"
+                android:lineSpacingExtra="3dp"
+                android:text="✓  סטטיסטיקות סריקות לניהול שלכם\n✓  מתאים לקמפיינים וקישורים משתנים"
+                android:textColor="@color/text_main"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/helpTip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:background="@drawable/bg_help_tip"
+            android:gravity="start"
+            android:lineSpacingExtra="2dp"
+            android:padding="@dimen/card_padding_inner"
+            android:text="תוכן קבוע שלא אמור להשתנות? בחרו סטטי. קמפיין, עדכון יעד או מדידה? בחרו דינמי."
+            android:textColor="@color/primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/helpGotItButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/space_lg"
+            android:backgroundTint="@color/primary"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="הבנתי"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/radius_button" />
+    </LinearLayout>
+</ScrollView>

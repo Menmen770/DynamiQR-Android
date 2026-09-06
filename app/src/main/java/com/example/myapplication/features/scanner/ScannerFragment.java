@@ -20,6 +20,7 @@ import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.content.ContextCompat;
 import com.example.myapplication.core.base.BaseFragment;
+import com.example.myapplication.core.i18n.AppI18n;
 import com.example.myapplication.databinding.FragmentScannerBinding;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
@@ -49,6 +50,7 @@ public class ScannerFragment extends BaseFragment<FragmentScannerBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         cameraExecutor = Executors.newSingleThreadExecutor();
+        applyScannerChrome();
 
         binding.torchButton.setOnClickListener(v -> toggleTorch());
 
@@ -62,6 +64,19 @@ public class ScannerFragment extends BaseFragment<FragmentScannerBinding> {
         }
     }
 
+    private void applyScannerChrome() {
+        binding.permissionTitle.setText(AppI18n.t(requireContext(), "common", "scanner.permissionTitle",
+                "Camera permission required"));
+        binding.permissionText.setText(AppI18n.t(requireContext(), "common", "scanner.permissionText",
+                "To scan QR codes, please allow camera access"));
+        binding.requestPermissionButton.setText(AppI18n.t(requireContext(), "common", "scanner.allowAccess",
+                "Allow access"));
+        binding.scannerTitle.setText(AppI18n.t(requireContext(), "common", "scanner.title", "Scan QR"));
+        binding.scannerHint.setText(AppI18n.t(requireContext(), "common", "scanner.hint",
+                "Place the QR code inside the frame"));
+        binding.torchButton.setText(AppI18n.t(requireContext(), "common", "scanner.torchOn", "Turn flash on"));
+    }
+
     private boolean allPermissionsGranted() {
         return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED;
@@ -71,7 +86,9 @@ public class ScannerFragment extends BaseFragment<FragmentScannerBinding> {
         if (camera != null && camera.getCameraInfo().hasFlashUnit()) {
             torchOn = !torchOn;
             camera.getCameraControl().enableTorch(torchOn);
-            binding.torchButton.setText(torchOn ? "כבה פנס" : "הדלק פנס");
+            binding.torchButton.setText(torchOn
+                    ? AppI18n.t(requireContext(), "common", "scanner.torchOff", "Turn flash off")
+                    : AppI18n.t(requireContext(), "common", "scanner.torchOn", "Turn flash on"));
         }
     }
 
@@ -109,7 +126,9 @@ public class ScannerFragment extends BaseFragment<FragmentScannerBinding> {
                         this, CameraSelector.DEFAULT_BACK_CAMERA, preview, imageAnalysis);
             } catch (ExecutionException | InterruptedException e) {
                 mainHandler.post(() ->
-                        Toast.makeText(requireContext(), "שגיאת מצלמה", Toast.LENGTH_SHORT).show());
+                        Toast.makeText(requireContext(),
+                                AppI18n.t(requireContext(), "common", "scanner.errorTitle", "Camera error"),
+                                Toast.LENGTH_SHORT).show());
             }
         }, ContextCompat.getMainExecutor(requireContext()));
     }
@@ -144,7 +163,10 @@ public class ScannerFragment extends BaseFragment<FragmentScannerBinding> {
             if (allPermissionsGranted()) {
                 startCamera();
             } else {
-                Toast.makeText(requireContext(), "הרשאת מצלמה נדרשת לסריקה", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(),
+                        AppI18n.t(requireContext(), "common", "scanner.permissionTitle",
+                                "Camera permission required"),
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }

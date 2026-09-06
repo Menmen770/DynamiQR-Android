@@ -20,6 +20,14 @@
     <string name="register_has_account">כבר יש לך חשבון?</string>
     <string name="register_to_login">התחברות</string>
 
+    <!-- Verify email -->
+    <string name="verify_title">אימות אימייל</string>
+    <string name="verify_subtitle">שלחנו קוד בן 6 ספרות לכתובת שלך</string>
+    <string name="verify_sent_to">נשלח אל:</string>
+    <string name="verify_code_hint">000000</string>
+    <string name="verify_submit">אמת והמשך</string>
+    <string name="verify_resend">שלח קוד מחדש</string>
+
     <!-- Dashboard -->
     <string name="dashboard_title">הקודים שלי</string>
     <string name="dashboard_search_hint">חיפוש לפי שם הקוד…</string>
@@ -57,6 +65,35 @@
     <!-- Common -->
     <string name="action_cancel">ביטול</string>
     <string name="action_ok">אישור</string>
+    <string name="action_share">שתף</string>
     <string name="error_fill_all">אנא מלא את כל השדות</string>
     <string name="error_network">שגיאת תקשורת עם השרת</string>
+
+    <!-- Account / settings -->
+    <string name="settings_title">הגדרות</string>
+    <string name="settings_update_name">עדכון שם</string>
+    <string name="settings_full_name">שם מלא</string>
+    <string name="settings_email">אימייל</string>
+    <string name="settings_save_profile">שמירת פרטים</string>
+    <string name="settings_display_mode">מצב תצוגה</string>
+    <string name="settings_language">שפה</string>
+    <string name="settings_change_language">שינוי שפה</string>
+    <string name="settings_logout">התנתקות</string>
+    <string name="settings_day_mode">מצב יום</string>
+    <string name="settings_night_mode">מצב לילה</string>
+    <string name="settings_user_fallback">משתמש</string>
+    <string name="settings_enter_name">הזן שם</string>
+    <string name="settings_profile_saved">הפרופיל נשמר</string>
+    <string name="settings_save_failed">שמירה נכשלה</string>
+    <string name="settings_network_error">שגיאת תקשורת</string>
+
+    <string name="link_mode_label">סוג קישור</string>
+    <string name="link_mode_static">סטטי</string>
+    <string name="link_mode_dynamic">דינמי</string>
+    <string name="type_switch">החלף</string>
+    <string name="choose_qr_type">בחרו סוג QR</string>
+    <string name="style_tab_color">צבע</string>
+    <string name="style_tab_shape">צורה</string>
+    <string name="style_tab_logo">לוגו</string>
+    <string name="style_tab_sticker">מסגרת</string>
 </resources>

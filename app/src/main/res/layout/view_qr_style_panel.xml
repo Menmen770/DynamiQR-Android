@@ -9,23 +9,22 @@
         android:id="@+id/styleTabGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="2dp"
-        android:paddingVertical="6dp"
-        app:chipSpacingHorizontal="6dp"
-        app:singleSelection="true"
-        app:selectionRequired="true">
+        android:paddingVertical="@dimen/space_sm"
+        app:chipSpacingHorizontal="8dp"
+        app:selectionRequired="true"
+        app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/tabColor"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="צבע"
+            android:text="@string/style_tab_color"
             android:textColor="@color/chip_style_tab_text"
             app:checkedIconVisible="false"
             app:chipBackgroundColor="@color/chip_style_tab_bg"
-            app:chipCornerRadius="12dp"
-            app:chipMinHeight="40dp"
+            app:chipCornerRadius="@dimen/radius_chip"
+            app:chipMinHeight="@dimen/chip_min_height"
             app:chipStrokeColor="@color/primary"
             app:chipStrokeWidth="1dp" />
 
@@ -34,12 +33,12 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="צורה"
+            android:text="@string/style_tab_shape"
             android:textColor="@color/chip_style_tab_text"
             app:checkedIconVisible="false"
             app:chipBackgroundColor="@color/chip_style_tab_bg"
-            app:chipCornerRadius="12dp"
-            app:chipMinHeight="40dp"
+            app:chipCornerRadius="@dimen/radius_chip"
+            app:chipMinHeight="@dimen/chip_min_height"
             app:chipStrokeColor="@color/primary"
             app:chipStrokeWidth="1dp" />
 
@@ -48,12 +47,12 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="לוגו"
+            android:text="@string/style_tab_logo"
             android:textColor="@color/chip_style_tab_text"
             app:checkedIconVisible="false"
             app:chipBackgroundColor="@color/chip_style_tab_bg"
-            app:chipCornerRadius="12dp"
-            app:chipMinHeight="40dp"
+            app:chipCornerRadius="@dimen/radius_chip"
+            app:chipMinHeight="@dimen/chip_min_height"
             app:chipStrokeColor="@color/primary"
             app:chipStrokeWidth="1dp" />
 
@@ -62,12 +61,12 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="מסגרת"
+            android:text="@string/style_tab_sticker"
             android:textColor="@color/chip_style_tab_text"
             app:checkedIconVisible="false"
             app:chipBackgroundColor="@color/chip_style_tab_bg"
-            app:chipCornerRadius="12dp"
-            app:chipMinHeight="40dp"
+            app:chipCornerRadius="@dimen/radius_chip"
+            app:chipMinHeight="@dimen/chip_min_height"
             app:chipStrokeColor="@color/primary"
             app:chipStrokeWidth="1dp" />
 
@@ -77,6 +76,6 @@
         android:id="@+id/tabContentContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="@dimen/space_md" />
 
 </LinearLayout>

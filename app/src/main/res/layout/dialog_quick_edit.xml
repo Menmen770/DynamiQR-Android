@@ -15,6 +15,7 @@
         android:background="@drawable/bg_handle" />
 
     <TextView
+        android:id="@+id/editTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
@@ -27,7 +28,7 @@
         android:id="@+id/editSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/space_title_subtitle"
         android:gravity="start"
         android:text="שינוי יעד לקוד דינמי"
         android:textColor="@color/sub_text"
@@ -87,7 +88,7 @@
             android:layout_weight="1"
             android:text="ביטול"
             android:textColor="@color/sub_text"
-            app:cornerRadius="12dp" />
+            app:cornerRadius="@dimen/radius_button" />
 
         <View android:layout_width="12dp" android:layout_height="0dp" />
 
@@ -98,7 +99,7 @@
             android:layout_height="56dp"
             android:layout_weight="2"
             android:text="שמור שינויים"
-            app:cornerRadius="12dp" />
+            app:cornerRadius="@dimen/radius_button" />
 
     </LinearLayout>
 

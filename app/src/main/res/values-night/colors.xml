@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#1A1A1A</color>
+    <color name="surface">#2D3748</color>
+    <color name="text_main">#F3F4F6</color>
+    <color name="sub_text">#9CA3AF</color>
+    <color name="border">#4A5568</color>
+    <color name="border_strong">#718096</color>
+    <color name="divider_soft">#3A4556</color>
+    <color name="primary_light">#134E4A</color>
+    <color name="primary_overlay_08">#140A9396</color>
+    <color name="primary_overlay_12">#1F0A9396</color>
+    <color name="primary_overlay_16">#290A9396</color>
+    <color name="primary_overlay_22">#380A9396</color>
+</resources>

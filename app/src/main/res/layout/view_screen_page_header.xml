@@ -4,9 +4,9 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingHorizontal="20dp"
-    android:paddingTop="4dp"
-    android:paddingBottom="12dp">
+    android:paddingHorizontal="@dimen/space_screen"
+    android:paddingTop="@dimen/space_sm"
+    android:paddingBottom="@dimen/space_md">
 
     <TextView
         android:id="@+id/headerTitle"
@@ -22,7 +22,8 @@
         android:id="@+id/headerSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/space_title_subtitle"
+        android:lineSpacingExtra="2dp"
         android:maxWidth="340dp"
         android:textAlignment="center"
         android:textColor="@color/sub_text"

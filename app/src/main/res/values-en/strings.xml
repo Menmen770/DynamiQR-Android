@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DynamiQR</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">Welcome back</string>
+    <string name="login_subtitle">Sign in to continue</string>
+    <string name="login_email_hint">Email address</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_submit">Log in</string>
+    <string name="login_or">or</string>
+    <string name="login_google">Continue with Google</string>
+    <string name="login_no_account">Don\'t have an account?</string>
+    <string name="login_to_register">Sign up</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">Create account</string>
+    <string name="register_subtitle">Join DynamiQR and create custom QR codes</string>
+    <string name="register_name_hint">Full name</string>
+    <string name="register_submit">Create account</string>
+    <string name="register_has_account">Already have an account?</string>
+    <string name="register_to_login">Log in</string>
+
+    <!-- Verify email -->
+    <string name="verify_title">Verify email</string>
+    <string name="verify_subtitle">We sent a 6-digit code to your address</string>
+    <string name="verify_sent_to">Sent to:</string>
+    <string name="verify_code_hint">000000</string>
+    <string name="verify_submit">Verify and continue</string>
+    <string name="verify_resend">Resend code</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">Saved codes</string>
+    <string name="dashboard_search_hint">Search by code name…</string>
+    <string name="dashboard_empty_title">No saved codes yet</string>
+    <string name="dashboard_promo_premium">Upgrade to Premium</string>
+    <string name="dashboard_promo_desc">Manage all your codes in one place with advanced stats.</string>
+
+    <!-- Generator -->
+    <string name="generator_title">Create QR</string>
+    <string name="generator_subtitle">Pick a type, enter content, and style your QR</string>
+    <string name="generator_step_content">Content</string>
+    <string name="generator_step_style">Design</string>
+    <string name="generator_step_export">Download</string>
+    <string name="generator_next">Continue</string>
+    <string name="generator_save">Save to my collection</string>
+    <string name="generator_type_label">Choose code type</string>
+    <string name="generator_content_hint">Enter content (e.g. a website URL)</string>
+
+    <!-- Learn Screen -->
+    <string name="learn_title">What is QR?</string>
+    <string name="learn_subtitle">A short guide for businesses and brands — how to use it right</string>
+    <string name="learn_hero_text">QR is a smart shortcut from the physical world to digital: scan with a camera and reach content instantly without typing.</string>
+    <string name="learn_why_title">Why businesses use QR</string>
+
+    <!-- Scanner -->
+    <string name="scanner_title">Scan QR</string>
+    <string name="scanner_hint">Place the code inside the frame</string>
+
+    <!-- Bottom tabs -->
+    <string name="tab_codes">Saved codes</string>
+    <string name="tab_create">Create QR</string>
+    <string name="tab_scan">Scan QR</string>
+    <string name="tab_guide">Guide</string>
+
+    <!-- Common -->
+    <string name="action_cancel">Cancel</string>
+    <string name="action_ok">OK</string>
+    <string name="action_share">Share</string>
+    <string name="error_fill_all">Please fill in all fields</string>
+    <string name="error_network">Could not reach the server</string>
+
+    <!-- Account / settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_update_name">Update name</string>
+    <string name="settings_full_name">Full name</string>
+    <string name="settings_email">Email</string>
+    <string name="settings_save_profile">Save details</string>
+    <string name="settings_display_mode">Display mode</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_change_language">Change language</string>
+    <string name="settings_logout">Log out</string>
+    <string name="settings_day_mode">Day mode</string>
+    <string name="settings_night_mode">Night mode</string>
+    <string name="settings_user_fallback">User</string>
+    <string name="settings_enter_name">Enter a name</string>
+    <string name="settings_profile_saved">Profile saved</string>
+    <string name="settings_save_failed">Save failed</string>
+    <string name="settings_network_error">Connection error</string>
+
+    <!-- Generator extras used from resources -->
+    <string name="link_mode_label">Link type</string>
+    <string name="link_mode_static">Static</string>
+    <string name="link_mode_dynamic">Dynamic</string>
+    <string name="type_switch">Switch</string>
+    <string name="choose_qr_type">Choose QR type</string>
+    <string name="style_tab_color">Color</string>
+    <string name="style_tab_shape">Shape</string>
+    <string name="style_tab_logo">Logo</string>
+    <string name="style_tab_sticker">Frame</string>
+</resources>

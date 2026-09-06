@@ -2,11 +2,12 @@ package com.example.myapplication.features.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 import com.example.myapplication.DynamiQRApplication;
 import com.example.myapplication.MainActivity;
+import com.example.myapplication.R;
 import com.example.myapplication.core.base.BaseActivity;
+import com.example.myapplication.core.i18n.AppI18n;
 import com.example.myapplication.data.local.AuthManager;
 import com.example.myapplication.data.models.LoginResponse;
 import com.example.myapplication.data.repository.AuthRepository;
@@ -46,7 +47,9 @@ public class VerifyEmailActivity extends BaseActivity<ActivityVerifyEmailBinding
     private void handleVerify() {
         String code = binding.codeInput.getText().toString().trim();
         if (code.length() != 6) {
-            Toast.makeText(this, "הזן קוד בן 6 ספרות", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    AppI18n.t(this, "auth", "errors.codeLength", "Enter a 6-digit code"),
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -68,14 +71,21 @@ public class VerifyEmailActivity extends BaseActivity<ActivityVerifyEmailBinding
                         finishAffinity();
                     }
                 } else {
-                    Toast.makeText(VerifyEmailActivity.this, "אימות נכשל", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VerifyEmailActivity.this,
+                            AppI18n.t(VerifyEmailActivity.this, "auth", "errors.verifyFailed",
+                                    "Verification failed"),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 binding.verifyButton.setEnabled(true);
-                Toast.makeText(VerifyEmailActivity.this, "שגיאה: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                String detail = t.getMessage() != null ? t.getMessage() : "";
+                Toast.makeText(VerifyEmailActivity.this,
+                        getString(R.string.settings_network_error)
+                                + (detail.isEmpty() ? "" : ": " + detail),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -95,16 +105,26 @@ public class VerifyEmailActivity extends BaseActivity<ActivityVerifyEmailBinding
             public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
                 binding.resendButton.setEnabled(true);
                 if (response.isSuccessful()) {
-                    Toast.makeText(VerifyEmailActivity.this, "קוד חדש נשלח", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VerifyEmailActivity.this,
+                            AppI18n.t(VerifyEmailActivity.this, "auth", "errors.codeSent",
+                                    "A new code was sent"),
+                            Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(VerifyEmailActivity.this, "שליחה נכשלה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VerifyEmailActivity.this,
+                            AppI18n.t(VerifyEmailActivity.this, "auth", "errors.resendFailed",
+                                    "Resend failed"),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Map<String, String>> call, Throwable t) {
                 binding.resendButton.setEnabled(true);
-                Toast.makeText(VerifyEmailActivity.this, "שגיאה: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                String detail = t.getMessage() != null ? t.getMessage() : "";
+                Toast.makeText(VerifyEmailActivity.this,
+                        getString(R.string.settings_network_error)
+                                + (detail.isEmpty() ? "" : ": " + detail),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

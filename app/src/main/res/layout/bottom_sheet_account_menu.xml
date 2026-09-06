@@ -1,86 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_sheet"
-    android:orientation="vertical"
-    android:paddingHorizontal="20dp"
-    android:paddingBottom="28dp">
+    android:fillViewport="true">
 
-    <View
-        android:layout_width="40dp"
-        android:layout_height="4dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="14dp"
-        android:background="@color/border" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:text="הגדרות חשבון"
-        android:textColor="@color/text_main"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:background="@drawable/bg_sheet"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/space_screen"
+        android:paddingBottom="@dimen/space_xxl">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="שם מלא"
-        app:boxCornerRadiusBottomEnd="12dp"
-        app:boxCornerRadiusBottomStart="12dp"
-        app:boxCornerRadiusTopEnd="12dp"
-        app:boxCornerRadiusTopStart="12dp">
+        <View
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="14dp"
+            android:background="@color/border" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/profileNameInput"
+        <TextView
+            android:id="@+id/settingsTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:gravity="start"
+            android:text="@string/settings_title"
+            android:textColor="@color/text_main"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="אימייל"
-        app:boxCornerRadiusBottomEnd="12dp"
-        app:boxCornerRadiusBottomStart="12dp"
-        app:boxCornerRadiusTopEnd="12dp"
-        app:boxCornerRadiusTopStart="12dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/profileEmailInput"
+        <!-- Profile expand -->
+        <LinearLayout
+            android:id="@+id/profileHeaderRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="@dimen/space_lg"
+            android:background="@drawable/bg_settings_row"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="14dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveProfileButton"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="@color/primary"
-        android:text="שמור פרופיל"
-        android:textColor="@color/white"
-        app:cornerRadius="12dp" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_user"
+                app:tint="@color/primary" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logoutButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:text="התנתקות"
-        android:textColor="@color/error"
-        app:cornerRadius="12dp"
-        app:strokeColor="@color/error" />
+            <TextView
+                android:id="@+id/profileHeaderLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/settings_update_name"
+                android:textColor="@color/text_main"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/profileChevron"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_chevron_down"
+                app:tint="@color/sub_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/profileExpandPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:orientation="vertical"
+            android:paddingHorizontal="4dp"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/settings_full_name"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
+                app:boxCornerRadiusBottomStart="@dimen/radius_inset"
+                app:boxCornerRadiusTopEnd="@dimen/radius_inset"
+                app:boxCornerRadiusTopStart="@dimen/radius_inset">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profileNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:hint="@string/settings_email"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
+                app:boxCornerRadiusBottomStart="@dimen/radius_inset"
+                app:boxCornerRadiusTopEnd="@dimen/radius_inset"
+                app:boxCornerRadiusTopStart="@dimen/radius_inset">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profileEmailInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveProfileButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height_secondary"
+                android:layout_marginTop="@dimen/space_md"
+                android:backgroundTint="@color/primary"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/settings_save_profile"
+                android:textColor="@color/white"
+                app:cornerRadius="@dimen/radius_button" />
+        </LinearLayout>
+
+        <!-- Display mode -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:background="@drawable/bg_settings_row"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="12dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_moon"
+                app:tint="@color/primary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/displayModeHeaderLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="@string/settings_display_mode"
+                    android:textColor="@color/text_main"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/themeModeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="start"
+                    android:text="מצב יום"
+                    android:textColor="@color/sub_text"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <com.example.myapplication.ui.components.DayNightToggleView
+                android:id="@+id/dayNightToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Language expand -->
+        <LinearLayout
+            android:id="@+id/languageHeaderRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:background="@drawable/bg_settings_row"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="14dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_globe"
+                app:tint="@color/primary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/languageHeaderLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="@string/settings_change_language"
+                    android:textColor="@color/text_main"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/currentLanguageLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="start"
+                    android:text="עברית"
+                    android:textColor="@color/sub_text"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/languageChevron"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_chevron_down"
+                app:tint="@color/sub_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/languageOptionsPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <!-- Logout -->
+        <LinearLayout
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:background="@drawable/bg_settings_row"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="14dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_logout"
+                app:tint="@color/error" />
+
+            <TextView
+                android:id="@+id/logoutLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/settings_logout"
+                android:textColor="@color/error"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

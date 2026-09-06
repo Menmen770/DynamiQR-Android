@@ -9,11 +9,20 @@ import java.util.Map;
 public final class SavedQrPreviewHelper {
 
     private static final int PREVIEW_WIDTH = 200;
+    private static final int EXPORT_WIDTH = 2400;
 
     private SavedQrPreviewHelper() {
     }
 
     public static Map<String, Object> buildGenerateBody(QrCode row) {
+        return buildGenerateBody(row, PREVIEW_WIDTH);
+    }
+
+    public static Map<String, Object> buildExportBody(QrCode row) {
+        return buildGenerateBody(row, EXPORT_WIDTH);
+    }
+
+    public static Map<String, Object> buildGenerateBody(QrCode row, int width) {
         if (row == null) {
             return null;
         }
@@ -40,7 +49,7 @@ public final class SavedQrPreviewHelper {
 
         Map<String, Object> body = new HashMap<>();
         body.put("text", text);
-        body.put("width", PREVIEW_WIDTH);
+        body.put("width", width);
         body.put("color", fg);
         body.put("bgColor", buildBgForApi(style, stickerType));
         body.put("dotsType", dotsType);
@@ -85,6 +94,16 @@ public final class SavedQrPreviewHelper {
             return "#111111";
         }
         return style.getFgColor();
+    }
+
+    public static QrPreviewCompositor.StickerInk stickerInkFor(QrCode row) {
+        QrStyle style = row != null ? row.getStyle() : null;
+        String fg = fgColorForComposite(row);
+        if (style != null && "gradient".equals(style.getQrColorMode())
+                && style.getDotsGradient() != null) {
+            return QrPreviewCompositor.StickerInk.fromDotsGradient(style.getDotsGradient(), fg);
+        }
+        return QrPreviewCompositor.StickerInk.solid(fg);
     }
 
     private static String effectiveEncodedText(QrCode row) {

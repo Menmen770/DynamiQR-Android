@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="16dp">
+            android:paddingHorizontal="@dimen/space_screen">
 
             <!-- Hero -->
             <LinearLayout
@@ -36,6 +36,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:textDirection="anyRtl"
                     android:lineSpacingExtra="3dp"
                     android:text="@string/learn_hero_lead"
                     android:textColor="@color/text_main"
@@ -50,15 +52,17 @@
                     android:text="@string/learn_cta_create"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:cornerRadius="12dp" />
+                    app:cornerRadius="@dimen/radius_button" />
             </LinearLayout>
 
             <!-- Key points -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="@dimen/space_xxl"
                 android:gravity="start"
+                android:textAlignment="viewStart"
+                android:textDirection="anyRtl"
                 android:text="@string/learn_panel_title"
                 android:textColor="@color/text_main"
                 android:textSize="17sp"
@@ -67,15 +71,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/space_md"
                 android:background="@drawable/bg_learn_block"
                 android:orientation="vertical"
-                android:padding="14dp">
+                android:padding="@dimen/card_padding_inner">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:textDirection="anyRtl"
                     android:text="@string/learn_point_fast"
                     android:textColor="@color/sub_text"
                     android:textSize="14sp" />
@@ -90,6 +96,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:textDirection="anyRtl"
                     android:text="@string/learn_point_update"
                     android:textColor="@color/sub_text"
                     android:textSize="14sp" />
@@ -104,6 +112,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:textDirection="anyRtl"
                     android:text="@string/learn_point_stats"
                     android:textColor="@color/sub_text"
                     android:textSize="14sp" />
@@ -143,10 +153,10 @@
                 android:id="@+id/useCasesContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/space_sm"
                 android:background="@drawable/bg_learn_block"
                 android:orientation="vertical"
-                android:paddingVertical="4dp" />
+                android:paddingVertical="@dimen/space_sm" />
 
             <!-- Workflow -->
             <include
@@ -157,15 +167,17 @@
                 android:id="@+id/workflowContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/space_sm"
                 android:orientation="vertical" />
 
             <!-- Differentiator -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="@dimen/space_xxl"
                 android:gravity="start"
+                android:textAlignment="viewStart"
+                android:textDirection="anyRtl"
                 android:text="@string/learn_diff_title"
                 android:textColor="@color/text_main"
                 android:textSize="17sp"
@@ -174,8 +186,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="@dimen/space_title_subtitle"
                 android:gravity="start"
+                android:textAlignment="viewStart"
+                android:textDirection="anyRtl"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/learn_diff_intro"
                 android:textColor="@color/sub_text"
@@ -185,15 +199,17 @@
                 android:id="@+id/diffContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/space_md"
                 android:orientation="vertical" />
 
             <!-- Compare -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="@dimen/space_xxl"
                 android:gravity="start"
+                android:textAlignment="viewStart"
+                android:textDirection="anyRtl"
                 android:text="@string/learn_compare_title"
                 android:textColor="@color/text_main"
                 android:textSize="17sp"
@@ -202,8 +218,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/space_title_subtitle"
                 android:gravity="start"
+                android:textAlignment="viewStart"
+                android:textDirection="anyRtl"
                 android:text="@string/learn_compare_subtitle"
                 android:textColor="@color/sub_text"
                 android:textSize="13sp" />
@@ -220,14 +238,16 @@
                 layout="@layout/partial_learn_compare_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="@dimen/space_md" />
 
             <!-- Benefits -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="@dimen/space_xxl"
                 android:gravity="start"
+                android:textAlignment="viewStart"
+                android:textDirection="anyRtl"
                 android:text="@string/learn_benefits_title"
                 android:textColor="@color/text_main"
                 android:textSize="17sp"
@@ -237,18 +257,20 @@
                 android:id="@+id/benefitsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/space_sm"
                 android:background="@drawable/bg_learn_block"
                 android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp" />
+                android:paddingHorizontal="@dimen/card_padding_inner"
+                android:paddingVertical="@dimen/space_md" />
 
             <!-- Tips -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="@dimen/space_xxl"
                 android:gravity="start"
+                android:textAlignment="viewStart"
+                android:textDirection="anyRtl"
                 android:text="@string/learn_tips_title"
                 android:textColor="@color/text_main"
                 android:textSize="17sp"
@@ -258,11 +280,11 @@
                 android:id="@+id/tipsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/space_sm"
                 android:background="@drawable/bg_learn_block"
                 android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp" />
+                android:paddingHorizontal="@dimen/card_padding_inner"
+                android:paddingVertical="@dimen/space_md" />
 
             <!-- Summary CTA -->
             <LinearLayout
@@ -277,6 +299,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:textDirection="anyRtl"
                     android:text="@string/learn_summary_title"
                     android:textColor="@color/text_main"
                     android:textSize="16sp"
@@ -285,8 +309,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="@dimen/space_title_subtitle"
                     android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:textDirection="anyRtl"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/learn_summary_text"
                     android:textColor="@color/sub_text"
@@ -301,7 +327,7 @@
                     android:text="@string/learn_summary_cta"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:cornerRadius="12dp" />
+                    app:cornerRadius="@dimen/radius_button" />
             </LinearLayout>
 
         </LinearLayout>

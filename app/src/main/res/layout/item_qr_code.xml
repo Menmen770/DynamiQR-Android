@@ -3,53 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
+    android:layout_marginHorizontal="@dimen/card_list_margin_h"
+    android:layout_marginVertical="@dimen/card_list_margin_v"
     app:cardBackgroundColor="@color/surface"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="3dp"
+    app:cardCornerRadius="@dimen/radius_card"
+    app:cardElevation="@dimen/card_elevation"
     app:strokeColor="@color/border"
-    app:strokeWidth="1dp">
+    app:strokeWidth="@dimen/card_stroke">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="14dp">
+        android:orientation="vertical">
 
-        <!-- Preview Column -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/border"
-            app:strokeWidth="1dp">
-            <ImageView
-                android:id="@+id/qrPreviewSmall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:scaleType="fitCenter" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Info Column -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="14dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/card_padding"
+            android:paddingTop="@dimen/space_md"
+            android:paddingBottom="@dimen/space_sm">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical|start"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/qrName"
                     android:layout_width="0dp"
@@ -63,97 +43,310 @@
                     android:textColor="@color/text_main"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/qrStatusBadge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_icon_circle"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="2dp"
-                    android:text="פעיל"
-                    android:textColor="@color/primary"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
 
-            <TextView
-                android:id="@+id/qrType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="start"
-                android:text="QR דינמי"
-                android:textColor="@color/sub_text"
-                android:textSize="13sp" />
+                <ImageButton
+                    android:id="@+id/btnRename"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="שינוי שם"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_pencil"
+                    app:tint="@color/sub_text" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:gravity="center_vertical|start"
                 android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_marginEnd="4dp"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_filter"
-                    app:tint="@color/primary" />
+
                 <TextView
-                    android:id="@+id/scanCount"
+                    android:id="@+id/qrTypeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="0 סריקות"
-                    android:textColor="@color/text_main"
+                    android:layout_marginEnd="8dp"
+                    android:text="אתר"
+                    android:textColor="@color/sub_text"
                     android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/modeBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_badge_dynamic"
+                    android:paddingHorizontal="9dp"
+                    android:paddingVertical="4dp"
+                    android:text="דינמי"
+                    android:textColor="@color/primary"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/scanChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="סריקות 0"
+                    android:textColor="@color/sub_text"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_soft" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/card_padding">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="112dp"
+                android:layout_height="112dp"
+                app:cardBackgroundColor="@color/background"
+                app:cardCornerRadius="@dimen/radius_inset"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border"
+                app:strokeWidth="@dimen/card_stroke">
+
+                <ImageView
+                    android:id="@+id/qrPreviewSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_md"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/activeRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/activeSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true" />
+
+                    <TextView
+                        android:id="@+id/activeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="פעיל"
+                        android:textColor="@color/text_main"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/staticHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xs"
+                    android:gravity="start"
+                    android:lineSpacingExtra="2dp"
+                    android:text="סטטי — הכתובת מוטמעת ב־QR"
+                    android:textColor="@color/sub_text"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/destinationText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:lineSpacingExtra="2dp"
+                    android:maxLines="2"
+                    android:textColor="@color/text_main"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@+id/folderChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:background="@drawable/bg_folder_chip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="7dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_folder"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:id="@+id/folderName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:ellipsize="end"
+                        android:maxWidth="160dp"
+                        android:maxLines="1"
+                        android:text="ללא תיקייה"
+                        android:textColor="@color/text_main"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/qrDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:gravity="start"
+                    android:textColor="@color/sub_text"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:id="@+id/btnStats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:background="@drawable/bg_stats_btn"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="9dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_chart_bar"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:id="@+id/btnStatsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="סטטיסטיקות"
+                        android:textColor="@color/primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_soft" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/space_sm"
+            android:paddingVertical="@dimen/space_xs">
+
+            <LinearLayout
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/space_md">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_trash"
+                    app:tint="@color/error" />
+
+                <TextView
+                    android:id="@+id/btnDeleteLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="מחק"
+                    android:textColor="@color/error"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/qrDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="start"
-                android:text="01/01/2026"
-                android:textColor="@color/sub_text"
-                android:textSize="11sp" />
-
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/btnEdit"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="start"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/space_md">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDelete"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="8dp"
-                    android:text="מחק"
-                    android:textColor="@color/error"
-                    android:textSize="12sp" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/text_main" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnEdit"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                <TextView
+                    android:id="@+id/btnEditLabel"
                     android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="8dp"
-                    android:text="ערוך"
-                    android:textColor="@color/primary"
-                    android:textSize="12sp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="עריכה"
+                    android:textColor="@color/text_main"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/btnShare"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/space_md">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_share"
+                    app:tint="@color/text_main" />
+
+                <TextView
+                    android:id="@+id/btnShareLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/action_share"
+                    android:textColor="@color/text_main"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>
-

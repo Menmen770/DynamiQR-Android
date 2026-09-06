@@ -22,8 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="start"
-        android:lineSpacingExtra="2dp"
         android:textAlignment="viewStart"
+        android:textDirection="anyRtl"
         android:textColor="@color/sub_text"
         android:textSize="14sp" />
 

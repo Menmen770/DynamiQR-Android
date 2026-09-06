@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="יצירת חשבון"
+                android:text="@string/register_title"
                 android:textColor="@color/primary"
                 android:textSize="32sp"
                 android:textStyle="bold" />
@@ -34,7 +34,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:paddingHorizontal="40dp"
-                android:text="הצטרף לדינמיקר וצור קודי QR בעיצוב אישי"
+                android:text="@string/register_subtitle"
                 android:textColor="@color/sub_text"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -52,7 +52,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="שם מלא"
+                android:hint="@string/register_name_hint"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="אימייל"
+                android:hint="@string/login_email_hint"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="סיסמה"
+                android:hint="@string/login_password_hint"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
@@ -111,11 +111,11 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/primary"
-                android:text="יצירת חשבון"
+                android:text="@string/register_submit"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:cornerRadius="12dp" />
+                app:cornerRadius="@dimen/radius_button" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -127,7 +127,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="כבר יש לך חשבון?"
+                    android:text="@string/register_has_account"
                     android:textColor="@color/sub_text" />
 
                 <TextView
@@ -135,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="4dp"
-                    android:text="התחברות"
+                    android:text="@string/register_to_login"
                     android:textColor="@color/primary"
                     android:textStyle="bold" />
             </LinearLayout>

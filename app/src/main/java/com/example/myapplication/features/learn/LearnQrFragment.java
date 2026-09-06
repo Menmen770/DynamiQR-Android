@@ -104,7 +104,7 @@ public class LearnQrFragment extends BaseFragment<FragmentLearnQrBinding> {
         LayoutInflater inflater = LayoutInflater.from(requireContext());
         for (int i = 0; i < steps.length; i++) {
             ItemLearnTimelineStepBinding step = ItemLearnTimelineStepBinding.inflate(inflater, binding.workflowContainer, false);
-            step.stepPill.setText("שלב " + (i + 1));
+            step.stepPill.setText(getString(R.string.learn_step_label, i + 1));
             step.stepTitle.setText(steps[i][0]);
             step.stepText.setText(steps[i][1]);
             if (i == steps.length - 1) {

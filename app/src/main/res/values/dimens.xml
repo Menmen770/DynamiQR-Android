@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen -->
+    <dimen name="space_screen">20dp</dimen>
+    <dimen name="space_screen_bottom">28dp</dimen>
+
+    <!-- Vertical rhythm -->
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">12dp</dimen>
+    <dimen name="space_lg">16dp</dimen>
+    <dimen name="space_xl">20dp</dimen>
+    <dimen name="space_xxl">24dp</dimen>
+
+    <!-- Text hierarchy gaps -->
+    <dimen name="space_title_subtitle">6dp</dimen>
+    <dimen name="space_label_field">8dp</dimen>
+    <dimen name="space_section">16dp</dimen>
+
+    <!-- Cards / surfaces -->
+    <dimen name="radius_card">16dp</dimen>
+    <dimen name="radius_inset">12dp</dimen>
+    <dimen name="radius_chip">12dp</dimen>
+    <dimen name="radius_button">14dp</dimen>
+    <dimen name="radius_sheet">24dp</dimen>
+    <dimen name="radius_thumb">12dp</dimen>
+
+    <dimen name="card_padding">16dp</dimen>
+    <dimen name="card_padding_inner">14dp</dimen>
+    <dimen name="card_elevation">0dp</dimen>
+    <dimen name="card_stroke">1dp</dimen>
+    <dimen name="card_list_margin_h">20dp</dimen>
+    <dimen name="card_list_margin_v">8dp</dimen>
+
+    <!-- Controls -->
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="button_height_secondary">52dp</dimen>
+    <dimen name="chip_min_height">40dp</dimen>
+    <dimen name="step_badge">28dp</dimen>
+    <dimen name="preview_pad">14dp</dimen>
+</resources>

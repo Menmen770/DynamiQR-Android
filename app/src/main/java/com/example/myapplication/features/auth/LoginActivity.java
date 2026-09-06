@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.Toast;
 import com.example.myapplication.DynamiQRApplication;
 import com.example.myapplication.MainActivity;
+import com.example.myapplication.R;
 import com.example.myapplication.core.base.BaseActivity;
+import com.example.myapplication.core.i18n.AppI18n;
 import com.example.myapplication.data.local.AuthManager;
 import com.example.myapplication.data.models.LoginResponse;
 import com.example.myapplication.data.repository.AuthRepository;
@@ -35,17 +37,17 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         authManager = app.getAuthManager();
         authRepository = app.getAuthRepository();
 
-        if (authManager.getToken() != null) {
+        if (authManager.isLoggedIn()) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
             return;
         }
 
+        binding.googleButton.setVisibility(View.GONE);
+        binding.googleDivider.setVisibility(View.GONE);
         binding.loginButton.setOnClickListener(v -> handleLogin());
         binding.registerLink.setOnClickListener(v ->
                 startActivity(new Intent(this, RegisterActivity.class)));
-        binding.googleButton.setOnClickListener(v ->
-                Toast.makeText(this, "התחברות עם Google בקרוב", Toast.LENGTH_SHORT).show());
     }
 
     private void handleLogin() {
@@ -53,7 +55,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         String password = binding.passwordInput.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "אנא מלא את כל השדות", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_fill_all), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -90,14 +92,20 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                         Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "התחברות נכשלה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,
+                            AppI18n.t(LoginActivity.this, "auth", "errors.loginFailed", "Login failed"),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 setLoading(false);
-                Toast.makeText(LoginActivity.this, "שגיאת תקשורת: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                String detail = t.getMessage() != null ? t.getMessage() : "";
+                Toast.makeText(LoginActivity.this,
+                        getString(R.string.error_network)
+                                + (detail.isEmpty() ? "" : ": " + detail),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
