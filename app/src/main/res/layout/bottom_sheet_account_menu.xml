@@ -120,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
                 android:hint="@string/settings_phone"
+                android:layoutDirection="ltr"
                 app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
                 app:boxCornerRadiusBottomStart="@dimen/radius_inset"
                 app:boxCornerRadiusTopEnd="@dimen/radius_inset"
@@ -129,8 +130,11 @@
                     android:id="@+id/profilePhoneInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
                     android:inputType="phone"
-                    android:maxLength="15" />
+                    android:maxLength="15"
+                    android:textAlignment="viewStart"
+                    android:textDirection="ltr" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -261,7 +265,7 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <com.example.myapplication.ui.components.DayNightToggleView
+            <com.dynamiqr.android.ui.components.DayNightToggleView
                 android:id="@+id/dayNightToggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
