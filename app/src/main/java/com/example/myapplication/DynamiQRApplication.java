@@ -8,6 +8,7 @@ import com.example.myapplication.data.api.RetrofitClient;
 import com.example.myapplication.data.local.AppPreferences;
 import com.example.myapplication.data.local.AuthManager;
 import com.example.myapplication.data.repository.AuthRepository;
+import com.example.myapplication.data.repository.LocalUserRepository;
 import com.example.myapplication.data.repository.QrRepository;
 
 public class DynamiQRApplication extends Application {
@@ -17,6 +18,7 @@ public class DynamiQRApplication extends Application {
     private AuthManager authManager;
     private ApiService apiService;
     private AuthRepository authRepository;
+    private LocalUserRepository localUserRepository;
     private QrRepository qrRepository;
     private AppPreferences appPreferences;
 
@@ -34,6 +36,11 @@ public class DynamiQRApplication extends Application {
         appPreferences.applyStoredLanguage();
         AppI18n.init(this);
         authManager = new AuthManager(this);
+        // Course client uses local Room users only — drop any leftover backend JWT session.
+        if (authManager.isLoggedIn() && !authManager.isLocalSession()) {
+            authManager.clear();
+        }
+        localUserRepository = new LocalUserRepository(this);
         apiService = RetrofitClient.getService(authManager);
         authRepository = new AuthRepository(apiService);
         qrRepository = new QrRepository(apiService);
@@ -53,6 +60,10 @@ public class DynamiQRApplication extends Application {
 
     public AuthRepository getAuthRepository() {
         return authRepository;
+    }
+
+    public LocalUserRepository getLocalUserRepository() {
+        return localUserRepository;
     }
 
     public QrRepository getQrRepository() {

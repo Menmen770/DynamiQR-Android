@@ -54,6 +54,9 @@ public final class QrEncoder {
             case "wifi":
                 inputs.put("wifi", rawInput);
                 break;
+            case "pdf":
+                inputs.put("pdf", rawInput);
+                break;
             default:
                 inputs.put("url", rawInput);
                 break;

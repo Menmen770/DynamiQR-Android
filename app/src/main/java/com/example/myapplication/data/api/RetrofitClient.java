@@ -2,6 +2,7 @@ package com.example.myapplication.data.api;
 
 import com.example.myapplication.BuildConfig;
 import com.example.myapplication.data.local.AuthManager;
+import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -20,15 +21,21 @@ public final class RetrofitClient {
             synchronized (RetrofitClient.class) {
                 if (retrofit == null) {
                     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                    // HEADERS only — BODY would dump multi‑MB PDF/base64 payloads.
                     logging.setLevel(BuildConfig.DEBUG
-                            ? HttpLoggingInterceptor.Level.BODY
+                            ? HttpLoggingInterceptor.Level.HEADERS
                             : HttpLoggingInterceptor.Level.NONE);
 
                     OkHttpClient client = new OkHttpClient.Builder()
+                            .connectTimeout(30, TimeUnit.SECONDS)
+                            .readTimeout(60, TimeUnit.SECONDS)
+                            .writeTimeout(60, TimeUnit.SECONDS)
                             .addInterceptor(chain -> {
                                 Request.Builder builder = chain.request().newBuilder();
                                 String token = authManager.getToken();
-                                if (token != null && !token.isEmpty()) {
+                                // Course-local session is not a real JWT — do not send it to the API.
+                                if (token != null && !token.isEmpty()
+                                        && !AuthManager.LOCAL_SESSION_TOKEN.equals(token)) {
                                     builder.addHeader("Authorization", "Bearer " + token);
                                 }
                                 return chain.proceed(builder.build());

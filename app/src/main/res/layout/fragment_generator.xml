@@ -276,6 +276,83 @@
                         android:layout_height="0dp"
                         android:visibility="gone" />
 
+                    <LinearLayout
+                        android:id="@+id/pdfOptionsSection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/pdfModeGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:selectionRequired="true"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/pdfModeFile"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="Upload file" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/pdfModeUrl"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Paste URL" />
+                        </com.google.android.material.chip.ChipGroup>
+
+                        <LinearLayout
+                            android:id="@+id/pdfFilePanel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_generator_content_box"
+                            android:orientation="vertical"
+                            android:padding="14dp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/pickPdfButton"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/button_height_secondary"
+                                android:textColor="@color/text_main"
+                                app:cornerRadius="@dimen/radius_button"
+                                app:icon="@drawable/ic_external_link"
+                                app:iconGravity="textStart"
+                                app:iconPadding="8dp"
+                                app:iconTint="@color/primary"
+                                app:strokeColor="@color/border" />
+
+                            <TextView
+                                android:id="@+id/pdfFileName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:gravity="start"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/text_main"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/pdfUploadHint"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:gravity="start"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/sub_text"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/fieldLabel"
                         android:layout_width="match_parent"

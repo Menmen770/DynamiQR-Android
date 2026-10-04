@@ -181,7 +181,8 @@
     "or": "או",
     "chooseFile": "בחר קובץ",
     "deleteFile": "מחק קובץ",
-    "deleteImage": "מחק תמונה"
+    "deleteImage": "מחק תמונה",
+    "uploading": "מעלה PDF…"
   },
   "linkMode": {
     "aria": "סטטי או דינמי",
@@ -350,7 +351,8 @@
     "title": "קוד ה-QR שלך",
     "generating": "יוצר QR...",
     "pdfSelectedTitle": "קובץ נבחר בהצלחה!",
-    "pdfUploadHint": "העלה את הקובץ לשירות אחסון (Google Drive, Dropbox וכו')",
+    "pdfUploadHint": "בחרו PDF — הוא יועלה אוטומטית ויקשר ל־QR.",
+    "pdfReadyHint": "מוכן — אפשר להמשיך לעיצוב. בסריקה ייפתח ה־PDF.",
     "pdfPasteModeHint": "לחץ על \"הדבקת URL\" למעלה",
     "pdfPasteLinkHint": "הדבק את הקישור ליצירת QR code",
     "alt": "קוד QR שנוצר",
@@ -374,6 +376,8 @@
   },
   "errors": {
     "svgLogo": "לא ניתן לעבד את לוגו ה-SVG. נסה PNG או JPG.",
+    "pdfReadFailed": "לא ניתן לקרוא את קובץ ה-PDF",
+    "pdfUploadFailed": "העלאת PDF נכשלה",
     "generateFailed": "נכשל ביצירת קוד QR",
     "fillBeforeDynamicSave": "נא למלא את פרטי הקוד לפני שמירה במצב דינמי",
     "dynamicHttpRequired": "לקישור דינמי נדרש כתובת http או https תקינה",

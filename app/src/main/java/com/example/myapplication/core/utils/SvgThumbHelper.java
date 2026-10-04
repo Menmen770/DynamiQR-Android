@@ -42,7 +42,7 @@ public final class SvgThumbHelper {
         }
     }
 
-    /** רינדור מלא לקנבס (למסגרות סטיקר / לוגו ל-API כ-PNG גיבוי) */
+    /** Full-bleed render for stickers / fallback. */
     public static Bitmap renderSvgFullBleed(Context context, int rawResId, int sizePx) {
         try {
             SVG svg = SVG.getFromResource(context, rawResId);
@@ -50,6 +50,25 @@ public final class SvgThumbHelper {
             bitmap.eraseColor(Color.TRANSPARENT);
             Canvas canvas = new Canvas(bitmap);
             drawSvgCentered(svg, canvas, sizePx, sizePx);
+            return bitmap;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Square PNG for the generate-qr API — glyph centered with optional inset
+     * (matches web {@code rasterizeSvgDataUrlToPng} + preset rasterInset).
+     */
+    public static Bitmap renderSvgForQrLogo(Context context, int rawResId, int sizePx, float insetScale) {
+        try {
+            SVG svg = SVG.getFromResource(context, rawResId);
+            Bitmap bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888);
+            bitmap.eraseColor(Color.TRANSPARENT);
+            Canvas canvas = new Canvas(bitmap);
+            float inset = Math.max(0.35f, Math.min(1f, insetScale));
+            float fill = sizePx * inset;
+            drawSvgCentered(svg, canvas, sizePx, fill);
             return bitmap;
         } catch (Exception e) {
             return null;

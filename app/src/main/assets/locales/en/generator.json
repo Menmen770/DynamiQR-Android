@@ -181,7 +181,8 @@
     "or": "or",
     "chooseFile": "Choose file",
     "deleteFile": "Delete file",
-    "deleteImage": "Delete image"
+    "deleteImage": "Delete image",
+    "uploading": "Uploading PDF…"
   },
   "linkMode": {
     "aria": "Static or dynamic",
@@ -350,7 +351,8 @@
     "title": "Your QR code",
     "generating": "Creating QR...",
     "pdfSelectedTitle": "File selected successfully!",
-    "pdfUploadHint": "Upload the file to a storage service (Google Drive, Dropbox, etc.)",
+    "pdfUploadHint": "Choose a PDF — it will be uploaded and linked to your QR automatically.",
+    "pdfReadyHint": "Ready — continue to design. Scanning the QR will open this PDF.",
     "pdfPasteModeHint": "Tap \"Paste URL\" above",
     "pdfPasteLinkHint": "Paste the link to create a QR code",
     "alt": "Generated QR code",
@@ -374,6 +376,8 @@
   },
   "errors": {
     "svgLogo": "Could not process the SVG logo. Try PNG or JPG.",
+    "pdfReadFailed": "Could not read PDF file",
+    "pdfUploadFailed": "PDF upload failed",
     "generateFailed": "Failed to create QR code",
     "fillBeforeDynamicSave": "Fill in the code details before saving in dynamic mode",
     "dynamicHttpRequired": "Dynamic links require a valid http or https URL",

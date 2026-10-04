@@ -22,16 +22,36 @@ public class User {
     @SerializedName("hasPassword")
     private boolean hasPassword;
 
+    /** Israeli ID — course-local field (Room), not from Mongo. */
+    private String idNumber;
+
+    private String phone;
+
+    /** ISO date yyyy-MM-dd — course-local field. */
+    private String birthDate;
+
     public String getId() {
         return id != null ? id : mongoId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getFullName() {
         return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getUsername() {
@@ -40,6 +60,42 @@ public class User {
 
     public boolean hasPassword() {
         return hasPassword;
+    }
+
+    public void setHasPassword(boolean hasPassword) {
+        this.hasPassword = hasPassword;
+    }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public long getLocalRowId() {
+        try {
+            return Long.parseLong(getId());
+        } catch (Exception e) {
+            return -1L;
+        }
     }
 
     public String getDisplayName() {

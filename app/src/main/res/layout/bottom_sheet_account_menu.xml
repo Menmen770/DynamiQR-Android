@@ -56,7 +56,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:gravity="start"
-                android:text="@string/settings_update_name"
+                android:text="@string/settings_edit_profile"
                 android:textColor="@color/text_main"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -100,6 +100,64 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
+                android:hint="@string/settings_id_number"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
+                app:boxCornerRadiusBottomStart="@dimen/radius_inset"
+                app:boxCornerRadiusTopEnd="@dimen/radius_inset"
+                app:boxCornerRadiusTopStart="@dimen/radius_inset">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profileIdNumberInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="9" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:hint="@string/settings_phone"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
+                app:boxCornerRadiusBottomStart="@dimen/radius_inset"
+                app:boxCornerRadiusTopEnd="@dimen/radius_inset"
+                app:boxCornerRadiusTopStart="@dimen/radius_inset">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profilePhoneInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:maxLength="15" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:hint="@string/settings_birth_date"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
+                app:boxCornerRadiusBottomStart="@dimen/radius_inset"
+                app:boxCornerRadiusTopEnd="@dimen/radius_inset"
+                app:boxCornerRadiusTopStart="@dimen/radius_inset">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profileBirthDateInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
                 android:hint="@string/settings_email"
                 app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
                 app:boxCornerRadiusBottomStart="@dimen/radius_inset"
@@ -110,8 +168,26 @@
                     android:id="@+id/profileEmailInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:hint="@string/settings_new_password"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_inset"
+                app:boxCornerRadiusBottomStart="@dimen/radius_inset"
+                app:boxCornerRadiusTopEnd="@dimen/radius_inset"
+                app:boxCornerRadiusTopStart="@dimen/radius_inset"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profilePasswordInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -125,6 +201,19 @@
                 android:text="@string/settings_save_profile"
                 android:textColor="@color/white"
                 app:cornerRadius="@dimen/radius_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteAccountButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height_secondary"
+                android:layout_marginTop="@dimen/space_sm"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/settings_delete_account"
+                android:textColor="@color/error"
+                app:cornerRadius="@dimen/radius_button"
+                app:strokeColor="@color/error" />
         </LinearLayout>
 
         <!-- Display mode -->

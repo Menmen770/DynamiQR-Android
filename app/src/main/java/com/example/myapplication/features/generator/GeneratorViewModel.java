@@ -138,7 +138,12 @@ public class GeneratorViewModel extends ViewModel {
     public void setLogo(String id, String dataUrl, float insetScale) {
         logoId = id != null ? id : "";
         logoDataUrl = dataUrl;
-        logoInsetScale = insetScale;
+        logoInsetScale = clampLogoInset(insetScale);
+        schedulePreview();
+    }
+
+    public void setLogoInsetScale(float insetScale) {
+        logoInsetScale = clampLogoInset(insetScale);
         schedulePreview();
     }
 
@@ -152,6 +157,13 @@ public class GeneratorViewModel extends ViewModel {
     public void setLogoShape(String shape) {
         logoShape = shape != null && !shape.isEmpty() ? shape : "overlay";
         schedulePreview();
+    }
+
+    private static float clampLogoInset(float value) {
+        if (Float.isNaN(value)) {
+            return 1f;
+        }
+        return Math.min(1f, Math.max(0.55f, value));
     }
 
     public void setSticker(String sticker) {
@@ -381,10 +393,6 @@ public class GeneratorViewModel extends ViewModel {
         return selectedCornerId;
     }
 
-    public String getLogoId() {
-        return logoId;
-    }
-
     public String getStickerId() {
         return stickerId;
     }
@@ -425,6 +433,22 @@ public class GeneratorViewModel extends ViewModel {
 
     public String getLogoShape() {
         return logoShape;
+    }
+
+    public String getLogoId() {
+        return logoId;
+    }
+
+    public String getLogoDataUrl() {
+        return logoDataUrl;
+    }
+
+    public float getLogoInsetScale() {
+        return logoInsetScale;
+    }
+
+    public boolean hasLogo() {
+        return logoDataUrl != null && !logoDataUrl.isEmpty();
     }
 
     public LiveData<Integer> getCurrentStep() {

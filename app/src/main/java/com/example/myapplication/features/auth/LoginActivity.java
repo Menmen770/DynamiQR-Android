@@ -8,21 +8,15 @@ import com.example.myapplication.DynamiQRApplication;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.core.base.BaseActivity;
-import com.example.myapplication.core.i18n.AppI18n;
 import com.example.myapplication.data.local.AuthManager;
-import com.example.myapplication.data.models.LoginResponse;
-import com.example.myapplication.data.repository.AuthRepository;
+import com.example.myapplication.data.models.User;
+import com.example.myapplication.data.repository.LocalUserRepository;
 import com.example.myapplication.databinding.ActivityLoginBinding;
-import java.util.HashMap;
-import java.util.Map;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
     private AuthManager authManager;
-    private AuthRepository authRepository;
+    private LocalUserRepository localUserRepository;
 
     @Override
     protected ActivityLoginBinding inflateBinding() {
@@ -35,7 +29,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
         DynamiQRApplication app = DynamiQRApplication.getInstance();
         authManager = app.getAuthManager();
-        authRepository = app.getAuthRepository();
+        localUserRepository = app.getLocalUserRepository();
 
         if (authManager.isLoggedIn()) {
             startActivity(new Intent(this, MainActivity.class));
@@ -51,8 +45,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     }
 
     private void handleLogin() {
-        String email = binding.emailInput.getText().toString().trim();
-        String password = binding.passwordInput.getText().toString().trim();
+        String email = binding.emailInput.getText() != null
+                ? binding.emailInput.getText().toString().trim() : "";
+        String password = binding.passwordInput.getText() != null
+                ? binding.passwordInput.getText().toString().trim() : "";
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, getString(R.string.error_fill_all), Toast.LENGTH_SHORT).show();
@@ -60,52 +56,20 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         }
 
         setLoading(true);
-
-        Map<String, String> credentials = new HashMap<>();
-        credentials.put("email", email);
-        credentials.put("password", password);
-
-        authRepository.login(credentials).enqueue(new Callback<LoginResponse>() {
+        localUserRepository.login(email, password, new LocalUserRepository.Callback<User>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+            public void onSuccess(User result) {
                 setLoading(false);
-                if (response.isSuccessful() && response.body() != null) {
-                    LoginResponse loginResponse = response.body();
-                    if (loginResponse.isNeedsEmailVerification()) {
-                        Intent intent = new Intent(LoginActivity.this, VerifyEmailActivity.class);
-                        String verifyEmail = loginResponse.getEmail() != null
-                                ? loginResponse.getEmail() : email;
-                        intent.putExtra("email", verifyEmail);
-                        startActivity(intent);
-                        return;
-                    }
-                    if (loginResponse.getToken() != null) {
-                        authManager.saveToken(loginResponse.getToken());
-                        if (loginResponse.getUser() != null) {
-                            authManager.saveUser(loginResponse.getUser());
-                        }
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                    } else if (loginResponse.getError() != null) {
-                        Toast.makeText(LoginActivity.this, loginResponse.getError(), Toast.LENGTH_SHORT).show();
-                    } else if (loginResponse.getMessage() != null) {
-                        Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(LoginActivity.this,
-                            AppI18n.t(LoginActivity.this, "auth", "errors.loginFailed", "Login failed"),
-                            Toast.LENGTH_SHORT).show();
-                }
+                authManager.saveLocalSession(result);
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onError(String message) {
                 setLoading(false);
-                String detail = t.getMessage() != null ? t.getMessage() : "";
                 Toast.makeText(LoginActivity.this,
-                        getString(R.string.error_network)
-                                + (detail.isEmpty() ? "" : ": " + detail),
-                        Toast.LENGTH_SHORT).show();
+                        getString(R.string.error_login_failed), Toast.LENGTH_SHORT).show();
             }
         });
     }

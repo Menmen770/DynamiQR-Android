@@ -29,9 +29,12 @@
                 android:value="true" />
         </service>
 
+        <!-- Rotation allowed: login / register only -->
         <activity
             android:name=".features.auth.LoginActivity"
             android:exported="true"
+            android:screenOrientation="fullUser"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,16 +45,21 @@
         <activity
             android:name=".features.auth.RegisterActivity"
             android:exported="false"
+            android:screenOrientation="fullUser"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".features.auth.VerifyEmailActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Portrait by default; Learn tab unlocks rotation at runtime -->
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

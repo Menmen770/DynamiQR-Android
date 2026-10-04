@@ -47,4 +47,8 @@ public class QrRepository {
     public Call<FolderState> putFolders(FolderState body) {
         return apiService.putFolders(body);
     }
+
+    public Call<Map<String, Object>> uploadPdf(Map<String, Object> body) {
+        return apiService.uploadPdf(body);
+    }
 }

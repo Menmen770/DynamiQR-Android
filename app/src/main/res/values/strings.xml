@@ -16,6 +16,9 @@
     <string name="register_title">יצירת חשבון</string>
     <string name="register_subtitle">הצטרף לדינמיקר וצור קודי QR בעיצוב אישי</string>
     <string name="register_name_hint">שם מלא</string>
+    <string name="register_id_hint">תעודת זהות</string>
+    <string name="register_phone_hint">מספר טלפון</string>
+    <string name="register_birth_hint">תאריך לידה</string>
     <string name="register_submit">יצירת חשבון</string>
     <string name="register_has_account">כבר יש לך חשבון?</string>
     <string name="register_to_login">התחברות</string>
@@ -68,13 +71,28 @@
     <string name="action_share">שתף</string>
     <string name="error_fill_all">אנא מלא את כל השדות</string>
     <string name="error_network">שגיאת תקשורת עם השרת</string>
+    <string name="error_invalid_id">מספר תעודת זהות לא תקין</string>
+    <string name="error_invalid_phone">מספר טלפון לא תקין</string>
+    <string name="error_password_short">הסיסמה חייבת להכיל לפחות 6 תווים</string>
+    <string name="error_email_exists">כתובת האימייל כבר רשומה</string>
+    <string name="error_id_exists">תעודת הזהות כבר רשומה</string>
+    <string name="error_login_failed">אימייל או סיסמה שגויים</string>
+    <string name="error_register_failed">ההרשמה נכשלה</string>
 
     <!-- Account / settings -->
     <string name="settings_title">הגדרות</string>
     <string name="settings_update_name">עדכון שם</string>
+    <string name="settings_edit_profile">עריכת פרופיל</string>
     <string name="settings_full_name">שם מלא</string>
+    <string name="settings_id_number">תעודת זהות</string>
+    <string name="settings_phone">מספר טלפון</string>
+    <string name="settings_birth_date">תאריך לידה</string>
     <string name="settings_email">אימייל</string>
+    <string name="settings_new_password">סיסמה חדשה (אופציונלי)</string>
     <string name="settings_save_profile">שמירת פרטים</string>
+    <string name="settings_delete_account">מחיקת חשבון</string>
+    <string name="settings_delete_account_confirm">למחוק את החשבון לצמיתות מהמכשיר? פעולה זו אינה ניתנת לביטול.</string>
+    <string name="settings_account_deleted">החשבון נמחק</string>
     <string name="settings_display_mode">מצב תצוגה</string>
     <string name="settings_language">שפה</string>
     <string name="settings_change_language">שינוי שפה</string>

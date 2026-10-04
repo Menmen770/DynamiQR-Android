@@ -1,10 +1,12 @@
 package com.example.myapplication.features.generator;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.text.InputType;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -19,6 +23,7 @@ import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.example.myapplication.BuildConfig;
 import com.example.myapplication.DynamiQRApplication;
 import com.example.myapplication.R;
 import com.example.myapplication.core.base.BaseFragment;
@@ -44,16 +49,32 @@ import com.example.myapplication.ui.adapters.QrTypeSelectorAdapter;
 import com.example.myapplication.ui.adapters.StyleThumbnailAdapter;
 import com.example.myapplication.ui.components.ColorPickerSheet;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
 
     private GeneratorViewModel viewModel;
     private String selectedType = "url";
     private Bitmap previewBitmap;
+    private boolean pdfUrlMode;
+    private String pickedPdfName;
+    private LayoutQrStyleLogoBinding logoTabBinding;
+    private StyleThumbnailAdapter logoAdapter;
+
+    private final ActivityResultLauncher<String> logoPicker =
+            registerForActivityResult(new ActivityResultContracts.GetContent(), this::onLogoPicked);
+    private final ActivityResultLauncher<String> pdfPicker =
+            registerForActivityResult(new ActivityResultContracts.GetContent(), this::onPdfPicked);
 
     @Override
     protected FragmentGeneratorBinding inflateBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
@@ -75,10 +96,304 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
         setupTypeSelector();
         setupStylePanel();
         setupLinkMode();
+        setupPdfOptions();
         setupActions();
         updateFieldsForType(selectedType);
         observeViewModel();
         renderStep(GeneratorViewModel.STEP_CONTENT);
+    }
+
+    private void setupPdfOptions() {
+        binding.pdfModeFile.setText(tr("generator", "pdfMode.uploadFile", "Upload file"));
+        binding.pdfModeUrl.setText(tr("generator", "pdfMode.pasteUrl", "Paste URL"));
+        binding.pickPdfButton.setText(tr("generator", "upload.chooseFile", "Choose file"));
+        binding.pdfUploadHint.setText(tr("generator", "preview.pdfUploadHint",
+                "Upload the file to a storage service (Google Drive, Dropbox, etc.)"));
+
+        binding.pdfModeGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            if (checkedIds.isEmpty()) {
+                return;
+            }
+            pdfUrlMode = checkedIds.get(0) == R.id.pdfModeUrl;
+            refreshPdfPanels();
+        });
+        binding.pickPdfButton.setOnClickListener(v ->
+                pdfPicker.launch("application/pdf"));
+    }
+
+    private void refreshPdfPanels() {
+        boolean isPdf = "pdf".equals(selectedType);
+        binding.pdfOptionsSection.setVisibility(isPdf ? View.VISIBLE : View.GONE);
+        if (!isPdf) {
+            binding.fieldLabel.setVisibility(View.VISIBLE);
+            binding.contentLayout.setVisibility(View.VISIBLE);
+            binding.fieldHint.setVisibility(View.VISIBLE);
+            return;
+        }
+        binding.pdfFilePanel.setVisibility(pdfUrlMode ? View.GONE : View.VISIBLE);
+        // File mode: URL field is filled automatically after upload — keep it visible but secondary.
+        // URL mode: user pastes the link themselves.
+        binding.fieldLabel.setVisibility(pdfUrlMode ? View.VISIBLE : View.GONE);
+        binding.contentLayout.setVisibility(pdfUrlMode ? View.VISIBLE : View.GONE);
+        binding.fieldHint.setVisibility(pdfUrlMode ? View.VISIBLE : View.GONE);
+        if (!pdfUrlMode && pickedPdfName != null && !pickedPdfName.isEmpty()) {
+            binding.pdfFileName.setVisibility(View.VISIBLE);
+            String content = binding.contentInput.getText() != null
+                    ? binding.contentInput.getText().toString().trim() : "";
+            if (!content.isEmpty()) {
+                binding.pdfFileName.setText(tr("generator", "preview.pdfSelectedTitle",
+                        "File selected successfully!") + "\n" + pickedPdfName);
+                binding.pdfUploadHint.setText(tr("generator", "preview.pdfReadyHint",
+                        "Ready — continue to design. Scanning the QR will open this PDF."));
+                // Keep a hidden-but-set content field for generation; show URL mode fields only when needed.
+                binding.fieldLabel.setVisibility(View.GONE);
+                binding.contentLayout.setVisibility(View.GONE);
+                binding.fieldHint.setVisibility(View.GONE);
+            } else {
+                binding.pdfFileName.setText(pickedPdfName);
+                binding.pdfUploadHint.setText(tr("generator", "upload.uploading", "Uploading PDF…"));
+            }
+        } else if (!pdfUrlMode) {
+            binding.pdfFileName.setVisibility(View.GONE);
+            binding.pdfUploadHint.setText(tr("generator", "preview.pdfUploadHint",
+                    "Choose a PDF — it will be uploaded and linked to your QR automatically."));
+        } else {
+            binding.pdfFileName.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean validateContent() {
+        String text = binding.contentInput.getText() != null
+                ? binding.contentInput.getText().toString().trim() : "";
+        if ("pdf".equals(selectedType) && !pdfUrlMode) {
+            if (text.isEmpty()) {
+                Toast.makeText(requireContext(),
+                        tr("generator", "upload.chooseFile", "Choose a PDF file first"),
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            viewModel.setQrType(selectedType);
+            viewModel.setContent(text);
+            return true;
+        }
+        if (text.isEmpty()) {
+            Toast.makeText(requireContext(),
+                    tr("generator", "preview.emptyHint", "Start typing to create a QR code."),
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        viewModel.setQrType(selectedType);
+        viewModel.setContent(text);
+        return true;
+    }
+
+    private void onLogoPicked(@Nullable Uri uri) {
+        if (uri == null || !isAdded()) {
+            return;
+        }
+        String dataUrl = QrLogoHelper.uriToPngDataUrl(requireContext(), uri);
+        if (dataUrl == null) {
+            Toast.makeText(requireContext(),
+                    tr("generator", "errors.svgLogo", "Could not process the image"),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        viewModel.setLogo("", dataUrl, 1f);
+        viewModel.setLogoShape("circle");
+        if (logoAdapter != null) {
+            logoAdapter.setSelectedId("");
+        }
+        if (logoTabBinding != null) {
+            logoTabBinding.logoShapeGroup.check(R.id.logoCircle);
+            updateLogoGalleryUi(logoTabBinding);
+            updateLogoSizePanel(logoTabBinding);
+        }
+    }
+
+    private void onPdfPicked(@Nullable Uri uri) {
+        if (uri == null || !isAdded()) {
+            return;
+        }
+        pickedPdfName = queryDisplayName(uri);
+        pdfUrlMode = false;
+        binding.pdfModeGroup.check(R.id.pdfModeFile);
+        refreshPdfPanels();
+        uploadPdfAndContinue(uri, pickedPdfName);
+    }
+
+    private void uploadPdfAndContinue(Uri uri, String filename) {
+        Toast.makeText(requireContext(),
+                tr("generator", "upload.uploading", "Uploading PDF…"),
+                Toast.LENGTH_SHORT).show();
+        binding.pickPdfButton.setEnabled(false);
+        binding.continueStyleButton.setEnabled(false);
+
+        new Thread(() -> {
+            String dataUrl = readUriAsDataUrl(uri, "application/pdf");
+            if (dataUrl == null) {
+                requireActivity().runOnUiThread(() -> {
+                    if (!isAdded()) {
+                        return;
+                    }
+                    binding.pickPdfButton.setEnabled(true);
+                    binding.continueStyleButton.setEnabled(true);
+                    Toast.makeText(requireContext(),
+                            tr("generator", "errors.pdfReadFailed", "Could not read PDF file"),
+                            Toast.LENGTH_SHORT).show();
+                });
+                return;
+            }
+            Map<String, Object> body = new HashMap<>();
+            body.put("filename", filename != null ? filename : "document.pdf");
+            body.put("dataUrl", dataUrl);
+            DynamiQRApplication.getInstance().getQrRepository().uploadPdf(body)
+                    .enqueue(new Callback<Map<String, Object>>() {
+                        @Override
+                        public void onResponse(Call<Map<String, Object>> call,
+                                               Response<Map<String, Object>> response) {
+                            if (!isAdded()) {
+                                return;
+                            }
+                            binding.pickPdfButton.setEnabled(true);
+                            binding.continueStyleButton.setEnabled(true);
+                            if (!response.isSuccessful() || response.body() == null) {
+                                Toast.makeText(requireContext(),
+                                        tr("generator", "errors.pdfUploadFailed", "PDF upload failed"),
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            String publicUrl = resolveUploadedPdfUrl(response.body());
+                            if (publicUrl == null || publicUrl.isEmpty()) {
+                                Toast.makeText(requireContext(),
+                                        tr("generator", "errors.pdfUploadFailed", "PDF upload failed"),
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            binding.contentInput.setText(publicUrl);
+                            refreshPdfPanels();
+                            Toast.makeText(requireContext(),
+                                    tr("generator", "preview.pdfSelectedTitle", "File selected successfully!"),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                            if (!isAdded()) {
+                                return;
+                            }
+                            binding.pickPdfButton.setEnabled(true);
+                            binding.continueStyleButton.setEnabled(true);
+                            Toast.makeText(requireContext(),
+                                    tr("generator", "errors.pdfUploadFailed", "PDF upload failed"),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }).start();
+    }
+
+    @Nullable
+    private String resolveUploadedPdfUrl(Map<String, Object> body) {
+        String apiBase = apiBaseNoSlash();
+
+        // Prefer path/publicId + the phone-reachable API base (never trust server localhost).
+        Object path = body.get("path");
+        if (path != null && !String.valueOf(path).trim().isEmpty()) {
+            String p = String.valueOf(path).trim();
+            return p.startsWith("/") ? apiBase + p : apiBase + "/" + p;
+        }
+        Object publicId = body.get("publicId");
+        if (publicId != null && !String.valueOf(publicId).trim().isEmpty()) {
+            return apiBase + "/api/pdf/" + String.valueOf(publicId).trim();
+        }
+
+        Object urlObj = body.get("url");
+        if (urlObj == null) {
+            return null;
+        }
+        String url = String.valueOf(urlObj).trim();
+        if (url.isEmpty()) {
+            return null;
+        }
+        return rewriteLocalhostToApiBase(url, apiBase);
+    }
+
+    private static String apiBaseNoSlash() {
+        String base = BuildConfig.API_BASE_URL;
+        if (base == null || base.isEmpty()) {
+            return "";
+        }
+        return base.endsWith("/") ? base.substring(0, base.length() - 1) : base;
+    }
+
+    /** Server often returns http://localhost:5000/... — unusable when scanning from the phone. */
+    private static String rewriteLocalhostToApiBase(String url, String apiBase) {
+        if (apiBase == null || apiBase.isEmpty()) {
+            return url;
+        }
+        try {
+            Uri parsed = Uri.parse(url);
+            String host = parsed.getHost();
+            if (host == null) {
+                return url;
+            }
+            if (!"localhost".equalsIgnoreCase(host) && !"127.0.0.1".equals(host) && !"0.0.0.0".equals(host)) {
+                return url;
+            }
+            String path = parsed.getEncodedPath();
+            if (path == null || path.isEmpty()) {
+                return apiBase;
+            }
+            return apiBase + (path.startsWith("/") ? path : "/" + path);
+        } catch (Exception e) {
+            return url.replace("http://localhost:5000", apiBase)
+                    .replace("http://127.0.0.1:5000", apiBase)
+                    .replace("http://localhost", apiBase)
+                    .replace("http://127.0.0.1", apiBase);
+        }
+    }
+
+    @Nullable
+    private String readUriAsDataUrl(Uri uri, String mime) {
+        try (InputStream in = requireContext().getContentResolver().openInputStream(uri)) {
+            if (in == null) {
+                return null;
+            }
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] chunk = new byte[8192];
+            int n;
+            long total = 0;
+            final long max = 10L * 1024L * 1024L;
+            while ((n = in.read(chunk)) >= 0) {
+                total += n;
+                if (total > max) {
+                    return null;
+                }
+                buffer.write(chunk, 0, n);
+            }
+            String base64 = Base64.encodeToString(buffer.toByteArray(), Base64.NO_WRAP);
+            String type = mime != null ? mime : "application/octet-stream";
+            return "data:" + type + ";base64," + base64;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private String queryDisplayName(Uri uri) {
+        try (Cursor cursor = requireContext().getContentResolver()
+                .query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int idx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (idx >= 0) {
+                    String name = cursor.getString(idx);
+                    if (name != null && !name.isEmpty()) {
+                        return name;
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        String last = uri.getLastPathSegment();
+        return last != null ? last : "document.pdf";
     }
 
     private String tr(String ns, String path, String fallback) {
@@ -223,6 +538,7 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
                 binding.contentInput.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
                 break;
         }
+        refreshPdfPanels();
     }
 
     private void setupStylePanel() {
@@ -262,19 +578,6 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
                 viewModel.goToStep(GeneratorViewModel.STEP_EXPORT);
             }
         });
-    }
-
-    private boolean validateContent() {
-        String text = binding.contentInput.getText().toString().trim();
-        if (text.isEmpty()) {
-            Toast.makeText(requireContext(),
-                    tr("generator", "preview.emptyHint", "Start typing to create a QR code."),
-                    Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        viewModel.setQrType(selectedType);
-        viewModel.setContent(text);
-        return true;
     }
 
     private void goToStyleStep() {
@@ -482,14 +785,50 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
 
     private void showLogoTab() {
         LayoutQrStyleLogoBinding logoBinding = LayoutQrStyleLogoBinding.inflate(getLayoutInflater());
+        logoTabBinding = logoBinding;
         binding.stylePanel.tabContentContainer.addView(logoBinding.getRoot());
-        logoBinding.logoRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
 
+        logoBinding.logoSourceTitle.setText(tr("generator", "logoMode.sourceTitle", "Logo source"));
+        logoBinding.logoSourcePreset.setText(tr("generator", "logoMode.presetsShort", "Presets"));
+        logoBinding.logoSourceGallery.setText(tr("generator", "logoMode.gallery", "Gallery"));
+        logoBinding.logoPresetsLabel.setText(tr("generator", "logoMode.presets", "Ready logos"));
+        logoBinding.pickLogoButton.setText(tr("generator", "logoMode.pickFromDevice", "Choose image from device"));
+        logoBinding.removeLogoButton.setText(tr("generator", "logoMode.remove", "Remove logo"));
+        logoBinding.logoSizeLabel.setText(tr("generator", "logoMode.size", "Logo size"));
+        logoBinding.logoSizeHint.setText(tr("generator", "logoMode.sizeHint",
+                "Shrink the logo if you want more reliable scanning."));
+        logoBinding.logoShapeTitle.setText(tr("generator", "logoMode.shapeTitle", "Center logo shape"));
+        logoBinding.logoOverlay.setText(tr("generator", "logoMode.noHole", "No hole"));
+        logoBinding.logoSquare.setText(tr("generator", "logoMode.holeSquare", "Square hole"));
+        logoBinding.logoCircle.setText(tr("generator", "logoMode.holeCircle", "Round hole"));
+
+        boolean galleryLogo = viewModel.hasLogo()
+                && (viewModel.getLogoId() == null || viewModel.getLogoId().isEmpty());
+        if (galleryLogo) {
+            logoBinding.logoSourceGroup.check(R.id.logoSourceGallery);
+            logoBinding.logoPresetPanel.setVisibility(View.GONE);
+            logoBinding.logoGalleryPanel.setVisibility(View.VISIBLE);
+        } else {
+            logoBinding.logoSourceGroup.check(R.id.logoSourcePreset);
+            logoBinding.logoPresetPanel.setVisibility(View.VISIBLE);
+            logoBinding.logoGalleryPanel.setVisibility(View.GONE);
+        }
+
+        logoBinding.logoSourceGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            if (checkedIds.isEmpty()) {
+                return;
+            }
+            boolean gallery = checkedIds.get(0) == R.id.logoSourceGallery;
+            logoBinding.logoPresetPanel.setVisibility(gallery ? View.GONE : View.VISIBLE);
+            logoBinding.logoGalleryPanel.setVisibility(gallery ? View.VISIBLE : View.GONE);
+        });
+
+        logoBinding.logoRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         String currentLogo = viewModel.getLogoId();
-        if (currentLogo == null || currentLogo.isEmpty() || "none".equals(currentLogo)) {
+        if (currentLogo == null || "none".equals(currentLogo)) {
             currentLogo = "";
         }
-        StyleThumbnailAdapter logoAdapter = new StyleThumbnailAdapter(
+        logoAdapter = new StyleThumbnailAdapter(
                 getLogos(),
                 currentLogo,
                 item -> {
@@ -497,20 +836,36 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
                         viewModel.clearLogo();
                         viewModel.setLogoShape("overlay");
                         logoBinding.logoShapeGroup.check(R.id.logoOverlay);
+                        updateLogoSizePanel(logoBinding);
+                        updateLogoGalleryUi(logoBinding);
                         return;
                     }
                     float inset = PresetLogos.insetForId(item.getId());
                     int resId = PresetLogos.rawResForId(requireContext(), item.getId());
-                    String dataUrl = QrLogoHelper.rawSvgToDataUrl(requireContext(), resId, 256, inset);
-                    viewModel.setLogo(item.getId(), dataUrl, inset);
-                    // בחירת לוגו מפעילה אוטומטית חור עגול
+                    String dataUrl = QrLogoHelper.rawSvgToDataUrl(requireContext(), resId, 512, inset);
+                    // Inset is baked into the PNG; slider starts at 100% like the website.
+                    viewModel.setLogo(item.getId(), dataUrl, 1f);
                     viewModel.setLogoShape("circle");
                     logoBinding.logoShapeGroup.check(R.id.logoCircle);
+                    updateLogoSizePanel(logoBinding);
+                    updateLogoGalleryUi(logoBinding);
                 },
                 true,
                 true);
         logoBinding.logoRecyclerView.setAdapter(logoAdapter);
         fixRecyclerHeight(logoBinding.logoRecyclerView, 4);
+
+        logoBinding.pickLogoButton.setOnClickListener(v -> logoPicker.launch("image/*"));
+        logoBinding.removeLogoButton.setOnClickListener(v -> {
+            viewModel.clearLogo();
+            if (logoAdapter != null) {
+                logoAdapter.setSelectedId("");
+            }
+            logoBinding.logoShapeGroup.check(R.id.logoOverlay);
+            viewModel.setLogoShape("overlay");
+            updateLogoGalleryUi(logoBinding);
+            updateLogoSizePanel(logoBinding);
+        });
 
         logoBinding.logoShapeGroup.setOnCheckedStateChangeListener(null);
         String shape = viewModel.getLogoShape();
@@ -521,7 +876,6 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
         } else {
             logoBinding.logoShapeGroup.check(R.id.logoOverlay);
         }
-
         logoBinding.logoShapeGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
             if (checkedIds.isEmpty()) {
                 return;
@@ -534,7 +888,42 @@ public class GeneratorFragment extends BaseFragment<FragmentGeneratorBinding> {
             } else {
                 viewModel.setLogoShape("overlay");
             }
+            updateLogoSizePanel(logoBinding);
         });
+
+        logoBinding.logoSizeSlider.clearOnChangeListeners();
+        logoBinding.logoSizeSlider.setValue(viewModel.getLogoInsetScale());
+        logoBinding.logoSizeSlider.addOnChangeListener((slider, value, fromUser) -> {
+            if (fromUser) {
+                viewModel.setLogoInsetScale(value);
+            }
+            logoBinding.logoSizeValue.setText(Math.round(value * 100) + "%");
+        });
+        logoBinding.logoSizeValue.setText(Math.round(viewModel.getLogoInsetScale() * 100) + "%");
+
+        updateLogoGalleryUi(logoBinding);
+        updateLogoSizePanel(logoBinding);
+    }
+
+    private void updateLogoGalleryUi(LayoutQrStyleLogoBinding logoBinding) {
+        boolean hasCustom = viewModel.hasLogo()
+                && (viewModel.getLogoId() == null || viewModel.getLogoId().isEmpty());
+        logoBinding.pickedLogoLabel.setVisibility(hasCustom ? View.VISIBLE : View.GONE);
+        logoBinding.removeLogoButton.setVisibility(viewModel.hasLogo() ? View.VISIBLE : View.GONE);
+        if (hasCustom) {
+            logoBinding.pickedLogoLabel.setText(
+                    tr("generator", "logoMode.pickFromDevice", "Image selected from device"));
+        }
+    }
+
+    private void updateLogoSizePanel(LayoutQrStyleLogoBinding logoBinding) {
+        boolean show = viewModel.hasLogo() && !"overlay".equals(viewModel.getLogoShape());
+        logoBinding.logoSizePanel.setVisibility(show ? View.VISIBLE : View.GONE);
+        if (show) {
+            float scale = viewModel.getLogoInsetScale();
+            logoBinding.logoSizeSlider.setValue(scale);
+            logoBinding.logoSizeValue.setText(Math.round(scale * 100) + "%");
+        }
     }
 
     private void showStickerTab() {

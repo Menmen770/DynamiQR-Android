@@ -64,4 +64,7 @@ public interface ApiService {
 
     @POST("/api/generate-qr")
     Call<GenerateQrResponse> generateQr(@Body Map<String, Object> body);
+
+    @POST("/api/pdf/upload")
+    Call<Map<String, Object>> uploadPdf(@Body Map<String, Object> body);
 }

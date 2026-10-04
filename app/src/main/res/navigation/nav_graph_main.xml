@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/nav_dashboard">
+
+    <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.example.myapplication.features.dashboard.DashboardFragment"
+        android:label="@string/tab_codes"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/nav_generator"
+        android:name="com.example.myapplication.features.generator.GeneratorFragment"
+        android:label="@string/tab_create"
+        tools:layout="@layout/fragment_generator" />
+
+    <fragment
+        android:id="@+id/nav_scanner"
+        android:name="com.example.myapplication.features.scanner.ScannerFragment"
+        android:label="@string/tab_scan"
+        tools:layout="@layout/fragment_scanner" />
+
+    <fragment
+        android:id="@+id/nav_learn"
+        android:name="com.example.myapplication.features.learn.LearnQrFragment"
+        android:label="@string/tab_guide"
+        tools:layout="@layout/fragment_learn_qr" />
+</navigation>

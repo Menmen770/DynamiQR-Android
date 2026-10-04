@@ -1,18 +1,17 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 import com.example.myapplication.core.base.BaseActivity;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.databinding.ItemBottomNavTabBinding;
 import com.example.myapplication.features.auth.LoginActivity;
-import com.example.myapplication.features.dashboard.DashboardFragment;
-import com.example.myapplication.features.generator.GeneratorFragment;
-import com.example.myapplication.features.learn.LearnQrFragment;
-import com.example.myapplication.features.scanner.ScannerFragment;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
@@ -23,11 +22,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private static final int TAB_SCAN = 2;
     private static final int TAB_LEARN = 3;
 
-    private Fragment activeFragment;
-    private Fragment dashboardFragment;
-    private Fragment scannerFragment;
-    private Fragment generatorFragment;
-    private Fragment learnFragment;
+    private NavController navController;
     private int selectedTab = TAB_CODES;
 
     @Override
@@ -45,83 +40,48 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             return;
         }
 
-        setupFragments(savedInstanceState);
+        NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment);
+        if (navHost == null) {
+            finish();
+            return;
+        }
+        navController = navHost.getNavController();
+
+        if (savedInstanceState != null) {
+            selectedTab = savedInstanceState.getInt("selected_tab", TAB_CODES);
+        }
+
         setupBottomNav();
         binding.appHeader.setOnLogoClickListener(() -> selectTab(TAB_CODES));
-        refreshUserProfile();
+        binding.appHeader.refreshUser();
+
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            int destId = destination.getId();
+            if (destId == R.id.nav_dashboard) {
+                selectedTab = TAB_CODES;
+            } else if (destId == R.id.nav_generator) {
+                selectedTab = TAB_CREATE;
+            } else if (destId == R.id.nav_scanner) {
+                selectedTab = TAB_SCAN;
+            } else if (destId == R.id.nav_learn) {
+                selectedTab = TAB_LEARN;
+            }
+            highlightTab(selectedTab);
+            updateShellForTab(selectedTab);
+        });
 
         handleTabIntent(getIntent());
+        if (savedInstanceState == null && getIntent().getIntExtra(EXTRA_TAB, -1) < 0) {
+            highlightTab(selectedTab);
+            updateShellForTab(selectedTab);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        refreshUserProfile();
-    }
-
-    private void refreshUserProfile() {
-        DynamiQRApplication app = DynamiQRApplication.getInstance();
-        if (app.getAuthManager().getUser() == null) {
-            app.getAuthRepository().getMe().enqueue(new retrofit2.Callback<com.example.myapplication.data.models.MeResponse>() {
-                @Override
-                public void onResponse(retrofit2.Call<com.example.myapplication.data.models.MeResponse> call,
-                                       retrofit2.Response<com.example.myapplication.data.models.MeResponse> response) {
-                    if (response.isSuccessful() && response.body() != null && response.body().getUser() != null) {
-                        app.getAuthManager().saveUser(response.body().getUser());
-                        binding.appHeader.refreshUser();
-                    }
-                }
-
-                @Override
-                public void onFailure(retrofit2.Call<com.example.myapplication.data.models.MeResponse> call, Throwable t) {
-                }
-            });
-        } else {
-            binding.appHeader.refreshUser();
-        }
-    }
-
-    private void setupFragments(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            dashboardFragment = new DashboardFragment();
-            scannerFragment = new ScannerFragment();
-            generatorFragment = new GeneratorFragment();
-            learnFragment = new LearnQrFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragmentContainer, dashboardFragment, "dashboard")
-                    .add(R.id.fragmentContainer, scannerFragment, "scanner")
-                    .add(R.id.fragmentContainer, generatorFragment, "generator")
-                    .add(R.id.fragmentContainer, learnFragment, "learn")
-                    .hide(scannerFragment)
-                    .hide(generatorFragment)
-                    .hide(learnFragment)
-                    .commit();
-            activeFragment = dashboardFragment;
-            selectedTab = TAB_CODES;
-        } else {
-            // After theme/locale recreate the FragmentManager restores tagged fragments —
-            // must reuse those instances or hide/show navigation breaks.
-            selectedTab = savedInstanceState.getInt("selected_tab", TAB_CODES);
-            dashboardFragment = getSupportFragmentManager().findFragmentByTag("dashboard");
-            scannerFragment = getSupportFragmentManager().findFragmentByTag("scanner");
-            generatorFragment = getSupportFragmentManager().findFragmentByTag("generator");
-            learnFragment = getSupportFragmentManager().findFragmentByTag("learn");
-            if (dashboardFragment == null) {
-                dashboardFragment = new DashboardFragment();
-            }
-            if (scannerFragment == null) {
-                scannerFragment = new ScannerFragment();
-            }
-            if (generatorFragment == null) {
-                generatorFragment = new GeneratorFragment();
-            }
-            if (learnFragment == null) {
-                learnFragment = new LearnQrFragment();
-            }
-            activeFragment = fragmentForTab(selectedTab);
-            highlightTab(selectedTab);
-        }
-        updateShellForTab(selectedTab);
+        binding.appHeader.refreshUser();
     }
 
     private void setupBottomNav() {
@@ -154,65 +114,50 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void selectTab(int tabIndex) {
-        if (tabIndex == selectedTab && activeFragment != null && activeFragment.isAdded()) {
-            return;
-        }
-        Fragment target = fragmentForTab(tabIndex);
-        if (target == null) {
-            return;
-        }
-        if (activeFragment == null || !activeFragment.isAdded()) {
-            activeFragment = findVisibleFragment();
-        }
-        if (activeFragment == target) {
-            selectedTab = tabIndex;
+        int destId = destForTab(tabIndex);
+        if (navController.getCurrentDestination() != null
+                && navController.getCurrentDestination().getId() == destId) {
             highlightTab(tabIndex);
             updateShellForTab(tabIndex);
             return;
         }
-        androidx.fragment.app.FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        if (activeFragment != null && activeFragment.isAdded()) {
-            tx.hide(activeFragment);
+        NavOptions options = new NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setRestoreState(true)
+                .setPopUpTo(navController.getGraph().getStartDestinationId(), false, true)
+                .build();
+        try {
+            navController.navigate(destId, null, options);
+        } catch (IllegalArgumentException ignored) {
         }
-        if (target.isAdded()) {
-            tx.show(target);
-        } else {
-            tx.add(R.id.fragmentContainer, target, tagForTab(tabIndex));
-        }
-        tx.commitAllowingStateLoss();
-        activeFragment = target;
         selectedTab = tabIndex;
         highlightTab(tabIndex);
         updateShellForTab(tabIndex);
     }
 
-    private Fragment findVisibleFragment() {
-        for (Fragment fragment : new Fragment[]{
-                dashboardFragment, generatorFragment, scannerFragment, learnFragment}) {
-            if (fragment != null && fragment.isAdded() && !fragment.isHidden()) {
-                return fragment;
-            }
-        }
-        return dashboardFragment;
-    }
-
-    private String tagForTab(int tabIndex) {
+    private int destForTab(int tabIndex) {
         switch (tabIndex) {
             case TAB_CREATE:
-                return "generator";
+                return R.id.nav_generator;
             case TAB_SCAN:
-                return "scanner";
+                return R.id.nav_scanner;
             case TAB_LEARN:
-                return "learn";
+                return R.id.nav_learn;
             case TAB_CODES:
             default:
-                return "dashboard";
+                return R.id.nav_dashboard;
         }
     }
 
     private void updateShellForTab(int tabIndex) {
         boolean isScanner = tabIndex == TAB_SCAN;
         binding.appHeader.setVisibility(isScanner ? View.GONE : View.VISIBLE);
+        // Rotation only on Learn (guide) tab; other main tabs stay portrait.
+        if (tabIndex == TAB_LEARN) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
     private void highlightTab(int tabIndex) {
@@ -269,20 +214,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             selectTab(TAB_SCAN);
         } else if (menuItemId == R.id.nav_learn) {
             selectTab(TAB_LEARN);
-        }
-    }
-
-    private Fragment fragmentForTab(int tabIndex) {
-        switch (tabIndex) {
-            case TAB_CREATE:
-                return generatorFragment;
-            case TAB_SCAN:
-                return scannerFragment;
-            case TAB_LEARN:
-                return learnFragment;
-            case TAB_CODES:
-            default:
-                return dashboardFragment;
         }
     }
 }

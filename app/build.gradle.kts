@@ -55,6 +55,10 @@ dependencies {
     implementation(libs.mlkit.barcode.scanning)
     implementation(libs.qrcode.kotlin)
     implementation(libs.androidsvg)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
