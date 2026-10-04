@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <com.example.myapplication.ui.components.AppHeaderView
+    <com.dynamiqr.android.ui.components.AppHeaderView
         android:id="@+id/appHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

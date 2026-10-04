@@ -16,7 +16,7 @@
         android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication"
+        android:theme="@style/Theme.DynamiQR"
         android:usesCleartextTraffic="true">
 
         <service

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myapplication"
+    namespace = "com.dynamiqr.android"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.example.myapplication"
+        applicationId = "com.dynamiqr.android" // IDE must sync this (not com.example.myapplication)
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -15,7 +15,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "API_BASE_URL", "\"http://192.168.1.34:5000/\"")
+        buildConfigField("String", "API_BASE_URL", "\"http://192.168.1.125:5000/\"")
     }
 
     buildTypes {

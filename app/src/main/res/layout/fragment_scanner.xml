@@ -54,7 +54,7 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 
-    <com.example.myapplication.ui.custom.ScannerOverlayView
+    <com.dynamiqr.android.ui.custom.ScannerOverlayView
       android:id="@+id/scannerOverlay"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />

@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:paddingBottom="32dp">
 
-        <com.example.myapplication.ui.custom.ScreenPageHeader
+        <com.dynamiqr.android.ui.custom.ScreenPageHeader
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

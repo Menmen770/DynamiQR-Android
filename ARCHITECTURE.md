@@ -1,6 +1,6 @@
 # DynamiQR Android — Architecture
 
-Native Java port of the React Native app. Package root: `com.example.myapplication` (rename to `com.dynamiqr.mobile` before release).
+Native Java port of the React Native app. Package root: `com.dynamiqr.android`.
 
 ## Layer map
 
