@@ -1,6 +1,6 @@
 <div dir="rtl" align="right">
 
-# DynamiQR — Android
+<h1 align="center">DynamiQR — Android</h1>
 
 אפליקציית Android מקורית (Java) ליצירה, עיצוב, שמירה וסריקה של קודי QR — סטטיים ודינמיים — עם ממשק בעברית ובאנגלית.
 
